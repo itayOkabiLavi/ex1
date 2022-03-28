@@ -1,5 +1,6 @@
+import React from 'react';
 import './ChatItem.css';
-import './ChatComponents'
+// import './ChatComponents'
 function ChatItem() {
     return (
         <body>
