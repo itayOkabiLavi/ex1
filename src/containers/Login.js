@@ -1,76 +1,47 @@
-import React, { useState } from "react";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import "./Login.css";
+import React from "react";
+import Form from "react-bootstrap/Form"
+import Container from 'react-bootstrap/Container';
 
-export default function Login() {
+import './Login.css'
+class Login extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { value: '' };
+        this.userName = { value: '' }
+        this.password = { value: '' }
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
 
-    function validateForm() {
-        return email.length > 0 && password.length > 0;
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    function handleSubmit(event){
+    handleChange(event) {
+        this.setState({ value: event.target.value });
+        console.log(event.target)
+    }
+
+    handleSubmit(event) {
         event.preventDefault();
-        console.log("hi")
+        console.log('hi')
     }
-    return (
-        <Form onSubmit={this.handleSubmit}>
-            <Form.Group className="mb-3" controlId="username">
-                <Form.Label>User Name</Form.Label>
-                <Form.Control type="name" placeholder="Enter User Name" />
-            </Form.Group>
 
-            <Form.Group className="mb-3" controlId="password">
-                <Form.Label>Enter Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" />
-            </Form.Group>
-            <Button variant="primary" type="submit">
-                Submit
-            </Button>
-        </Form>
-    )
-    // return (<div className="Login" >
-    //     <form onSubmit={handleSubmit} >
-    //         <input className="loginInput"
-    //             name="username"
-    //             type="text"
-    //             onChange={
-    //                 (e) => setEmail(e.target.value)} >
-    //         </input>
-    //         <input className="loginInput"
-    //             name="password"
-    //             type="text"
-    //             onChange={
-    //                 (e) => setPassword(e.target.value)} >
-    //         </input>
-    //     </form>
-    // </div>
-    // <div className="Login">
-    //   <Form onSubmit={handleSubmit}>
-    //     <Form.Group controlId="email">
-    //       <Form.FloatingLabel>User Name</Form.FloatingLabel>
-    //       <Form.Control
-    //         autoFocus
-    //         type="User Name"
-    //         value={email}
-    //         onChange={(e) => setEmail(e.target.value)}
-    //       />
-    //     </Form.Group>
-    //     <Form.Group controlId="password">
-    //     <Form.FloatingLabel>Password</Form.FloatingLabel>
-    //     <Form.Control
-    //         type="password"
-    //         value={password}
-    //         onChange={(e) => setPassword(e.target.value)}
-    //       />
-    //     </Form.Group>
-    //     <Button block type="submit" disabled={!validateForm()}>
-    //       Login
-    //     </Button>
-    //   </Form>
-    // </div>
-    // );
+    render() {
+        return (
+            <Container className="p-5 mb-4 bg-light rounded-3">
+                <Form onSubmit={this.handleSubmit} className="mb-3">
+                    <Form.Group>
+                        <Form.Label >User Name</Form.Label>
+                        <input type="text" value={this.userName.value} autoFocus onChange={this.handleChange} />
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>Password</Form.Label>
+                        <input type="text" value={this.password.value} onChange={this.handleChange} />
+                    </Form.Group>
+                    <input type="submit" value="Sign In" />
+                </Form>
+            </Container>
+
+        );
+    }
 }
+export default Login
