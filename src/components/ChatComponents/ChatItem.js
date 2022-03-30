@@ -9,13 +9,22 @@ class ChatItem extends React.Component{
         super(prop)
         this.aName = prop.name
         this.aImg = prop.img
-        this.lastMessage = "Start chatting!"
-        this.lastActivityDate = "99:99"
+        this.state= {
+            lastMessage: "Start chatting!",
+            lastActivityDate: "00:00"
+        }
         this.display = <ChatDisplay/>
         this.maxSummary = 30
+        this.callBack = prop.callBack
+    }
+    updateChatInfo ( content, time) {
+        this.setState({
+            lastMessage: content,
+            lastActivityDate: time
+        })
     }
     messageSummary () {
-        var message = this.lastMessage
+        var message = this.state.lastMessage
         if (message.length <= this.maxSummary) {
             return message;
         }
@@ -23,7 +32,7 @@ class ChatItem extends React.Component{
     }
     render() {
         return (
-            <Card id='chatCard'>
+            <Card id='chatCard' onClick={(e)=>{this.callBack(this.display, this.aName)}}>
                 <img src={this.aImg}/>
                 <div id='chatinfo'>
                     <div id='addresseeInfo'>
@@ -32,7 +41,7 @@ class ChatItem extends React.Component{
                     </div>
                     <div id='msgsInfo'>
                         <h2>{this.messageSummary()}</h2>
-                        <small>15:00</small>
+                        <small>{this.lastActivityDate}</small>
                     </div>
                 </div>
             </Card>

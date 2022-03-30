@@ -1,4 +1,6 @@
 import React from "react";
+import { render } from 'react-dom';
+
 import Message from "./Message";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import './ChatItemDisplay.css'
@@ -10,12 +12,17 @@ class ChatDisplay extends React.Component {
     constructor(props) {
         super(props)
         this.messages = []
+        let time = new Date()
         this.state = {
             messages: [],
             msgText: "",
             msgImg: "",
-            msgAud: ""
+            msgAud: "",
+            now: time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()
         }
+        this.messages.push(
+            <Message fromMe={false} type="text" date={this.state.now} content="newMSG"/>
+        )
     }
     msgTextChanged(event) { this.setState({msgText: event.target.value})}
     sendMessage() {
@@ -25,6 +32,7 @@ class ChatDisplay extends React.Component {
                     fromMe={true}
                     type="text"
                     content={this.state.msgText}
+                    date={this.state.now}
                 />
             )
         })

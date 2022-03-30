@@ -3,7 +3,7 @@ import './ChatComp.css';
 import ChatItem from './ChatComponents/ChatItem';
 import ChatDisplay from './ChatComponents/ChatItemDisplay';
 import Message from './ChatComponents/Message';
-import { Button, Form, Modal } from 'react-bootstrap';
+import { Button, Form, Modal, Nav, TabContent } from 'react-bootstrap';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
 
@@ -11,19 +11,15 @@ class ChatComp extends React.Component{
 
     constructor(prop) {
         super(prop)
-        this.chats = [
-            <ChatItem 
-                name = "goku" 
-                img = 'https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg'
-            />
-        ]
+        this.chats = [ ]
          this.state = {
              chats: [],
              showModal: false,
              newContactName: 'new',
              newContactInfo: 'mail',
              newContactImg: 'https://i.pinimg.com/originals/57/79/4b/57794be8a33303e29861e3f6c7db7587.jpg',
-             newContactNote: ''
+             newContactNote: '',
+             currentDisplay: ""
          }
     }
     
@@ -44,6 +40,10 @@ class ChatComp extends React.Component{
                         is_mail={true}
                         contact_info={this.state.newContactInfo}
                         img={this.state.newContactImg}
+                        callBack={(childsDisplay, id)=>{
+                            console.log(id)
+                            this.setState({currentDisplay: childsDisplay})
+                        }}
                     />
                 ),
                 showModal: false,
@@ -90,13 +90,13 @@ class ChatComp extends React.Component{
                             <Button onClick={()=>{this.addNewChat()}}>add</Button>
                         </Modal>
                     </div>
-                    <div id='mainlist'>
+                    <Nav id='mainlist'>
                         {this.chats}
-                    </div>
+                    </Nav>
                 </div>
-                <div id='chatdisplay'>
-                    <ChatDisplay messages={this.messages}/>
-                </div>
+                <TabContent id='chatdisplay'>
+                    {this.state.currentDisplay}
+                </TabContent>
             </div>
         
         );
