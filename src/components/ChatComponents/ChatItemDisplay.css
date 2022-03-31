@@ -9,6 +9,8 @@
 #cid_chat {
     flex: 1 1 auto;
     padding: 10px;
+    display: flex;
+    flex-direction: column;
 }
 
 #cid_inputs {

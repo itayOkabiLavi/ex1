@@ -61,7 +61,8 @@ class ChatComp extends React.Component{
     }
     render () {
         return (
-            <div id='main' className="p-3 mb-2 bg-white text-dark">
+        <div id='chat_bg'>
+            <div id='main'>
                 <div id='chatslist'>
                     <div id='chatsTools'>
                         <div id='userInfo'>
@@ -102,6 +103,7 @@ class ChatComp extends React.Component{
                     {this.state.currentDisplay}
                 </div>
             </div>
+        </div>
         );
     }
     

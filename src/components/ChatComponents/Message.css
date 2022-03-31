@@ -14,9 +14,11 @@ h2 {
 
 #fromMe {
     background-color: rgb(209, 217, 255) !important;
+    align-self: flex-start;
 }
 #toMe {
     background-color: rgb(93, 91, 255) !important;
+    align-self: flex-end;
 }
 
 small {

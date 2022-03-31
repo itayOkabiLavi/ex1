@@ -42,7 +42,7 @@ class ChatDisplay extends React.Component {
         return (
             <div className='cid_bg'>
                 <div id='cid_chat'>
-                {this.messages}
+                    {this.messages}
                 </div>
                 <div id='cid_inputs'>
                     <input 
