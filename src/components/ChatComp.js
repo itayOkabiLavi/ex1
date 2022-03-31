@@ -21,7 +21,8 @@ class ChatComp extends React.Component{
              newContactInfo: 'mail',
              newContactImg: 'https://i.pinimg.com/originals/57/79/4b/57794be8a33303e29861e3f6c7db7587.jpg',
              newContactNote: '',
-             currentDisplay: ""
+             currentDisplay: "",
+             noChats: true
          }
     }
     
@@ -43,14 +44,14 @@ class ChatComp extends React.Component{
                     contact_info={this.state.newContactInfo}
                     img={this.state.newContactImg}
                     callBack={(childsDisplay, id)=>{
-                        console.log(childsDisplay.props.id)
+                         console.log(childsDisplay.props.id)
                         this.setState({currentDisplay: childsDisplay});
                     }}
                 />
             )
             this.setState({
-                chats: updatedChats})
-            this.setState({
+                chats: updatedChats,
+                noChats: false,
                 showModal: false,
                 newContactName: 'new',
                 newContactInfo: 'mail',
@@ -62,18 +63,18 @@ class ChatComp extends React.Component{
     render () {
         return (
         <div id='chat_bg'>
-            <div id='main'>
+            <div id='chatCompMain'>
                 <div id='chatslist'>
                     <div id='chatsTools'>
                         <div id='userInfo'>
                             <img src="https://www.w3schools.com/images/picture.jpg"  />
+                            <h1>Me</h1>
                         </div>
                         <Button id="addChat" onClick={()=>{this.openNewChat()}}>
-                            <i className="bi bi-plus-circle"></i>
+                            <i className="bi bi-person-plus-fill"></i>  
                         </Button>
-                        <Modal show={this.state.showModal}>
-                            <h1>Add new contact</h1>
-                            
+                        <Modal show={this.state.showModal} id='addContact'>
+                            <h1>Add new contact</h1>     
                             <label htmlFor='cName'>Enter new contact name</label>
                             <input id='cName' 
                                 value={this.state.newContactName}
@@ -100,7 +101,7 @@ class ChatComp extends React.Component{
                     </div>
                 </div>
                 <div id="chatdisplay">
-                    {this.state.currentDisplay}
+                    {this.state.noChats ? <div id='no_yet'><h1>Start chatting now!</h1></div> : this.state.currentDisplay}
                 </div>
             </div>
         </div>

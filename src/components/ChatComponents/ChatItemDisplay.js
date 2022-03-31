@@ -13,27 +13,31 @@ class ChatDisplay extends React.Component {
         super(props)
         this.i = 0
         this.messages = []
-        let time = new Date()
+        let t = new Date()
         this.state = {
             messages: [],
             msgText: "",
             msgImg: "",
             msgAud: "",
-            now: time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()
         }
         this.messages.push(
-            <Message fromMe={false} type="text" date={this.state.now} content={this.props.id}/>
+            <Message 
+                fromMe={false} 
+                type="text" 
+                date={t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds()} 
+            content={"Start chatting with " + this.props.id + "!"}/>
         )
     }
     msgTextChanged(event) { this.setState({msgText: event.target.value})}
     sendMessage() {
+        let t = new Date()
         this.setState({
             messages: this.messages.push(
                 <Message 
                     fromMe={true}
                     type="text"
                     content={this.state.msgText}
-                    date={this.state.now}
+                    date={t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds()}
                 />
             )
         })
@@ -51,8 +55,8 @@ class ChatDisplay extends React.Component {
                         onChange={(e)=>{this.msgTextChanged(e)}}
                     />
                     <div id='cid_buttons'>
-                        <button className="btn btn-primary btn-circle"><i className="bi bi-three-dots-vertical"></i></button>
-                        <button className="btn btn-primary btn-circle" onClick={()=>this.sendMessage()}><i className="bi bi-send-fill"></i></button>
+                        <button className="btn btn-circle my_btn"><i className="bi bi-three-dots-vertical"></i></button>
+                        <button className="btn btn-circle my_btn" onClick={()=>this.sendMessage()}><i className="bi bi-send-fill"></i></button>
                     </div>
                 </div>
             </div>

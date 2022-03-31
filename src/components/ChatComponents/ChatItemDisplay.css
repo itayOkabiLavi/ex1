@@ -1,32 +1,61 @@
 .cid_bg {
-    background-color: wheat;
-    height: 100%;
+    background-color: beige;
+    height: 90vh;
     display: flex;
     flex-direction: column;
     min-width: 700px;
 }
 
 #cid_chat {
-    flex: 1 1 auto;
+    flex-grow: 9;
     padding: 10px;
+    overflow: auto;
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
 }
 
+.cid_bg ::-webkit-scrollbar {
+    width: 30px;
+  }
+  
+  /* Track 
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }*/
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.224); 
+    border-radius: 0;
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3); 
+  }
+
 #cid_inputs {
     color: gray;
     size: 10px;
-    background-color: rgba(200, 200, 200, 1);
+    background-color: rgba(200, 200, 200, 0);
     display: flex;
     flex-direction: row;
+    height: 100px;
     justify-content: space-between;
     align-items: center;
-    flex: 0 1 100px;
     border-radius: 50px;
     padding: 10px;
 }
 
+#cid_inputs input {
+  background-color: rgb(202, 202, 202);
+}
+
 #cid_inputs .btn-circle{
+  background-color: rgb(202, 202, 202);
+    color: black;
     margin: 5px;
     font-size: 30px !important;
     height: 60px;
@@ -40,6 +69,7 @@
     overflow: scroll;
     padding: 15px;
     font-size: 20px;
+    font-weight: 700;
     min-width: 500px;
     margin-left: 10px;
     margin-right: 20px;
