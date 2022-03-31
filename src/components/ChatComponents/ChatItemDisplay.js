@@ -11,6 +11,7 @@ import { Form, FormGroup } from "react-bootstrap";
 class ChatDisplay extends React.Component {
     constructor(props) {
         super(props)
+        this.i = 0
         this.messages = []
         let time = new Date()
         this.state = {
@@ -21,7 +22,7 @@ class ChatDisplay extends React.Component {
             now: time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()
         }
         this.messages.push(
-            <Message fromMe={false} type="text" date={this.state.now} content="newMSG"/>
+            <Message fromMe={false} type="text" date={this.state.now} content={this.props.id}/>
         )
     }
     msgTextChanged(event) { this.setState({msgText: event.target.value})}
@@ -39,7 +40,7 @@ class ChatDisplay extends React.Component {
     }
     render() {
         return (
-            <div id='cid_bg'>
+            <div className='cid_bg'>
                 <div id='cid_chat'>
                 {this.messages}
                 </div>

@@ -13,7 +13,7 @@ class ChatItem extends React.Component{
             lastMessage: "Start chatting!",
             lastActivityDate: "00:00"
         }
-        this.display = <ChatDisplay/>
+        this.display = <ChatDisplay id={this.aName}/>
         this.maxSummary = 30
         this.callBack = prop.callBack
     }
@@ -32,7 +32,7 @@ class ChatItem extends React.Component{
     }
     render() {
         return (
-            <Card id='chatCard' onClick={(e)=>{this.callBack(this.display, this.aName)}}>
+            <div id='chatCard' onClick={(e)=>{this.callBack(this.display, this.aName)}}>
                 <img src={this.aImg}/>
                 <div id='chatinfo'>
                     <div id='addresseeInfo'>
@@ -44,7 +44,7 @@ class ChatItem extends React.Component{
                         <small>{this.lastActivityDate}</small>
                     </div>
                 </div>
-            </Card>
+            </div>
         );
     }
 }

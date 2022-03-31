@@ -1,4 +1,5 @@
 import React from 'react';
+
 import './ChatComp.css';
 import ChatItem from './ChatComponents/ChatItem';
 import ChatDisplay from './ChatComponents/ChatItemDisplay';
@@ -11,6 +12,7 @@ class ChatComp extends React.Component{
 
     constructor(prop) {
         super(prop)
+        this.i = 1
         this.chats = [ ]
          this.state = {
              chats: [],
@@ -33,26 +35,28 @@ class ChatComp extends React.Component{
     addNewChat () {
         if (this.chatExists()) {}
         else {
+            let updatedChats = this.chats.push(
+                <ChatItem
+                    key= {this.state.newContactName}
+                    name={this.state.newContactName}
+                    is_mail={true}
+                    contact_info={this.state.newContactInfo}
+                    img={this.state.newContactImg}
+                    callBack={(childsDisplay, id)=>{
+                        console.log(childsDisplay.props.id)
+                        this.setState({currentDisplay: childsDisplay});
+                    }}
+                />
+            )
             this.setState({
-                chats: this.chats.push(
-                    <ChatItem 
-                        name={this.state.newContactName}
-                        is_mail={true}
-                        contact_info={this.state.newContactInfo}
-                        img={this.state.newContactImg}
-                        callBack={(childsDisplay, id)=>{
-                            console.log(id)
-                            this.setState({currentDisplay: childsDisplay})
-                        }}
-                    />
-                ),
+                chats: updatedChats})
+            this.setState({
                 showModal: false,
                 newContactName: 'new',
                 newContactInfo: 'mail',
                 newContactImg: 'https://i.pinimg.com/originals/57/79/4b/57794be8a33303e29861e3f6c7db7587.jpg',
                 newContactNote: ''
             })
-            
         }
     }
     render () {
@@ -64,7 +68,7 @@ class ChatComp extends React.Component{
                             <img src="https://www.w3schools.com/images/picture.jpg"  />
                         </div>
                         <Button id="addChat" onClick={()=>{this.openNewChat()}}>
-                            <i class="bi bi-plus-circle"></i>
+                            <i className="bi bi-plus-circle"></i>
                         </Button>
                         <Modal show={this.state.showModal}>
                             <h1>Add new contact</h1>
@@ -90,15 +94,14 @@ class ChatComp extends React.Component{
                             <Button onClick={()=>{this.addNewChat()}}>add</Button>
                         </Modal>
                     </div>
-                    <Nav id='mainlist'>
+                    <div id='mainlist'>
                         {this.chats}
-                    </Nav>
+                    </div>
                 </div>
-                <TabContent id='chatdisplay'>
+                <div id="chatdisplay">
                     {this.state.currentDisplay}
-                </TabContent>
+                </div>
             </div>
-        
         );
     }
     

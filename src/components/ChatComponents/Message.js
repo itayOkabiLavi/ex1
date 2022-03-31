@@ -25,7 +25,7 @@ class Message extends React.Component{
     }
     render() {
         return(
-            <div class="msg" id={this.id}>
+            <div className="msg" id={this.id}>
                 {this.content}
                 <small>{this.date}</small>
             </div>
