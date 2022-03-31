@@ -7,7 +7,7 @@
     flex-direction: row;
     overflow: hidden;
     padding: 15px;
-    box-shadow: 0px 5px 10px -2px rgb(0,0,0);
+    box-shadow: 0px 5px 10px -2px rgba(0,0,0, 0.5);
 }
 
 #chatCard img {
@@ -41,7 +41,7 @@
 
 #chatCard h1 {
     font-size: 30px;
-    color: rgb(66, 108, 234)
+    color: rgb(0, 46, 32)
 }
 
 #chatCard small {
@@ -56,7 +56,7 @@
 }
 
 #chatCard h2 {
-    color: rgb(163, 186, 255);
+    color: rgb(84, 108, 85);
     font-size: 25px;
     max-width: 90%;
 }

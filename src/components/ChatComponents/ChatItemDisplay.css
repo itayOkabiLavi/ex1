@@ -1,5 +1,5 @@
 .cid_bg {
-    background-color: transparent;
+    background-color: beige;
     height: 90vh;
     display: flex;
     flex-direction: column;
@@ -54,7 +54,8 @@
 }
 
 #cid_inputs .btn-circle{
-    color: rgb(202, 202, 202);
+  background-color: rgb(202, 202, 202);
+    color: black;
     margin: 5px;
     font-size: 30px !important;
     height: 60px;

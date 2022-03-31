@@ -15,10 +15,10 @@
 }
 
 #no_yet {
-    color: rgb(1, 22, 87);
+    color: rgb(202, 202, 202);
     text-align: center;
     padding-top: 20%;
-    width: 100%;
+    width: 100%;    
     height: 90vh;
 }
 
@@ -35,7 +35,7 @@
 #chatsTools {
     color: rgba(0, 5, 20, 1);
     size: 10px;
-    background-color: rgb(47, 70, 138);
+    background-color: rgb(202, 202, 202);
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -46,7 +46,7 @@
 }
 
 #chatsTools button {
-    color: rgb(202, 202, 202);
+    color: black;
     flex: 0 1 auto;
     float: right;
     background-color: transparent;
