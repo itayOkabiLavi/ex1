@@ -1,47 +1,78 @@
 import React from 'react'
+import RegisterComp from './RegisterComp'
+import './Login.css'
 
-export default function Login({ setToken }) {
-    const handleSubmit = (e) => {
+class Login extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            users: [
+                {userName: 'goku',
+                password: 'gohan',
+                isMail: true,
+                contactInfo: 'asd@gmail.com',
+                img: <img src='https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg'/>
+                }
+            ],
+            registerClicked: false
+        }
+        this.setToken = props.setToken
+    }
+    handleSubmit (e) {
         e.preventDefault();
         let name = e.target[0].value
         let pass = e.target[1].value
-        const token = loginUser(name, pass);
-        setToken(token);
+        let token = this.state.users.findIndex((x) => { return x.userName === name && x.password === pass; }) !== -1
+        console.log(name, pass, token);
+        this.setToken(token);
     }
-    function loginUser(userName, password) {
-        let t = users.findIndex((x) => { return x.userName === userName && x.password === password; });
-        return t !== -1;
+    switchToRegister() { 
+        this.setState({registerClicked: true})
+        console.log(this.state.registerClicked,"register");
     }
+    addUser(userDetails) {
+        this.setState({
+            users: this.state.users.push (
+                {userName:   userDetails.name,
+                password:   userDetails.password,
+                isMail:     userDetails.isMail,
+                contact:    userDetails.contact,
+                img:        userDetails.img}
+            )
+        })
+    }
+    render (){
     return (
-        <div className="login-wrapper">
-            <h1>Please Log In</h1>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    <p>Username</p>
-                    <input name='userName' type="text" />
-                </label>
-                <label>
-                    <p>Password</p>
-                    <input name='password' type="password" />
-                </label>
-                <div>
-                    <button type="submit" onSubmit={handleSubmit}>Submit</button>
-                </div>
-            </form>
+        <div id="login_register_wrapper">
+        {this.state.registerClicked 
+        ? <RegisterComp 
+            importedUsers={this.state.users}
+            addUser={this.addUser}
+            showLogin={()=>{
+                this.setState({registerClicked: false})
+                console.log(this.state.registerClicked,"login");
+            }}    
+        /> 
+        : <div className="log_reg_window" id='login_window'>
+                <h1>Please Log In</h1>
+                <form onSubmit={(e)=>this.handleSubmit(e)}>
+                    <label>
+                        <p>Username</p>
+                        <input name='userName' type="text" />
+                    </label>
+                    <label>
+                        <p>Password</p>
+                        <input name='password' type="password" />
+                    </label>
+                    <div className='ending_buttons'>
+                        <button type='submit' onSubmit={(e)=>this.handleSubmit(e)}>Submit</button>
+                        <button onClick={(e)=>{this.switchToRegister()}}>Register!</button>
+                    </div>
+                </form>
+            </div>
+        }
         </div>
-    )
+    )}
 }
 
-const users = [
-    { userName: 'y', password: '1' },
-    { userName: 'i', password: '2' },
-    { userName: 'yehuda', password: 'ggfdtgrg' },
-    { userName: 'haim', password: 'klfhrjgbw' },
-    { userName: 'itay', password: '4254v56g4' },
-    { userName: 'gilad', password: '4h6er47r' },
-    { userName: 'rivka', password: 'g5r98y6' },
-    { userName: 'shprintze', password: 'w272gwe' },
-    { userName: 'sterna', password: 'vd25as' },
-    { userName: 'adi', password: 'v205dsa' },
-    { userName: 'igal', password: '41v6583w' },
-];
+export default Login

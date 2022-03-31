@@ -2,6 +2,7 @@ import Login from './components/Login';
 import ChatComp from './components/ChatComp';
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './App.css'
 
 function App() {
   let [authed, setAuthed] = useState(() => {
@@ -14,7 +15,7 @@ function App() {
   }, [authed])
 
   if (authed == false) {
-    return <Login setToken={setAuthed} />
+    return <Login setToken={setAuthed}/>
   }
   return (
     <ChatComp />
