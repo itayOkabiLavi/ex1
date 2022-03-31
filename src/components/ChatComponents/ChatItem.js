@@ -34,7 +34,7 @@ class ChatItem extends React.Component{
         return (
             <div id='chatCard' onClick={(e)=>{this.callBack(this.display, this.aName)}}>
                 <img src={this.aImg}/>
-                <div id='chatinfo'>
+                <div id='textedInfos'>
                     <div id='addresseeInfo'>
                         <h1>{this.aName}</h1>
                         <small></small>

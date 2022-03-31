@@ -1,0 +1,15 @@
+
+/*ChatComp: bg from App.css*/
+    bg {
+        color: rgba(0, 5, 20, 1);
+    }
+    
+    medium {
+        color: rgb(66, 108, 234)
+    }
+    brightest {
+        color: rgb(163, 186, 255)
+    }
+    almost-white {
+        color: rgb(202, 202, 202);
+    }
