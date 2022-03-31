@@ -1,7 +1,7 @@
-import './App.css';
 import Login from './components/Login';
-import ChatComp from './components/ChatComp'
+import ChatComp from './components/ChatComp';
 import React, { useEffect, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   let [authed, setAuthed] = useState(() => {
@@ -12,6 +12,7 @@ function App() {
   useEffect(() => {
     sessionStorage.setItem('authed', authed)
   }, [authed])
+
   if (authed == false) {
     return <Login setToken={setAuthed} />
   }
