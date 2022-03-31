@@ -1,6 +1,6 @@
 import './App.css';
 import Login from './components/Login';
-import ChatItem from './components/ChatItem'
+import ChatComp from './components/ChatComp'
 import React, { useEffect, useState } from 'react';
 
 function App() {
@@ -13,11 +13,10 @@ function App() {
     sessionStorage.setItem('authed', authed)
   }, [authed])
   if (authed == false) {
-    console.log('login')
     return <Login setToken={setAuthed} />
   }
   return (
-    <ChatItem />
+    <ChatComp />
   );
 }
 export default App;

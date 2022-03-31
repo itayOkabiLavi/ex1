@@ -13,13 +13,12 @@ class ChatDisplay extends React.Component {
         super(props)
         this.i = 0
         this.messages = []
-        let time = new Date()
         this.state = {
             messages: [],
             msgText: "",
             msgImg: "",
             msgAud: "",
-            now: time.getHours() + ':' + time.getMinutes() + ':' + time.getSeconds()
+            now: new Date().toLocaleString()
         }
         this.messages.push(
             <Message fromMe={false} type="text" date={this.state.now} content={this.props.id}/>
@@ -33,7 +32,7 @@ class ChatDisplay extends React.Component {
                     fromMe={true}
                     type="text"
                     content={this.state.msgText}
-                    date={this.state.now}
+                    date={new Date().toLocaleString()}
                 />
             )
         })
