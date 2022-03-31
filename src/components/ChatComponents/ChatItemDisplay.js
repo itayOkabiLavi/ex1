@@ -13,12 +13,12 @@ class ChatDisplay extends React.Component {
         super(props)
         this.i = 0
         this.messages = []
-        let t = new Date()
         this.state = {
             messages: [],
             msgText: "",
             msgImg: "",
             msgAud: "",
+            now: new Date().toLocaleString()
         }
         this.messages.push(
             <Message 
@@ -37,7 +37,7 @@ class ChatDisplay extends React.Component {
                     fromMe={true}
                     type="text"
                     content={this.state.msgText}
-                    date={t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds()}
+                    date={new Date().toLocaleString()}
                 />
             )
         })
