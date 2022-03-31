@@ -13,6 +13,7 @@ class ChatDisplay extends React.Component {
         super(props)
         this.i = 0
         this.messages = []
+        let t = new Date();
         this.state = {
             messages: [],
             msgText: "",
