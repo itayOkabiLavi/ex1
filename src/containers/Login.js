@@ -1,47 +1,47 @@
-import React from "react";
-import Form from "react-bootstrap/Form"
-import Container from 'react-bootstrap/Container';
+import React from 'react'
 
-import './Login.css'
-class Login extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { value: '' };
-        this.userName = { value: '' }
-        this.password = { value: '' }
-
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+export default function Login({ setToken }) {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        let name = e.target[0].value
+        let pass = e.target[1].value
+        const token = loginUser(name, pass);
+        setToken(token);
     }
-
-    handleChange(event) {
-        this.setState({ value: event.target.value });
-        console.log(event.target)
+    function loginUser(userName, password) {
+        let t = users.findIndex((x) => { return x.userName === userName && x.password === password; });
+        return t !== -1;
     }
-
-    handleSubmit(event) {
-        event.preventDefault();
-        console.log('hi')
-    }
-
-    render() {
-        return (
-            <Container className="p-5 mb-4 bg-light rounded-3">
-                <Form onSubmit={this.handleSubmit} className="mb-3">
-                    <Form.Group>
-                        <Form.Label >User Name</Form.Label>
-                        <input type="text" value={this.userName.value} autoFocus onChange={this.handleChange} />
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Password</Form.Label>
-                        <input type="text" value={this.password.value} onChange={this.handleChange} />
-                    </Form.Group>
-                    <input type="submit" value="Sign In" />
-                </Form>
-            </Container>
-
-        );
-    }
+    return (
+        <div className="login-wrapper">
+            <h1>Please Log In</h1>
+            <form onSubmit={handleSubmit}>
+                <label>
+                    <p>Username</p>
+                    <input name='userName' type="text" />
+                </label>
+                <label>
+                    <p>Password</p>
+                    <input name='password' type="password" />
+                </label>
+                <div>
+                    <button type="submit" onSubmit={handleSubmit}>Submit</button>
+                </div>
+            </form>
+        </div>
+    )
 }
-export default Login
+
+const users = [
+    { userName: 'y', password: '1' },
+    { userName: 'i', password: '2' },
+    { userName: 'yehuda', password: 'ggfdtgrg' },
+    { userName: 'haim', password: 'klfhrjgbw' },
+    { userName: 'itay', password: '4254v56g4' },
+    { userName: 'gilad', password: '4h6er47r' },
+    { userName: 'rivka', password: 'g5r98y6' },
+    { userName: 'shprintze', password: 'w272gwe' },
+    { userName: 'sterna', password: 'vd25as' },
+    { userName: 'adi', password: 'v205dsa' },
+    { userName: 'igal', password: '41v6583w' },
+];
