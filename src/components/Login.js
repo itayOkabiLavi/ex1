@@ -28,6 +28,7 @@ class Login extends React.Component {
         e.preventDefault();
         let name = e.target[0].value
         let pass = e.target[1].value
+        console.log("myUsers: ", this.state.users);
         let token = this.state.users.findIndex((x) => { return x.userName === name && x.password === pass; }) !== -1
         console.log(name, pass, token);
         this.setToken(token);
@@ -41,16 +42,17 @@ class Login extends React.Component {
         console.log(this.state.registerClicked,"login");
     }
     pushNewUser = (userDetails)=>{
+        let newUser = {userName:   userDetails.name,
+            password:   userDetails.password,
+            isMail:     userDetails.isMail,
+            contact:    userDetails.contact,
+            img:        userDetails.img}
+        let updatedUsers = this.state.users
+        updatedUsers.push( newUser )
         this.setState({
-            users: this.state.users.push (
-                {userName:   userDetails.name,
-                password:   userDetails.password,
-                isMail:     userDetails.isMail,
-                contact:    userDetails.contact,
-                img:        userDetails.img}
-            )
+            users: updatedUsers
         })
-        console.log(this.state.users)
+        console.log("new user addded ",newUser, "now:\n", this.state.users)
     }
     render (){
     return (
