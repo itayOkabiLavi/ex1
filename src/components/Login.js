@@ -12,6 +12,12 @@ class Login extends React.Component {
                 isMail: true,
                 contactInfo: 'asd@gmail.com',
                 img: <img src='https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg'/>
+                },
+                {userName: 'vegeta',
+                password: 'gohan',
+                isMail: true,
+                contactInfo: 'asd@gmail.com',
+                img: <img src='https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg'/>
                 }
             ],
             registerClicked: false
@@ -30,7 +36,11 @@ class Login extends React.Component {
         this.setState({registerClicked: true})
         console.log(this.state.registerClicked,"register");
     }
-    addUser(userDetails) {
+    switchToLogin = ()=>{
+        this.setState({registerClicked: false})
+        console.log(this.state.registerClicked,"login");
+    }
+    pushNewUser = (userDetails)=>{
         this.setState({
             users: this.state.users.push (
                 {userName:   userDetails.name,
@@ -40,6 +50,7 @@ class Login extends React.Component {
                 img:        userDetails.img}
             )
         })
+        console.log(this.state.users)
     }
     render (){
     return (
@@ -47,11 +58,8 @@ class Login extends React.Component {
         {this.state.registerClicked 
         ? <RegisterComp 
             importedUsers={this.state.users}
-            addUser={this.addUser}
-            showLogin={()=>{
-                this.setState({registerClicked: false})
-                console.log(this.state.registerClicked,"login");
-            }}    
+            addUser={this.pushNewUser}
+            showLogin={this.switchToLogin}    
         /> 
         : <div className="log_reg_window" id='login_window'>
                 <h1>Please Log In</h1>
