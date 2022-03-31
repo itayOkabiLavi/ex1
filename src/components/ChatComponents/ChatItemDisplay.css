@@ -1,0 +1,48 @@
+.cid_bg {
+    background-color: wheat;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-width: 700px;
+}
+
+#cid_chat {
+    flex: 1 1 auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+#cid_inputs {
+    color: gray;
+    size: 10px;
+    background-color: rgba(200, 200, 200, 1);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex: 0 1 100px;
+    border-radius: 50px;
+    padding: 10px;
+}
+
+#cid_inputs .btn-circle{
+    margin: 5px;
+    font-size: 30px !important;
+    height: 60px;
+    width: 60px;
+    flex: 0 1 60px;
+    border-radius: 30px !important;
+}
+
+#cid_text {
+    height: 60px;
+    overflow: scroll;
+    padding: 15px;
+    font-size: 20px;
+    min-width: 500px;
+    margin-left: 10px;
+    margin-right: 20px;
+    flex: 1 1 auto;
+    border-radius: 30px !important;
+}
