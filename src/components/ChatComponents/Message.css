@@ -1,0 +1,26 @@
+.msg {
+    
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    margin: 15px;
+}
+
+h2 {
+    font-size: 25px !important;
+}
+
+#fromMe {
+    background-color: rgb(209, 217, 255) !important;
+    align-self: flex-start;
+}
+#toMe {
+    background-color: rgb(93, 91, 255) !important;
+    align-self: flex-end;
+}
+
+small {
+    align-self: flex-end;
+}
