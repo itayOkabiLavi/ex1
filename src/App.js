@@ -5,20 +5,27 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 
 function App() {
-  let [authed, setAuthed] = useState(() => {
-    const saved = sessionStorage.getItem('authed');
-    const initialValue = saved == 'true' ? true : false;
-    return initialValue || false;
+  let [state, setState] = useState(() => {
+    const savedAuthed = sessionStorage.getItem('authed');
+    const savedUserName = sessionStorage.getItem('userName');
+    const initialValue = savedAuthed == 'true' ? true : false;
+    return {
+      authed: initialValue,
+      userName: savedUserName,
+    };
   });
-  useEffect(() => {
-    sessionStorage.setItem('authed', authed)
-  }, [authed])
+  let loginComp = <Login setToken={setState} />
 
-  if (authed == false) {
-    return <Login setToken={setAuthed}/>
+  useEffect(() => {
+    sessionStorage.setItem('authed', state.authed)
+    sessionStorage.setItem('userName', state.userName)
+  }, [state])
+
+  if (state.authed == false) {
+    return loginComp;
   }
   return (
-    <ChatComp />
+    <ChatComp userName={state.userName} setToken={setState}/>
   );
 }
 export default App;

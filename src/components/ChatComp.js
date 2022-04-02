@@ -14,6 +14,8 @@ class ChatComp extends React.Component {
         super(prop)
         this.i = 1
         this.chats = []
+        this.userName=this.props.userName
+        this.setToken = this.props.setToken
         this.state = {
             chats: [],
             showModal: false,
@@ -74,7 +76,8 @@ class ChatComp extends React.Component {
                         <div id='chatsTools'>
                             <div id='userInfo'>
                                 <img src="https://www.w3schools.com/images/picture.jpg" />
-                                <h1>Me</h1>
+                                <h1>{this.userName}</h1>
+                                <Button onClick={()=>this.setToken({authed:false})}>logout</Button>
                             </div>
                             <Button id="addChat" onClick={() => { this.openNewChat() }}>
                                 <i className="bi bi-person-plus-fill"></i>
@@ -107,7 +110,7 @@ class ChatComp extends React.Component {
                         </div>
                     </div>
                     <div id="chatdisplay">
-                        {this.state.currentDisplay}
+                    {this.state.noChats ? <div id='no_yet'><h1>Start chatting now!</h1></div> : this.state.currentDisplay}
                     </div>
                 </div>
             </div>

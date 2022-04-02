@@ -40,14 +40,14 @@ class ChatItem extends React.Component {
         }
         return message.substring(0, this.maxSummary);
     }
-    childComponentWillUnmount = (data) => {
-        console.log('data', { ...data })
+    childComponentWillUnmount = (oldState) => {
+        console.log('data', { ...oldState })
         this.setState({
             savedState: {
-                messages: [...data.messages],
-                msgText: data.msgText,
-                msgImg: data.msgImg,
-                msgAud: data.msgAud,
+                messages: [...oldState.messages],
+                msgText: oldState.msgText,
+                msgImg: oldState.msgImg,
+                msgAud: oldState.msgAud,
 
             },
         })
