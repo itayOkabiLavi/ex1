@@ -2,20 +2,21 @@ import React from "react";
 import './Message.css'
 import { Card } from "react-bootstrap";
 
-class Message extends React.Component{
+class Message extends React.Component {
     constructor(props) {
         super(props)
         this.fromMe = props.fromMe
-        if (props.fromMe) this.id='fromMe';
-        else this.id='toMe';
+        if (props.fromMe) this.id = 'fromMe';
+        else this.id = 'toMe';
         this.content = "asd"
+        this.key = this.content
         this.type = props.type
         switch (this.type) {
-            case "text" :
+            case "text":
                 this.content = <h2>{props.content}</h2>
                 break;
             case "img":
-                this.content = <img src={props.content}/>
+                this.content = <img src={props.content} />
                 break;
             case "audio":
                 this.content = "audio???"
@@ -24,8 +25,8 @@ class Message extends React.Component{
         this.date = props.date
     }
     render() {
-        return(
-            <div className="msg" id={this.id}>
+        return (
+            <div className="msg" id={this.id} key={this.key}>
                 {this.content}
                 <small>{this.date}</small>
             </div>
