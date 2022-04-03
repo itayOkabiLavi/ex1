@@ -81,11 +81,18 @@ class ChatDisplay extends React.Component {
                         onChange={(e) => { this.msgTextChanged(e) }}
                     />
                     <div id='cid_buttons'>
-                        <button className="btn btn-circle my_btn" data-bs-toggle="collapse" data-bs-target="#uploadOptions">
+                        <button 
+                            className="btn btn-circle my_btn" 
+                            data-bs-toggle="collapse" 
+                            data-bs-target="#uploadOptions"
+                            >
                             <i className="bi bi-three-dots-vertical"></i>
                         </button>
                         <Card className="collapse" id="uploadOptions">
-                            <button id="uploadImg"></button>
+                            <button id="uploadImage" className="btn-circle"><i class="bi bi-file-image"></i></button>
+                            <button id="record" className="btn-circle"><i class="bi bi-mic-fill"></i></button>
+                            <button id="uploadVideo" className="btn-circle"><i class="bi bi-film"></i></button>
+                            <button id="uploadAudio" className="btn-circle"><i class="bi bi-file-music"></i></button>
                         </Card>
                         <button className="btn btn-circle my_btn" onClick={() => this.sendMessage()}><i className="bi bi-send-fill"></i></button>
                     </div>
