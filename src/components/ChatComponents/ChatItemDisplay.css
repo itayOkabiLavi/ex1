@@ -62,14 +62,16 @@
     width: 60px;
     flex: 0 1 60px;
     border-radius: 30px !important;
+    border: 0px;
 }
 
 #uploadOptions{
+  background-color: transparent;
+  border: 0;
   position: absolute;
   right: 180px;
   bottom: 150px;
-  height: 60px;
-  width: fit-content;
+  
 }
 
 #cid_text {
