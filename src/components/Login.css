@@ -19,7 +19,14 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-bottom: 15px;
+    margin: 15px;
+}
+
+.log_reg_window label input{
+    font-size: larger;
+    padding: 8px;
+    border-radius: 5px;
+    width: 100%;
 }
 
 .log_reg_window .ending_buttons{

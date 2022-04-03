@@ -1,0 +1,40 @@
+#profPic {
+    align-self: center;
+    height: 200px;
+    width: 200px;
+    border-radius: 100px;
+}
+
+#new_user_img {
+    visibility: hidden;
+}
+
+#new_user_img_btn {
+    font-size: 50px;
+    text-shadow: 0px 0px 10px rgb(255, 255, 255);
+    border-color: white;
+    color: gray;
+    position: relative;
+    left: 90px;
+    top: 90px
+}
+
+#pwdLabel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#pwdBtn {
+    background-color: gray;
+    color: aliceblue;
+    font-size: 30px;
+    width: fit-content;
+    border-radius: 10px;
+}
+
+#regErrors {
+    color: rgb(109, 0, 0);
+    font-size: large;
+    font-weight: 600;
+}
