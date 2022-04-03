@@ -6,7 +6,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import './ChatItemDisplay.css'
 import { Button } from "bootstrap";
 
-import { Form, FormGroup } from "react-bootstrap";
+import { Form, FormGroup, Card } from "react-bootstrap";
 
 class ChatDisplay extends React.Component {
     constructor(props) {
@@ -81,7 +81,12 @@ class ChatDisplay extends React.Component {
                         onChange={(e) => { this.msgTextChanged(e) }}
                     />
                     <div id='cid_buttons'>
-                        <button className="btn btn-circle my_btn"><i className="bi bi-three-dots-vertical"></i></button>
+                        <button className="btn btn-circle my_btn" data-bs-toggle="collapse" data-bs-target="#uploadOptions">
+                            <i className="bi bi-three-dots-vertical"></i>
+                        </button>
+                        <Card className="collapse" id="uploadOptions">
+                            <button id="uploadImg"></button>
+                        </Card>
                         <button className="btn btn-circle my_btn" onClick={() => this.sendMessage()}><i className="bi bi-send-fill"></i></button>
                     </div>
                 </div>

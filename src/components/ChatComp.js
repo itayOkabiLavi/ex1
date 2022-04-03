@@ -77,9 +77,16 @@ class ChatComp extends React.Component {
                             <div id='userInfo'>
                                 <img src="https://www.w3schools.com/images/picture.jpg" />
                                 <h1>{this.userName}</h1>
-                                <Button onClick={()=>this.setToken({authed:false})}>logout</Button>
                             </div>
-                            <Button id="addChat" onClick={() => { this.openNewChat() }}>
+                            <Button 
+                                onClick={()=>this.setToken({authed:false})}
+                                title="Logout">
+                                <i class="bi bi-backspace-reverse-fill"></i>
+                            </Button>
+                            <Button 
+                                id="addChat" 
+                                onClick={() => { this.openNewChat() }}
+                                title="Add new chat">
                                 <i className="bi bi-person-plus-fill"></i>
                             </Button>
                             <Modal show={this.state.showModal} id='addContact'>

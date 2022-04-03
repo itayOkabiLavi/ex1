@@ -64,6 +64,14 @@
     border-radius: 30px !important;
 }
 
+#uploadOptions{
+  position: absolute;
+  right: 180px;
+  bottom: 150px;
+  height: 60px;
+  width: fit-content;
+}
+
 #cid_text {
     height: 60px;
     overflow: scroll;
