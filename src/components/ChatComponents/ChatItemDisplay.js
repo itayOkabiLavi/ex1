@@ -23,7 +23,7 @@ class ChatDisplay extends React.Component {
             messages: [...props.state.messages],
             now: new Date().toLocaleString(),
         }
-        console.log('props.state', {...props.state})
+        console.log('props.state', { ...props.state })
         this.messages = [...props.state.messages]
         console.log('this.messages', [...this.messages])
         if (this.messages.length == 0) {
@@ -35,6 +35,14 @@ class ChatDisplay extends React.Component {
                     content={"Start chatting with " + this.props.id + "!"} />
             )
         }
+    }
+    record() {
+        var recorder = new RecordAudio(userMedia);
+        recorder.start();
+        recorder.stop();
+        var recordedData = recorder.getData()
+        var audio = new Audio(recordedData);
+        audio.play();
     }
     msgTextChanged(event) { this.setState({ msgText: event.target.value }) }
     sendMessage() {
