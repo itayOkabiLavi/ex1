@@ -9,7 +9,7 @@ class Message extends React.Component {
         if (props.fromMe) this.id = 'fromMe';
         else this.id = 'toMe';
         this.content = "asd"
-        this.key = this.content
+        this.key = Math.floor(Math.random() * 100)
         this.type = props.type
         switch (this.type) {
             case "text":

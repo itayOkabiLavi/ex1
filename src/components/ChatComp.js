@@ -81,7 +81,7 @@ class ChatComp extends React.Component {
                             <Button 
                                 onClick={()=>this.setToken({authed:false})}
                                 title="Logout">
-                                <i class="bi bi-backspace-reverse-fill"></i>
+                                <i className="bi bi-backspace-reverse-fill"></i>
                             </Button>
                             <Button 
                                 id="addChat" 
