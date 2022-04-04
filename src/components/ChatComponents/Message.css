@@ -23,6 +23,10 @@ h2 {
     align-self: flex-end;
 }
 
+#mulMedMsg {
+    margin-bottom: 10px;
+}
+
 small {
     align-self: flex-end;
 }

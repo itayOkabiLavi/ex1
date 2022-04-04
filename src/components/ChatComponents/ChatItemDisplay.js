@@ -50,9 +50,10 @@ class ChatDisplay extends React.Component {
             />)
         this.setState({
             ...this.state,
-            messages: updatedMessages
+            messages: updatedMessages,
+            msgText: ""
         })
-        console.log(this.state)
+        this.clearMulMedContent()
     }
     componentWillUnmount() {
         console.log('componentWillUnmount', [...this.messages])
@@ -81,8 +82,13 @@ class ChatDisplay extends React.Component {
             msgMulMedType: type,
             msgMulMedPrev: comp
         }) 
-
     }
+    clearMulMedContent = (e)=>{this.setState({
+        msgMulMedPrev: "",
+        msgMulMedCont: "",
+        msgMulMedType: "",
+        msgMulMedPrev: ""
+    })}
     render() {
         return (
             <div className='cid_bg' key={this.key}>
@@ -92,12 +98,7 @@ class ChatDisplay extends React.Component {
                 <div id='cid_inputs'>
                     <Card key="mulMedContainer" id="mulMedContainer" hidden={this.state.msgMulMedCont=="" ? true : false}>
                         {this.state.msgMulMedPrev}
-                        <button onClick={(e)=>{this.setState({
-                            msgMulMedPrev: "",
-                            msgMulMedCont: "",
-                            msgMulMedType: "",
-                            msgMulMedPrev: ""
-                        })}}><i class="bi bi-x-lg"></i></button>
+                        <button onClick={this.clearMulMedContent}><i class="bi bi-x-lg"></i></button>
                     </Card>
                     <input
                         id='cid_text'

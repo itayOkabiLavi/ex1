@@ -35,7 +35,6 @@ class Message extends React.Component {
         return (
             <div className="msg" id={this.id} key={this.key}>
                 {this.mmContent}
-                <br/>
                 <h2>{this.txtContent}</h2>
                 <small>{this.date}</small>
             </div>
