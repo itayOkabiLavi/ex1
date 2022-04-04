@@ -33,7 +33,7 @@ class ChatDisplay extends React.Component {
                     fromMe={false}
                     type="text"
                     date={t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds()}
-                    content={"Start chatting with " + this.props.id + "!"} />
+                    txtContent={"Start chatting with " + this.props.id + "!"} />
             )
         }
     }
@@ -43,8 +43,9 @@ class ChatDisplay extends React.Component {
         let updatedMessages = this.messages.push(
             <Message
                 fromMe={true}
-                type="text"
-                content={this.state.msgText}
+                type={this.state.msgMulMedType}
+                mmContent={this.state.msgMulMedCont}
+                txtContent={this.state.msgText}
                 date={new Date().toLocaleString()}
             />)
         this.setState({
@@ -80,8 +81,7 @@ class ChatDisplay extends React.Component {
             msgMulMedType: type,
             msgMulMedPrev: comp
         }) 
-        console.log("comp = ", comp)
-        
+
     }
     render() {
         return (

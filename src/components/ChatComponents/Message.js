@@ -8,26 +8,35 @@ class Message extends React.Component {
         this.fromMe = props.fromMe
         if (props.fromMe) this.id = 'fromMe';
         else this.id = 'toMe';
-        this.content = "asd"
+        this.txtContent = props.txtContent
+        this.mmContent = props.mmContent
+        let comp = ""
         this.key = Math.floor(Math.random() * 100)
         this.type = props.type
         switch (this.type) {
-            case "text":
-                this.content = <h2>{props.content}</h2>
-                break;
-            case "img":
-                this.content = <img src={props.content} />
+            case "image":
+                comp = <img key={props.mmContent} id="mulMedMsg" src={props.mmContent}/>
                 break;
             case "audio":
-                this.content = "audio???"
+                comp = <audio key={props.mmContent} id="mulMedMsg" controls>
+                    <source src={props.mmContent} type={props.srcType}/>
+                </audio>
+                break;
+            case "video":
+                comp = <video key={props.mmContent} id="mulMedMsg" controls autoPlay muted>
+                    <source src={props.mmContent} type={props.srcType}/>
+                </video>
                 break;
         }
+        this.mmContent = comp
         this.date = props.date
     }
     render() {
         return (
             <div className="msg" id={this.id} key={this.key}>
-                {this.content}
+                {this.mmContent}
+                <br/>
+                <h2>{this.txtContent}</h2>
                 <small>{this.date}</small>
             </div>
         );
