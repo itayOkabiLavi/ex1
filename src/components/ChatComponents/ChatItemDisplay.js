@@ -16,10 +16,11 @@ class ChatDisplay extends React.Component {
         this.key = this.id
         let t = new Date();
         this.childComponentWillUnmount = props.childComponentWillUnmount
+        console.log("constructor updateLastMessage = ", props.updateLastMessage);
         this.state = {
             msgText: "",
             msgMulMedCont: "",
-            msgMulMedType: "",
+            msgMulMedType: "text",
             msgMulMedPrev: "",
             messages: [...props.state.messages],
             now: new Date().toLocaleString(),
@@ -27,19 +28,11 @@ class ChatDisplay extends React.Component {
         console.log('props.state', {...props.state})
         this.messages = [...props.state.messages]
         console.log('this.messages', [...this.messages])
-        if (this.messages.length == 0) {
-            this.messages.push(
-                <Message
-                    fromMe={false}
-                    type="text"
-                    date={t.getHours() + ':' + t.getMinutes() + ':' + t.getSeconds()}
-                    txtContent={"Start chatting with " + this.props.id + "!"} />
-            )
-        }
     }
     msgTextChanged(event) { this.setState({ msgText: event.target.value }) }
     sendMessage() {
         let t = new Date()
+        console.log(this.props.updateLastMessage);
         let updatedMessages = this.messages.push(
             <Message
                 fromMe={true}
@@ -48,6 +41,12 @@ class ChatDisplay extends React.Component {
                 txtContent={this.state.msgText}
                 date={new Date().toLocaleString()}
             />)
+        this.props.updateLastMessage(
+            {fromMe: true, 
+                type: this.state.msgMulMedType, 
+                contnet:{txt: this.state.msgText, mm: this.state.msgMulMedCont}, 
+                date:new Date().toLocaleString()}
+        )
         this.setState({
             ...this.state,
             messages: updatedMessages,
@@ -86,7 +85,7 @@ class ChatDisplay extends React.Component {
     clearMulMedContent = (e)=>{this.setState({
         msgMulMedPrev: "",
         msgMulMedCont: "",
-        msgMulMedType: "",
+        msgMulMedType: "text",
         msgMulMedPrev: ""
     })}
     render() {
@@ -96,7 +95,9 @@ class ChatDisplay extends React.Component {
                     {this.messages}
                 </div>
                 <div id='cid_inputs'>
-                    <Card key="mulMedContainer" id="mulMedContainer" hidden={this.state.msgMulMedCont=="" ? true : false}>
+                    <Card   key="mulMedContainer" 
+                            id="mulMedContainer" 
+                            hidden={this.state.msgMulMedCont=="" ? true : false}>
                         {this.state.msgMulMedPrev}
                         <button onClick={this.clearMulMedContent}><i class="bi bi-x-lg"></i></button>
                     </Card>
