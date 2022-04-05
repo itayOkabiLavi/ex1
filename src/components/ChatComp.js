@@ -14,7 +14,7 @@ class ChatComp extends React.Component {
         super(prop)
         this.i = 1
         this.chats = []
-        this.userName=this.props.userName
+        this.user=this.props.user
         this.setToken = this.props.setToken
         this.state = {
             chats: [],
@@ -75,8 +75,8 @@ class ChatComp extends React.Component {
                     <div id='chatslist'>
                         <div id='chatsTools'>
                             <div id='userInfo'>
-                                <img src="https://www.w3schools.com/images/picture.jpg" />
-                                <h1>{this.userName}</h1>
+                                <img src={this.user.img} />
+                                <h1>{this.user.name}</h1>
                             </div>
                             <Button 
                                 onClick={()=>this.setToken({authed:false})}

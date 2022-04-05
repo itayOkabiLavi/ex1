@@ -7,25 +7,25 @@ import './App.css'
 function App() {
   let [state, setState] = useState(() => {
     const savedAuthed = sessionStorage.getItem('authed');
-    const savedUserName = sessionStorage.getItem('userName');
+    const savedUser = sessionStorage.getItem('user');
     const initialValue = savedAuthed == 'true' ? true : false;
     return {
       authed: initialValue,
-      userName: savedUserName,
+      user: savedUser,
     };
   });
   let loginComp = <Login setToken={setState} />
 
   useEffect(() => {
     sessionStorage.setItem('authed', state.authed)
-    sessionStorage.setItem('userName', state.userName)
+    sessionStorage.setItem('user', state.user)
   }, [state])
 
   if (state.authed == false) {
     return loginComp;
   }
   return (
-    <ChatComp userName={state.userName} setToken={setState}/>
+    <ChatComp user={state.user} setToken={setState}/>
   );
 }
 export default App;

@@ -12,14 +12,14 @@ class Login extends React.Component {
                     password: 'gohan',
                     isMail: true,
                     contactInfo: 'asd@gmail.com',
-                    img: <img src='https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg' />
+                    img: 'https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg'
                 },
                 {
                     userName: 'vegeta',
                     password: 'gohan',
                     isMail: true,
                     contactInfo: 'asd@gmail.com',
-                    img: <img src='https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg' />
+                    img: 'https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg'
                 }
             ],
             registerClicked: false
@@ -31,10 +31,10 @@ class Login extends React.Component {
         let name = e.target[0].value
         let pass = e.target[1].value
         console.log("myUsers: ", this.state.users);
-        let token = this.state.users.findIndex((x) => { return x.userName === name && x.password === pass; }) !== -1
-        console.log(name, pass, token);
-        this.setToken({ authed: token, userName: name });
-        console.log([...this.state.users])
+        let userIndex = this.state.users.findIndex((x) => { return x.userName === name && x.password === pass; })
+        let newUser = (userIndex !== -1) ? this.state.users[userIndex] : null
+        console.log("login result : ", newUser)
+        this.setToken({ authed: userIndex !== -1, user: newUser});
     }
     switchToRegister() {
         this.setState({ registerClicked: true })
@@ -71,11 +71,11 @@ class Login extends React.Component {
                     : <div className="log_reg_window" id='login_window'>
                         <h1>Please Log In</h1>
                         <form onSubmit={(e) => this.handleSubmit(e)}>
-                            <label>
+                            <label id="target[0]">
                                 <p>Username</p>
                                 <input name='userName' type="text" />
                             </label>
-                            <label>
+                            <label id="target[1]">
                                 <p>Password</p>
                                 <input name='password' type="password" />
                             </label>
