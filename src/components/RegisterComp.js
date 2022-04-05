@@ -7,7 +7,7 @@ class RegisterComp extends React.Component {
         super(props)
         this.state = {
             regErrors: "",
-            pwdType: 'text',
+            pwdType: 'password',
             pwdIcon: <i class="bi bi-eye-slash"></i>,
             pwdsNotMatch: false,
             profileImageSrc: 'https://i.pinimg.com/originals/57/79/4b/57794be8a33303e29861e3f6c7db7587.jpg'
@@ -22,6 +22,7 @@ class RegisterComp extends React.Component {
             notes += "User name is taken.\n"
         if (fields.name.value == "") notes += "Enter user name. "
         if (fields.password.value == "") notes += "Enter password. "
+        if (fields.password.value !== fields.passwordVer.value) notes += "Passwords don't match. "
         if (fields.contact.value == "") notes += "Enter contact info."
         this.setState({ regErrors: notes })
         return notes == ""
@@ -77,7 +78,12 @@ class RegisterComp extends React.Component {
                     id='new_user_pwd' 
                     placeholder="Enter password"
                     name="password"/>
-                
+                <input 
+                    type={this.state.pwdType}
+                    id='new_user_pwd_ver' 
+                    placeholder="Reenter password"
+                    name="passwordVer"
+                    />
                 <button id="pwdBtn" onClick={(e)=>{
                     if (this.state.pwdType == 'password') {this.setState({
                         pwdType: 'text',
