@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./MultiMediaButton.css"
 
-function MultiMediaButton ({ type, icon, uploadMulMed }) {
+function MultiMediaButton ({ type, icon, uploadMulMed, title }) {
     const [content, setContent] = useState("")
     const [filter, setFilter] = useState("")
     // 
@@ -30,7 +30,7 @@ function MultiMediaButton ({ type, icon, uploadMulMed }) {
         e.target.value = null
     }
     return(
-        <label key={type} id="mulMedInput">
+        <label key={type} id="mulMedInput" title={title}>
             {icon}
             <input hidden={true} type="file" onChange={(e)=>{upload(e)}} accept={type + "/*"}/>
         </label>

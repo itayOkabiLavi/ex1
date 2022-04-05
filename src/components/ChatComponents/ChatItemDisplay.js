@@ -118,21 +118,46 @@ class ChatDisplay extends React.Component {
                             <MultiMediaButton 
                                 key="image"
                                 type="image" 
+                                title="Upload image"
                                 icon={<i className="bi bi-file-image icon_circle"></i>}
                                 uploadMulMed={this.changeMulMedContent}
                             />
                             <MultiMediaButton 
                                 key= "audio"
                                 type="audio" 
+                                title="Upload audio"
                                 icon={<i className="bi bi-file-music icon_circle"></i>}
                                 uploadMulMed={this.changeMulMedContent}
                             />
                             <MultiMediaButton 
                                 key="video"
                                 type="video" 
+                                title="Upload video"
                                 icon={<i className="bi bi-film icon_circle"></i>}
                                 uploadMulMed={this.changeMulMedContent}
                             />
+                            <MultiMediaButton 
+                                key="imageRec"
+                                type="image" 
+                                title="Take a picture"
+                                icon={<i className="bi bi-camera icon_circle"></i>}
+                                uploadMulMed={this.changeMulMedContent}
+                            />
+                            <MultiMediaButton 
+                                key="audioRec"
+                                type="audio" 
+                                title="Record an audio"
+                                icon={<i className="bi bi-mic icon_circle"></i>}
+                                uploadMulMed={this.changeMulMedContent}
+                            />
+                            <MultiMediaButton 
+                                key="videoRec"
+                                type="video" 
+                                title="Record a video"
+                                icon={<i className="bi bi-camera-reels icon_circle"></i>}
+                                uploadMulMed={this.changeMulMedContent}
+                            />
+                            
                         </Card>
                         <button className="btn btn-circle my_btn" onClick={() => this.sendMessage()}><i className="bi bi-send-fill"></i></button>
                         
