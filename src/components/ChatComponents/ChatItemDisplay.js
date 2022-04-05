@@ -138,21 +138,21 @@ class ChatDisplay extends React.Component {
                             />
                             <MultiMediaButton 
                                 key="imageRec"
-                                type="image" 
+                                type="imageRec" 
                                 title="Take a picture"
                                 icon={<i className="bi bi-camera icon_circle"></i>}
                                 uploadMulMed={this.changeMulMedContent}
                             />
                             <MultiMediaButton 
                                 key="audioRec"
-                                type="audio" 
+                                type="audioRec" 
                                 title="Record an audio"
                                 icon={<i className="bi bi-mic icon_circle"></i>}
                                 uploadMulMed={this.changeMulMedContent}
                             />
                             <MultiMediaButton 
                                 key="videoRec"
-                                type="video" 
+                                type="videoRec" 
                                 title="Record a video"
                                 icon={<i className="bi bi-camera-reels icon_circle"></i>}
                                 uploadMulMed={this.changeMulMedContent}

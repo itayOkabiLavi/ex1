@@ -4,6 +4,8 @@ import "./MultiMediaButton.css"
 function MultiMediaButton ({ type, icon, uploadMulMed, title }) {
     const [content, setContent] = useState("")
     const [filter, setFilter] = useState("")
+    const isRec = type.includes("Rec")
+    type = isRec ? type - "Rec" : type
     // 
     function upload(e) {
         let val = e.target.files[0]
@@ -29,12 +31,20 @@ function MultiMediaButton ({ type, icon, uploadMulMed, title }) {
         uploadMulMed(content, type, comp)
         e.target.value = null
     }
-    return(
-        <label key={type} id="mulMedInput" title={title}>
-            {icon}
-            <input hidden={true} type="file" onChange={(e)=>{upload(e)}} accept={type + "/*"}/>
-        </label>
-    );
+    if (isRec)
+        return(
+            <label key={type} id="mulMedInput" title={title}>
+                {icon}
+                <div></div>
+            </label>
+        )
+    else
+        return(
+            <label key={type} id="mulMedInput" title={title}>
+                {icon}
+                <input hidden={true} type="file" onChange={(e)=>{upload(e)}} accept={type + "/*"}/>
+            </label>
+        );
 }
 
 export default MultiMediaButton
