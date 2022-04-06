@@ -76,7 +76,7 @@ class ChatComp extends React.Component {
                         <div id='chatsTools'>
                             <div id='userInfo'>
                                 <img src={this.user.img} />
-                                <h1>{this.user.name}</h1>
+                                <h1>{this.user.userName}</h1>
                             </div>
                             <Button 
                                 onClick={()=>this.setToken({authed:false})}
