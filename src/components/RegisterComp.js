@@ -8,7 +8,7 @@ class RegisterComp extends React.Component {
         this.state = {
             regErrors: "",
             pwdType: 'text',
-            pwdIcon: <i class="bi bi-eye-slash"></i>,
+            pwdIcon: <i className="bi bi-eye-slash"></i>,
             pwdsNotMatch: false,
             profileImageSrc: 'https://i.pinimg.com/originals/57/79/4b/57794be8a33303e29861e3f6c7db7587.jpg'
         }
@@ -55,7 +55,7 @@ class RegisterComp extends React.Component {
         <div className="log_reg_window">
             <h1>Register</h1>
             <label htmlFor='new_user_img' id="profPicLabel">
-                <i id="new_user_img_btn" class="bi bi-arrow-down-circle-fill"></i>
+                <i id="new_user_img_btn" className="bi bi-arrow-down-circle-fill"></i>
                 <input type='file' id='new_user_img' name="image" onChange={this.imageUploader}/></label>
                 <img src={this.state.profileImageSrc} id="profPic"/>
             <form onSubmit={(e)=>(this.verifyReg(e))}>
@@ -81,11 +81,11 @@ class RegisterComp extends React.Component {
                 <button id="pwdBtn" onClick={(e)=>{
                     if (this.state.pwdType == 'password') {this.setState({
                         pwdType: 'text',
-                        pwdIcon: <i class="bi bi-eye-slash"></i>
+                        pwdIcon: <i className="bi bi-eye-slash"></i>
                     })}
                     else {this.setState({
                         pwdType: 'password',
-                        pwdIcon: <i class="bi bi-eye"></i>
+                        pwdIcon: <i className="bi bi-eye"></i>
                     })}
                 }}>{this.state.pwdIcon}</button>
                 </label>

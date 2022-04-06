@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { render } from 'react-dom';
-
+import MultiMedia from "../multiMedia";
 import Message from "./Message";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import './ChatItemDisplay.css'
 import { Button } from "bootstrap";
-
+import RecordAudio from "../audioRecorder";
 import { Form, FormGroup, Card } from "react-bootstrap";
+import { Modal } from "bootstrap";
 
 class ChatDisplay extends React.Component {
     constructor(props) {
@@ -15,6 +16,7 @@ class ChatDisplay extends React.Component {
         this.id = this.props.id
         this.key = this.id
         let t = new Date();
+        this.showRecorder = false
         this.childComponentWillUnmount = props.childComponentWillUnmount
         this.state = {
             msgText: props.state.msgText,
@@ -35,14 +37,6 @@ class ChatDisplay extends React.Component {
                     content={"Start chatting with " + this.props.id + "!"} />
             )
         }
-    }
-    record() {
-        var recorder = new RecordAudio(userMedia);
-        recorder.start();
-        recorder.stop();
-        var recordedData = recorder.getData()
-        var audio = new Audio(recordedData);
-        audio.play();
     }
     msgTextChanged(event) { this.setState({ msgText: event.target.value }) }
     sendMessage() {
@@ -77,6 +71,8 @@ class ChatDisplay extends React.Component {
         });
     }
     render() {
+        let multiMediaModal = <MultiMedia show={state}></MultiMedia>
+
         return (
             <div className='cid_bg' key={this.key}>
                 <div id='cid_chat'>
@@ -89,18 +85,18 @@ class ChatDisplay extends React.Component {
                         onChange={(e) => { this.msgTextChanged(e) }}
                     />
                     <div id='cid_buttons'>
-                        <button 
-                            className="btn btn-circle my_btn" 
-                            data-bs-toggle="collapse" 
+                        <button
+                            className="btn btn-circle my_btn"
+                            data-bs-toggle="collapse"
                             data-bs-target="#uploadOptions"
-                            >
+                        >
                             <i className="bi bi-three-dots-vertical"></i>
                         </button>
                         <Card className="collapse" id="uploadOptions">
-                            <button id="uploadImage" className="btn-circle"><i class="bi bi-file-image"></i></button>
-                            <button id="record" className="btn-circle"><i class="bi bi-mic-fill"></i></button>
-                            <button id="uploadVideo" className="btn-circle"><i class="bi bi-film"></i></button>
-                            <button id="uploadAudio" className="btn-circle"><i class="bi bi-file-music"></i></button>
+                            <button id="uploadImage" className="btn-circle"><i className="bi bi-file-image"></i></button>
+                            <button id="record" className="btn-circle" onClick={() => { setState({ show: true, type: 'audio' }) }}><i className="bi bi-mic-fill"></i></button>
+                            <button id="uploadVideo" className="btn-circle"><i className="bi bi-film"></i></button>
+                            <button id="uploadAudio" className="btn-circle"><i className="bi bi-file-music"></i></button>
                         </Card>
                         <button className="btn btn-circle my_btn" onClick={() => this.sendMessage()}><i className="bi bi-send-fill"></i></button>
                     </div>
