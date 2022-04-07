@@ -21,8 +21,10 @@ class RegisterComp extends React.Component {
         if (this.currentUsers.findIndex((x) => { return x.userName === fields.name.value; }) !== -1)
             notes += "User name is taken.\n"
         if (fields.name.value == "") notes += "Enter user name. "
-        if (fields.password.value == "") notes += "Enter password. "
-        if (fields.password.value !== fields.passwordVer.value) notes += "Passwords don't match. "
+        const reg = /(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!?@#$%^&*()\-+\\\/.,:;"'{}\[\]<>~])[A-Za-z0-9!?@#$%^&*()\-+\\\/.,:;"'{}\[\]<>~]{5,}/
+        if (!reg.test(fields.password.value)) 
+            notes += "Password must have 5+ characters, at least 1 Uppercase, 1 lower, 1 number and 1 special. "
+        else if (fields.password.value !== fields.passwordVer.value) notes += "Passwords don't match. "
         if (fields.contact.value == "") notes += "Enter contact info."
         this.setState({ regErrors: notes })
         return notes == ""
