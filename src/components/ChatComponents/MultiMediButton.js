@@ -1,30 +1,37 @@
+import { Modal } from "bootstrap";
 import React, { useState } from "react";
 import "./MultiMediaButton.css"
 
-function MultiMediaButton ({ type, icon, uploadMulMed, title }) {
+function MultiMediaButton({ type, icon, uploadMulMed, title }) {
     const [content, setContent] = useState("")
     const [filter, setFilter] = useState("")
+    const [showModal, setShowModal] = useState("")
+
     const isRec = type.includes("Rec")
     type = isRec ? type - "Rec" : type
     // 
+    function record(e) {
+        let type = e.target.key
+
+    }
     function upload(e) {
         let val = e.target.files[0]
-        console.log("called uploadMulMed ",val, type)
+        console.log("called uploadMulMed ", val, type)
         let comp = "Not valid"
         let srcType = "audio/" + val.name.split(".")[1]
         let content = URL.createObjectURL(val)
         switch (type) {
             case "image":
-                comp = <img key={content} id="mulMedPrev" src={content}/>
+                comp = <img key={content} id="mulMedPrev" src={content} />
                 break;
             case "audio":
                 comp = <audio key={content} id="mulMedPrev" controls>
-                    <source src={content} type={srcType}/>
+                    <source src={content} type={srcType} />
                 </audio>
                 break;
             case "video":
                 comp = <video key={content} id="mulMedPrev" controls autoPlay muted>
-                    <source src={content} type={srcType}/>
+                    <source src={content} type={srcType} />
                 </video>
                 break;
         }
@@ -32,17 +39,18 @@ function MultiMediaButton ({ type, icon, uploadMulMed, title }) {
         e.target.value = null
     }
     if (isRec)
-        return(
-            <label key={type} id="mulMedInput" title={title}>
+        return (
+            <label key={type} id="mulMedInput" title={title} onClick={setShowModal(true)}>
                 {icon}
+                {/*<Modal show={showModal}><record></record></Modal>*/}
                 <div></div>
             </label>
         )
     else
-        return(
+        return (
             <label key={type} id="mulMedInput" title={title}>
                 {icon}
-                <input hidden={true} type="file" onChange={(e)=>{upload(e)}} accept={type + "/*"}/>
+                <input hidden={true} type="file" onChange={(e) => { upload(e) }} accept={type + "/*"} />
             </label>
         );
 }
