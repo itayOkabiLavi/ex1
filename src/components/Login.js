@@ -61,31 +61,42 @@ class Login extends React.Component {
     }
     render() {
         return (
-            <div id="login_register_wrapper">
-                {this.state.registerClicked
-                    ? <RegisterComp
-                        importedUsers={this.state.users}
-                        addUser={this.pushNewUser}
-                        showLogin={this.switchToLogin}
-                    />
-                    : <div className="log_reg_window" id='login_window'>
-                        <h1>Please Log In</h1>
-                        <form onSubmit={(e) => this.handleSubmit(e)}>
-                            <label id="target[0]">
-                                <p>Username</p>
-                                <input name='userName' type="text" />
-                            </label>
-                            <label id="target[1]">
-                                <p>Password</p>
-                                <input name='password' type="password" />
-                            </label>
-                            <div className='ending_buttons'>
-                                <button type='submit' onSubmit={(e) => this.handleSubmit(e)}>Submit</button>
-                                <button onClick={(e) => { this.switchToRegister() }}>Register!</button>
+            <div id="login_bg">
+                <div id="login_register_wrapper">
+                    {this.state.registerClicked
+                        ? <RegisterComp
+                            importedUsers={this.state.users}
+                            addUser={this.pushNewUser}
+                            showLogin={this.switchToLogin}
+                        />
+                        : <div id='login_window'>
+                            <div id="side_window">
+                                <h1>Welcome to Bubble</h1>
+                                <br/>
+                                <h2>Start chatting with your imaginary friends now!</h2>
                             </div>
-                        </form>
-                    </div>
-                }
+                            <form onSubmit={(e) => this.handleSubmit(e)}>
+                                <h1>Login</h1>
+                                <br/>
+                                <br/>
+                                <input name='userName' type="text" placeholder='User name' />
+                                <input name='password' type="password" placeholder='Password'/>
+                                <div className='ending_buttons'>
+                                    <button type='submit' onSubmit={(e) => this.handleSubmit(e)}
+                                       >
+                                    Submit
+                                    </button>
+                                    <h3>Not Registered yet? What a noob.
+                                        <button onClick={(e) => { this.switchToRegister() }}
+                                        style={{color:"aliceblue", backgroundColor:"rgb(240, 0, 104)"}}>
+                                        Join the community now!
+                                        </button>
+                                    </h3>
+                                </div>
+                            </form>
+                        </div>
+                    }
+                </div>
             </div>
         )
     }
