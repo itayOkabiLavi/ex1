@@ -24,7 +24,8 @@ class Login extends React.Component {
                 }
             ],
             registerClicked: false,
-            sideNote: ""
+            sideNote: "",
+            wrongUpwdOrUName: false
         }
         this.setToken = props.setToken
     }
@@ -35,6 +36,9 @@ class Login extends React.Component {
         console.log("myUsers: ", this.state.users);
         let userIndex = this.state.users.findIndex((x) => { return x.userName === name && x.password === pass; })
         let newUser = (userIndex !== -1) ? this.state.users[userIndex] : null
+        this.setState({
+            wrongUpwdOrUName: (userIndex !== -1) ? " " : "Wrong user name or passsword"
+        }) 
         console.log("login result : ", newUser)
         this.setToken({ authed: userIndex !== -1, user: newUser});
     }
@@ -96,9 +100,9 @@ class Login extends React.Component {
                                 <br/>
                                 <input name='userName' type="text" placeholder='User name' />
                                 <input name='password' type="password" placeholder='Password'/>
+                                <h4>{this.state.wrongUpwdOrUName}</h4>
                                 <div className='ending_buttons'>
-                                    <button type='submit' onSubmit={(e) => this.handleSubmit(e)}
-                                       >
+                                    <button type='submit' onSubmit={(e) => this.handleSubmit(e)}>
                                     Submit
                                     </button>
                                     <h3>Not Registered yet? What a noob.
