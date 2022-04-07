@@ -105,10 +105,10 @@ class Login extends React.Component {
                                     <button type='submit' onSubmit={(e) => this.handleSubmit(e)}>
                                     Submit
                                     </button>
-                                    <h3>Not Registered yet? What a noob.
+                                    <h3>Not Registered yet?
                                         <button type="button" onClick={(e) => { this.switchToRegister() }}
                                         style={{color:"aliceblue", backgroundColor:"rgb(240, 0, 104)"}}>
-                                        Join the community now!
+                                        Register now!
                                         </button>
                                     </h3>
                                 </div>

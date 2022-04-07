@@ -91,6 +91,7 @@ class ChatDisplay extends React.Component {
     render() {
         return (
             <div className='cid_bg' key={this.key}>
+                <div id="cid_chaat_id"><h1>{this.id}</h1></div>
                 <div id='cid_chat'>
                     {this.messages}
                 </div>
