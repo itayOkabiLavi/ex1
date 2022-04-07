@@ -50,7 +50,30 @@
     margin-bottom: 20px;
 }
 
-#chatsTools button {
+#addChatModal {
+    align-self: center;
+    background-color: aliceblue;
+    width: fit-content;
+    position: relative;
+    padding: 3vmin;
+    border-radius: 8vmin;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#addChatModal h1 {
+    width: 20vw;
+    margin-right: 5vmin;
+}
+
+#addChatModal input{
+    height: 6vmin;
+    font-size: 2vmin;
+    border-radius: 3vmin;
+    padding-left: 1vmin;
+}
+#addChatModal button, #chatsTools button {
     color: black;
     flex: 0 1 auto;
     float: right;
@@ -62,6 +85,7 @@
     width: 60px;
     border-radius: 30px !important;
 }
+
 
 #userinfo {
     flex: 1 1 auto;
