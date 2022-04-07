@@ -5,6 +5,7 @@ import './Login.css'
 class Login extends React.Component {
     constructor(props) {
         super(props)
+        this.defaultLoginNote = "Start chatting with your imaginary friends now!"
         this.state = {
             users: [
                 {
@@ -22,7 +23,8 @@ class Login extends React.Component {
                     img: 'https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg'
                 }
             ],
-            registerClicked: false
+            registerClicked: false,
+            sideNote: ""
         }
         this.setToken = props.setToken
     }
@@ -37,11 +39,18 @@ class Login extends React.Component {
         this.setToken({ authed: userIndex !== -1, user: newUser});
     }
     switchToRegister() {
-        this.setState({ registerClicked: true })
+        this.setState({ 
+            registerClicked: true
+        })
         console.log(this.state.registerClicked, "register");
     }
+    registerNotes = (newNotes) => {
+        this.setState({sideNote: newNotes})
+    }
     switchToLogin = () => {
-        this.setState({ registerClicked: false })
+        this.setState({ 
+            registerClicked: false
+        })
         console.log(this.state.registerClicked, "login");
     }
     pushNewUser = (userDetails) => {
@@ -63,19 +72,25 @@ class Login extends React.Component {
         return (
             <div id="login_bg">
                 <div id="login_register_wrapper">
-                    {this.state.registerClicked
+                     <div id='login_window'>
+                            <div id="side_window">
+                                <h1>Welcome to Bubble</h1>
+                                <br/>
+                                {this.state.registerClicked 
+                                ? <p>{this.state.sideNote}</p>
+                                :<h2>{this.defaultLoginNote}</h2>
+                                }
+                            </div>
+                        
+                            {this.state.registerClicked
                         ? <RegisterComp
                             importedUsers={this.state.users}
                             addUser={this.pushNewUser}
                             showLogin={this.switchToLogin}
+                            setNotes={this.registerNotes}
                         />
-                        : <div id='login_window'>
-                            <div id="side_window">
-                                <h1>Welcome to Bubble</h1>
-                                <br/>
-                                <h2>Start chatting with your imaginary friends now!</h2>
-                            </div>
-                            <form onSubmit={(e) => this.handleSubmit(e)}>
+                        :
+                            <form onSubmit={(e) => this.handleSubmit(e)} className="right_side">
                                 <h1>Login</h1>
                                 <br/>
                                 <br/>
@@ -87,15 +102,15 @@ class Login extends React.Component {
                                     Submit
                                     </button>
                                     <h3>Not Registered yet? What a noob.
-                                        <button onClick={(e) => { this.switchToRegister() }}
+                                        <button type="button" onClick={(e) => { this.switchToRegister() }}
                                         style={{color:"aliceblue", backgroundColor:"rgb(240, 0, 104)"}}>
                                         Join the community now!
                                         </button>
                                     </h3>
                                 </div>
                             </form>
-                        </div>
                     }
+                    </div>
                 </div>
             </div>
         )

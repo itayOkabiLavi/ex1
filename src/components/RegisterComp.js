@@ -5,6 +5,7 @@ import './RegisterComp.css'
 class RegisterComp extends React.Component {
     constructor(props) {
         super(props)
+        this.defaultRegisterNote = "Enter your details. Error notes will appear here. Deffault password is Aa1!a "
         this.state = {
             regErrors: "",
             pwdType: 'password',
@@ -15,6 +16,8 @@ class RegisterComp extends React.Component {
         this.currentUsers= props.importedUsers
         this.cancel = props.showLogin
         this.addUser = props.addUser
+        this.setNotes = props.setNotes
+        this.setNotes(this.defaultRegisterNote)
     }
     fieldsOk(fields) {
         let notes = ""
@@ -26,8 +29,9 @@ class RegisterComp extends React.Component {
             notes += "Password must have 5+ characters, at least 1 Uppercase, 1 lower, 1 number and 1 special. "
         else if (fields.password.value !== fields.passwordVer.value) notes += "Passwords don't match. "
         if (fields.contact.value == "") notes += "Enter contact info."
-        this.setState({ regErrors: notes })
-        return notes == ""
+        //this.setState({ regErrors: notes })
+        this.setNotes(notes)
+        return notes === ""
     }
     verifyReg(event) {
         event.preventDefault();
@@ -54,53 +58,52 @@ class RegisterComp extends React.Component {
         fileReader.readAsDataURL(event.target.files[0])
         console.log("prof pic details: \n", fileReader);
     }
+    submit = (e)=>{
+        e.preventDefault()
+        console.log("applying");
+        this.verifyReg(e)
+    }
     render() {return (
-        <div className="log_reg_window">
+        <div className="right_side">
             <h1>Register</h1>
-            <label htmlFor='new_user_img' id="profPicLabel">
-                <i id="new_user_img_btn" class="bi bi-arrow-down-circle-fill"></i>
-                <input type='file' id='new_user_img' name="image" onChange={this.imageUploader}/></label>
+            
+            <label htmlFor='new_user_img_input' id="profPicLabel">
+            
                 <img src={this.state.profileImageSrc} id="profPic"/>
+                <input type='file' id='new_user_img_input' name="image" onChange={this.imageUploader}/>
+                <h4>Upload your profile picture here. Square ones recommended.</h4>
+            </label>
+            
             <form onSubmit={(e)=>(this.verifyReg(e))}>
-                <label className="" htmlFor='new_user_name'>
                 <input 
                     id='new_user_name' 
                     placeholder="User name"
-                    name="name"/></label>
+                    name="name"/>
 
-                <label htmlFor='new_user_contactInfo'>
                 <input 
                     id='new_user_contactInfo'
                     placeholder="Phone number"
-                    name="contact"/></label>
+                    name="contact"/>
 
                 <label htmlFor='new_user_pwd' id="pwdLabel">
-                <input 
+                <input
                     type={this.state.pwdType}
                     id='new_user_pwd' 
                     placeholder="Enter password"
-                    name="password"/>
-                <input 
+                    name="password"
+                    defaultValue="Aa1!a"
+                    />
+                <input
                     type={this.state.pwdType}
                     id='new_user_pwd_ver' 
                     placeholder="Reenter password"
                     name="passwordVer"
+                    defaultValue="Aa1!a"
                     />
-                <button id="pwdBtn" onClick={(e)=>{
-                    if (this.state.pwdType == 'password') {this.setState({
-                        pwdType: 'text',
-                        pwdIcon: <i class="bi bi-eye-slash"></i>
-                    })}
-                    else {this.setState({
-                        pwdType: 'password',
-                        pwdIcon: <i class="bi bi-eye"></i>
-                    })}
-                }}>{this.state.pwdIcon}</button>
                 </label>
-                <small id="regErrors">{this.state.regErrors}</small>
                 <div className="ending_buttons">
-                    <Button id='cancel_reg' onClick={(e)=>{this.cancel()}}>cancel</Button>
-                    <Button type='submit' id='apply_reg' onSubmit={(e)=>(this.verifyReg(e))}>apply</Button>
+                    <Button type="submit" id='apply_reg' onSubmit={this.submit}>apply</Button>
+                    <Button type="button" id='cancel_reg' onClick={(e)=>{this.cancel()}}>cancel</Button>
                 </div>
             </form>
         </div>
