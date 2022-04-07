@@ -48,6 +48,8 @@
     border-radius: 50px;
     padding: 10px;
     margin-bottom: 20px;
+    
+    backdrop-filter: blur(200px);
 }
 
 #addChatModal {
@@ -95,6 +97,7 @@
 }
 
 #userinfo img {
+    background-color: transparent;
     height: 70px;   
     width: 70px;
     border-radius: 35px; 
@@ -102,9 +105,10 @@
 }
 
 #userinfo h1 {
+    background-color: transparent;
     margin-left: 10px;
     color: white;
-    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.8); 
+    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.8);
 }
 
 #mainlist {
