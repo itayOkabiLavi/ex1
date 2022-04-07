@@ -94,27 +94,7 @@ class ChatDisplay extends React.Component {
                 <div id='cid_chat'>
                     {this.messages}
                 </div>
-                <div id='cid_inputs'>
-                    <Card   key="mulMedContainer" 
-                            id="mulMedContainer" 
-                            hidden={this.state.msgMulMedCont=="" ? true : false}>
-                        {this.state.msgMulMedPrev}
-                        <button onClick={this.clearMulMedContent}><i class="bi bi-x-lg"></i></button>
-                    </Card>
-                    <input
-                        id='cid_text'
-                        value={this.state.msgText}
-                        onChange={(e) => { this.msgTextChanged(e) }}
-                    />
-                    <div id='cid_buttons'>
-                        <button 
-                            className="btn btn-circle my_btn" 
-                            data-bs-toggle="collapse" 
-                            data-bs-target="#uploadOptions"
-                            >
-                            <i className="bi bi-three-dots-vertical"></i>
-                        </button>
-                        <Card className="collapse" id="uploadOptions">
+                <Card className="collapse" id="uploadOptions">
                             <MultiMediaButton 
                                 key="image"
                                 type="image" 
@@ -140,25 +120,45 @@ class ChatDisplay extends React.Component {
                                 key="imageRec"
                                 type="imageRec" 
                                 title="Take a picture"
-                                icon={<i className="bi bi-camera icon_circle"></i>}
+                                icon={<i className="bi bi-camera-fill icon_circle"></i>}
                                 uploadMulMed={this.changeMulMedContent}
                             />
                             <MultiMediaButton 
                                 key="audioRec"
                                 type="audioRec" 
                                 title="Record an audio"
-                                icon={<i className="bi bi-mic icon_circle"></i>}
+                                icon={<i className="bi bi-mic-fill icon_circle"></i>}
                                 uploadMulMed={this.changeMulMedContent}
                             />
                             <MultiMediaButton 
                                 key="videoRec"
                                 type="videoRec" 
                                 title="Record a video"
-                                icon={<i className="bi bi-camera-reels icon_circle"></i>}
+                                icon={<i className="bi bi-camera-reels-fill icon_circle"></i>}
                                 uploadMulMed={this.changeMulMedContent}
                             />
-                            
                         </Card>
+                <div id='cid_inputs'>
+                    <Card   key="mulMedContainer" 
+                            id="mulMedContainer" 
+                            hidden={this.state.msgMulMedCont=="" ? true : false}>
+                        {this.state.msgMulMedPrev}
+                        <button onClick={this.clearMulMedContent}><i class="bi bi-x-lg"></i></button>
+                    </Card>
+                    <input
+                        id='cid_text'
+                        value={this.state.msgText}
+                        onChange={(e) => { this.msgTextChanged(e) }}
+                    />
+                    <div id='cid_buttons'>
+                    
+                        <button 
+                            className="btn btn-circle my_btn" 
+                            data-bs-toggle="collapse" 
+                            data-bs-target="#uploadOptions"
+                            >
+                            <i className="bi bi-three-dots-vertical"></i>
+                        </button>
                         <button className="btn btn-circle my_btn" onClick={() => this.sendMessage()}><i className="bi bi-send-fill"></i></button>
                         
                     </div>

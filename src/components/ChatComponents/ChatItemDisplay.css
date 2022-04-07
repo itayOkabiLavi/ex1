@@ -55,7 +55,7 @@
 
 #cid_inputs .btn-circle{
   /*background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.1) 49%, rgba(255, 255, 255, 0.5) 49%);*/
-  background-color: rgba(255, 255, 255, 0.505);
+  background-color: rgba(255, 255, 255, 0.406);
   color: black;
   margin: 5px;
   font-size: 30px !important;
@@ -66,8 +66,16 @@
   border: 0px;
 }
 
-#cid_inputs .icon_circle {
-    background-color: rgb(202, 202, 202);
+#uploadOptions{
+  background-color: transparent;
+  border: 0;
+  flex-direction: row-reverse;
+  padding: 10px;
+}
+
+#uploadOptions .icon_circle {
+    /*background-image: linear-gradient( rgb(177, 68, 139) 50%, rgb(163, 6, 87) 50%);*/
+    background-color: rgba(187, 200, 255, 0.372);
     color: black;
     margin: 5px;
     font-size: 30px !important;
@@ -80,14 +88,6 @@
     flex: 0 1 60px;
     border-radius: 30px !important;
     border: 0px;
-}
-#uploadOptions{
-  background-color: transparent;
-  border: 0;
-  position: absolute;
-  right: 180px;
-  bottom: 150px;
-  
 }
 
 #cid_text {
@@ -114,9 +114,7 @@
 #mulMedContainer {
   width: fit-content;
   height: fit-content;
-  position: absolute;
-  right: 1150px;
-  bottom: 150px;
+  position: relative;
 }
 
 #mulMedContainer button {

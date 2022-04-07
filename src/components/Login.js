@@ -9,14 +9,14 @@ class Login extends React.Component {
             users: [
                 {
                     userName: 'goku',
-                    password: 'gohan',
+                    password: 'gohan1',
                     isMail: true,
                     contactInfo: 'asd@gmail.com',
                     img: 'https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg'
                 },
                 {
                     userName: 'vegeta',
-                    password: 'gohan',
+                    password: 'bulma2',
                     isMail: true,
                     contactInfo: 'asd@gmail.com',
                     img: 'https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg'
