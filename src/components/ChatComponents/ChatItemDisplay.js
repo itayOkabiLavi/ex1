@@ -76,6 +76,7 @@ class ChatDisplay extends React.Component {
         multiMediaWindowShow: true
     })}
     changeMulMedContent = (content, type, comp) => { 
+        console.log("changeMulMedContent",content, comp)
         this.setState({ 
             msgMulMedCont: content,
             msgMulMedType: type,

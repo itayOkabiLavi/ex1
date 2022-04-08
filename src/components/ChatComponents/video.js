@@ -1,7 +1,8 @@
 import React, { useState, useRef } from "react";
 
-const Record = ({ setAudioMsg }) => {
-    let setMsg = setAudioMsg
+const Video = ({ setVideoMsg }) => {
+    let setMsg = setVideoMsg
+
     const [stream, setStream] = useState({
         access: false,
         recorder: null,
@@ -13,24 +14,26 @@ const Record = ({ setAudioMsg }) => {
         available: false,
         url: ""
     });
-
+    let preview = <video id="videopreview" width='480' height='200' autoPlay muted srcObject={''} controls={false}></video>
+    //let video1 = <video id="video1" controls src={''} ></video>
     const chunks = useRef([]);
 
     function getAccess() {
         navigator.mediaDevices
-            .getUserMedia({ audio: true })
+            .getUserMedia({ video: { width: 480, height: 144 }, audio: true })
             .then((mic) => {
                 let mediaRecorder;
 
                 try {
                     mediaRecorder = new MediaRecorder(mic, {
-                        mimeType: "audio/webm"
+                        mimeType: "video/webm"
                     });
                 } catch (err) {
                     console.log(err);
                 }
 
                 const track = mediaRecorder.stream.getTracks()[0];
+
                 track.onended = () => console.log("ended");
 
                 mediaRecorder.onstart = function () {
@@ -39,6 +42,15 @@ const Record = ({ setAudioMsg }) => {
                         available: false,
                         url: ""
                     });
+                    debugger
+
+                    let video = document.querySelector("#videopreview");
+                    video.srcObject = mic;
+                    video.onloadedmetadata = function (e) {
+                        video.play();
+                    };
+
+
                 };
 
                 mediaRecorder.ondataavailable = function (e) {
@@ -48,7 +60,6 @@ const Record = ({ setAudioMsg }) => {
 
                 mediaRecorder.onstop = function () {
                     console.log("stopped");
-
                     const url = URL.createObjectURL(chunks.current[0]);
                     chunks.current = [];
 
@@ -57,12 +68,17 @@ const Record = ({ setAudioMsg }) => {
                         available: true,
                         url: url
                     });
+                    debugger
+                    let video = document.querySelector("#videopreview");
+                    video.srcObject = null
+                    video.src = url;
+                    video.controls=true
                     mediaRecorder.stream.getTracks().forEach(track => track.stop());
-                    let comp = <audio key={recording.url} id="mulMedPrev" controls>
-                        <source src={recording.url} type="audio" />
-                    </audio>;
+                    let comp = <video key={recording.url} id="mulMedPrev" controls>
+                        <source src={recording.url} type="video" />
+                    </video>;
                     console.log("recording.url", url)
-                    setAudioMsg({ msg: comp, content: url, type: "audio" })
+                    setVideoMsg({ msg: comp, content: url, type: "video" })
                 };
 
                 setStream({
@@ -78,9 +94,9 @@ const Record = ({ setAudioMsg }) => {
     }
 
     return (
-        <div className="record">
+        <div className="video">
             {stream.access ? (
-                <div className="audio-container">
+                <div className="video-container">
                     <button
                         className={recording.active ? "active" : null}
                         onClick={() => !recording.active && stream.recorder.start()}
@@ -89,15 +105,10 @@ const Record = ({ setAudioMsg }) => {
                     </button>
                     <button onClick={() => {
                         stream.recorder.stop();
-
-                        // let comp = <audio key={recording.url} id="mulMedPrev" controls>
-                        //     <source src={recording.url} type="audio" />
-                        // </audio>;
-                        // console.log("recording.url", recording.url)
-                        // //while(!recording.available)
-                        // setAudioMsg({ msg: comp, content: recording.url, type: "audio" })
                     }}>Stop Recording</button>
-                    {recording.available && <audio controls src={recording.url} />}
+                    {preview}
+                    {/*recording.available && video1*/}
+                    {/*!recording.available && preview*/}
                 </div>
             ) : (
                 <button onClick={getAccess}>Get Mic Access</button>
@@ -105,4 +116,4 @@ const Record = ({ setAudioMsg }) => {
         </div>
     );
 }
-export default Record;
+export default Video;

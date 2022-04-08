@@ -9,6 +9,10 @@ class Login extends React.Component {
         this.state = {
             users: [
                 {
+                    userName: 'y',
+                    password: '1',
+                },
+                {
                     userName: 'goku',
                     password: 'gohan1',
                     isMail: true,
