@@ -75,13 +75,10 @@ const Photo = ({ setImgMsg }) => {
         });
         video.srcObject = null
         video.src = imgURL;
-        let comp = <img key={'imageRec'} id="mulMedPrev">
-            {/*<source src={img} type="image" />*/}
-        </img>;
+        let comp = <img key={'imageRec'} src={imgURL} id="mulMedPrev"></img>;
         console.log("recording.url", img)
         setImgMsg({ msg: comp, content: imgURL, type: "image" })
         video.srcObject.getTracks().forEach(track => track.stop());
-
     };
     return (
         <div className="video">
