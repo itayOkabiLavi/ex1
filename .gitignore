@@ -21,7 +21,6 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-package.json
 package-lock.json
 .gitignore
 תרגיל ראשון - web client.pdf
