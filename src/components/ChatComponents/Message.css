@@ -1,19 +1,23 @@
 .msg {
-    
     padding: 20px;
     box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.5);
     display: flex;
     flex-direction: column;
+    max-width: 50%;
     width: fit-content;
     margin: 15px;
+    height: fit-content;
 }
 
-h2 {
+.msg h2 {
     font-size: 25px !important;
+    display: block;
+    width: 100%;
+    overflow-wrap: break-word;
 }
 
 #fromMe {
-    background-color: rgb(237, 238, 224) !important;
+    background-color: rgba(255, 239, 252, 0.833) !important;
     border-radius: 0 20px 20px 0;
     align-self: flex-start;
 }
@@ -21,6 +25,10 @@ h2 {
     background-color: rgb(139, 255, 191) !important;
     border-radius: 20px 0 0 20px;
     align-self: flex-end;
+}
+
+#mulMedMsg {
+    margin-bottom: 10px;
 }
 
 small {

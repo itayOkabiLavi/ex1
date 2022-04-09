@@ -14,7 +14,7 @@ class ChatComp extends React.Component {
         super(prop)
         this.i = 1
         this.chats = []
-        this.userName=this.props.userName
+        this.user=this.props.user
         this.setToken = this.props.setToken
         this.state = {
             chats: [],
@@ -75,41 +75,52 @@ class ChatComp extends React.Component {
                     <div id='chatslist'>
                         <div id='chatsTools'>
                             <div id='userInfo'>
-                                <img src="https://www.w3schools.com/images/picture.jpg" />
-                                <h1>{this.userName}</h1>
+                                <img src={this.user.img} />
+                                <h1>{this.user.userName}</h1>
                             </div>
-                            <Button 
-                                onClick={()=>this.setToken({authed:false})}
-                                title="Logout">
-                                <i className="bi bi-backspace-reverse-fill"></i>
-                            </Button>
+                            
                             <Button 
                                 id="addChat" 
                                 onClick={() => { this.openNewChat() }}
                                 title="Add new chat">
                                 <i className="bi bi-person-plus-fill"></i>
                             </Button>
-                            <Modal show={this.state.showModal} id='addContact'>
+                            <Button 
+                                onClick={()=>this.setToken({authed:false})}
+                                title="Logout">
+                                <i class="bi bi-box-arrow-right"></i>
+                            </Button>
+                            <Modal show={this.state.showModal}
+                            >
+                                <div id="addChatModal">
+
+                                
                                 <h1>Add new contact</h1>
-                                <label htmlFor='cName'>Enter new contact name</label>
+                                <label htmlFor='cName'>Enter new contact name
                                 <input id='cName'
-                                    value={this.state.newContactName}
+                                    defaultValue={this.state.newContactName}
                                     onChange={(e) => { this.newContactNameChanged(e) }}
-                                />
-                                <label htmlFor='cContactInfo'>Enter new contact's mail</label>
+                                /></label>
+                                <label htmlFor='cContactInfo'>Enter new contact's mail
                                 <input id='cContactInfo'
                                     type="email"
-                                    value={this.state.newContactInfo}
+                                    defaultValue={this.state.newContactInfo}
                                     onChange={(e) => { this.newContactInfoChanged(e) }}
-                                />
-                                <label htmlFor='cContactImg'>Enter new contact's image url</label>
+                                /></label>
+                                <label htmlFor='cContactImg'>Enter new contact's image url
                                 <input id='cContactImg'
                                     type="text"
-                                    value={this.state.newContactImg}
+                                    defaultValue={this.state.newContactImg}
                                     onChange={(e) => { this.newContactImgChanged(e) }}
-                                />
-                                <Button onClick={() => { this.closeNewChat() }}>close</Button>
-                                <Button onClick={() => { this.addNewChat() }}>add</Button>
+                                /></label>
+                                <Button onClick={() => { this.closeNewChat() }}>
+                                    <i class="bi bi-trash3"></i>
+                                </Button>
+                                <Button onClick={() => { this.addNewChat() }}>
+                                    <i class="bi bi-plus-lg"></i>
+                                </Button>
+
+                                </div>
                             </Modal>
                         </div>
                         <div id='mainlist'>

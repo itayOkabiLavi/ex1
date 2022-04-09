@@ -5,24 +5,31 @@ import './Login.css'
 class Login extends React.Component {
     constructor(props) {
         super(props)
+        this.defaultLoginNote = "Start chatting with your imaginary friends now!"
         this.state = {
             users: [
                 {
+                    userName: 'y',
+                    password: '1',
+                },
+                {
                     userName: 'goku',
-                    password: 'gohan',
+                    password: 'gohan1',
                     isMail: true,
                     contactInfo: 'asd@gmail.com',
-                    img: <img src='https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg' />
+                    img: 'https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg'
                 },
                 {
                     userName: 'vegeta',
-                    password: 'gohan',
+                    password: 'bulma2',
                     isMail: true,
                     contactInfo: 'asd@gmail.com',
-                    img: <img src='https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg' />
+                    img: 'https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg'
                 }
             ],
-            registerClicked: false
+            registerClicked: false,
+            sideNote: "",
+            wrongUpwdOrUName: false
         }
         this.setToken = props.setToken
     }
@@ -31,17 +38,27 @@ class Login extends React.Component {
         let name = e.target[0].value
         let pass = e.target[1].value
         console.log("myUsers: ", this.state.users);
-        let token = this.state.users.findIndex((x) => { return x.userName === name && x.password === pass; }) !== -1
-        console.log(name, pass, token);
-        this.setToken({ authed: token, userName: name });
-        console.log([...this.state.users])
+        let userIndex = this.state.users.findIndex((x) => { return x.userName === name && x.password === pass; })
+        let newUser = (userIndex !== -1) ? this.state.users[userIndex] : null
+        this.setState({
+            wrongUpwdOrUName: (userIndex !== -1) ? " " : "Wrong user name or passsword"
+        }) 
+        console.log("login result : ", newUser)
+        this.setToken({ authed: userIndex !== -1, user: newUser});
     }
     switchToRegister() {
-        this.setState({ registerClicked: true })
+        this.setState({ 
+            registerClicked: true
+        })
         console.log(this.state.registerClicked, "register");
     }
+    registerNotes = (newNotes) => {
+        this.setState({sideNote: newNotes})
+    }
     switchToLogin = () => {
-        this.setState({ registerClicked: false })
+        this.setState({ 
+            registerClicked: false
+        })
         console.log(this.state.registerClicked, "login");
     }
     pushNewUser = (userDetails) => {
@@ -61,31 +78,48 @@ class Login extends React.Component {
     }
     render() {
         return (
-            <div id="login_register_wrapper">
-                {this.state.registerClicked
-                    ? <RegisterComp
-                        importedUsers={this.state.users}
-                        addUser={this.pushNewUser}
-                        showLogin={this.switchToLogin}
-                    />
-                    : <div className="log_reg_window" id='login_window'>
-                        <h1>Please Log In</h1>
-                        <form onSubmit={(e) => this.handleSubmit(e)}>
-                            <label>
-                                <p>Username</p>
-                                <input name='userName' type="text" />
-                            </label>
-                            <label>
-                                <p>Password</p>
-                                <input name='password' type="password" />
-                            </label>
-                            <div className='ending_buttons'>
-                                <button type='submit' onSubmit={(e) => this.handleSubmit(e)}>Submit</button>
-                                <button onClick={(e) => { this.switchToRegister() }}>Register!</button>
+            <div id="login_bg">
+                <div id="login_register_wrapper">
+                     <div id='login_window'>
+                            <div id="side_window">
+                                <h1>Welcome to Bubble</h1>
+                                <br/>
+                                {this.state.registerClicked 
+                                ? <p>{this.state.sideNote}</p>
+                                :<h2>{this.defaultLoginNote}</h2>
+                                }
                             </div>
-                        </form>
+                        
+                            {this.state.registerClicked
+                        ? <RegisterComp
+                            importedUsers={this.state.users}
+                            addUser={this.pushNewUser}
+                            showLogin={this.switchToLogin}
+                            setNotes={this.registerNotes}
+                        />
+                        :
+                            <form onSubmit={(e) => this.handleSubmit(e)} className="right_side">
+                                <h1>Login</h1>
+                                <br/>
+                                <br/>
+                                <input name='userName' type="text" placeholder='User name' />
+                                <input name='password' type="password" placeholder='Password'/>
+                                <h4>{this.state.wrongUpwdOrUName}</h4>
+                                <div className='ending_buttons'>
+                                    <button type='submit' onSubmit={(e) => this.handleSubmit(e)}>
+                                    Submit
+                                    </button>
+                                    <h3>Not Registered yet?
+                                        <button type="button" onClick={(e) => { this.switchToRegister() }}
+                                        style={{color:"aliceblue", backgroundColor:"rgb(240, 0, 104)"}}>
+                                        Register now!
+                                        </button>
+                                    </h3>
+                                </div>
+                            </form>
+                    }
                     </div>
-                }
+                </div>
             </div>
         )
     }

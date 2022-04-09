@@ -12,29 +12,26 @@ class ChatItem extends React.Component {
         this.id = this.aName
         this.key = this.id
         this.state = {
-            lastMessage: "Start chatting!",
-            lastActivityDate: "00:00",
+            lastMessage: {
+                fromMe: false, 
+                type:"text", 
+                contnet:{txt: "", mm:""}, 
+                date: ""},
             savedState: {
                 messages: [],
                 msgText: "",
                 msgImg: "",
-                msgAud: "",
-                now: new Date().toLocaleString()
+                msgAud: ""
             }
         }
         console.log('savedState',this.state.savedState)
-        this.display = <ChatDisplay id={this.aName} key={this.key} childComponentWillUnmount={this.childComponentWillUnmount} state={this.state.savedState} />
+        this.display = ""
         this.maxSummary = 30
         this.callBack = prop.callBack
     }
-    updateChatInfo(content, time) {
-        this.setState({
-            lastMessage: content,
-            lastActivityDate: time
-        })
-    }
     messageSummary() {
-        var message = this.state.lastMessage
+        var lm = this.state.lastMessage
+        var message = lm.type == "text" ? lm.contnet.txt : "<"+lm.type+"> + " + lm.contnet.txt
         if (message.length <= this.maxSummary) {
             return message;
         }
@@ -54,7 +51,12 @@ class ChatItem extends React.Component {
         console.log('newState', this.state.savedState)
     }
     render() {
-        this.display = <ChatDisplay id={this.aName} key={this.key} childComponentWillUnmount={this.childComponentWillUnmount} state={this.state.savedState} />
+        this.display = <ChatDisplay 
+            id={this.aName} 
+            key={this.key} 
+            childComponentWillUnmount={this.childComponentWillUnmount} 
+            updateLastMessage={(lastMessage)=>(this.setState({lastMessage: lastMessage}))}
+            state={this.state.savedState} />
         return (
             <div id='chatCard' key={this.key} onClick={(e) => { this.callBack(this.display, this.aName); console.log('chatitem'); }}>
                 <img src={this.aImg} />
@@ -65,7 +67,7 @@ class ChatItem extends React.Component {
                     </div>
                     <div id='msgsInfo'>
                         <h2>{this.messageSummary()}</h2>
-                        <small>{this.lastActivityDate}</small>
+                        <small>{this.state.lastMessage.date}</small>
                     </div>
                 </div>
             </div>
