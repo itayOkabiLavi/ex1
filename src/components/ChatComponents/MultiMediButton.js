@@ -17,7 +17,6 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
         let msg = videoMsg.msg
         console.log('useEffect', msg)
         uploadMulMed(content, type, msg)
-
     }, [videoMsg])
     useEffect(() => {
         let content = audioMsg.content

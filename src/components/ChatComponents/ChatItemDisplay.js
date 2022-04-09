@@ -4,9 +4,8 @@ import Message from "./Message";
 import MultiMediaButton from "./MultiMediButton";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import './ChatItemDisplay.css'
-import { Button } from "bootstrap";
 
-import { Form, FormGroup, Card, Modal } from "react-bootstrap";
+import { Form, FormGroup, Card, Modal, Button } from "react-bootstrap";
 
 class ChatDisplay extends React.Component {
     constructor(props) {
@@ -43,10 +42,12 @@ class ChatDisplay extends React.Component {
                 date={new Date().toLocaleString()}
             />)
         this.props.updateLastMessage(
-            {fromMe: true, 
-                type: this.state.msgMulMedType, 
-                contnet:{txt: this.state.msgText, mm: this.state.msgMulMedCont}, 
-                date:new Date().toLocaleString()}
+            {
+                fromMe: true,
+                type: this.state.msgMulMedType,
+                contnet: { txt: this.state.msgText, mm: this.state.msgMulMedCont },
+                date: new Date().toLocaleString()
+            }
         )
         this.setState({
             ...this.state,
@@ -69,27 +70,30 @@ class ChatDisplay extends React.Component {
             messages: [...this.messages],
         });
     }
-    showMultiMediaWindow = (event,type) => { 
+    showMultiMediaWindow = (event, type) => {
         event.preventDefault()
         console.log(type)
         this.setState({
-        multiMediaType: type,
-        multiMediaWindowShow: true
-    })}
-    changeMulMedContent = (content, type, comp) => { 
-        console.log("changeMulMedContent",content, comp)
-        this.setState({ 
+            multiMediaType: type,
+            multiMediaWindowShow: true
+        })
+    }
+    changeMulMedContent = (content, type, comp) => {
+        console.log("changeMulMedContent", content, comp)
+        this.setState({
             msgMulMedCont: content,
             msgMulMedType: type,
             msgMulMedPrev: comp
-        }) 
+        })
     }
-    clearMulMedContent = (e)=>{this.setState({
-        msgMulMedPrev: "",
-        msgMulMedCont: "",
-        msgMulMedType: "text",
-        msgMulMedPrev: ""
-    })}
+    clearMulMedContent = (e) => {
+        this.setState({
+            msgMulMedPrev: "",
+            msgMulMedCont: "",
+            msgMulMedType: "text",
+            msgMulMedPrev: ""
+        })
+    }
     render() {
 
         return (
@@ -99,72 +103,72 @@ class ChatDisplay extends React.Component {
                     {this.messages}
                 </div>
                 <Card className="collapse" id="uploadOptions">
-                            <MultiMediaButton 
-                                key="image"
-                                type="image" 
-                                title="Upload image"
-                                icon={<i className="bi bi-file-image icon_circle"></i>}
-                                uploadMulMed={this.changeMulMedContent}
-                            />
-                            <MultiMediaButton 
-                                key= "audio"
-                                type="audio" 
-                                title="Upload audio"
-                                icon={<i className="bi bi-file-music icon_circle"></i>}
-                                uploadMulMed={this.changeMulMedContent}
-                            />
-                            <MultiMediaButton 
-                                key="video"
-                                type="video" 
-                                title="Upload video"
-                                icon={<i className="bi bi-film icon_circle"></i>}
-                                uploadMulMed={this.changeMulMedContent}
-                            />
-                            <MultiMediaButton 
-                                key="imageRec"
-                                type="imageRec" 
-                                title="Take a picture"
-                                icon={<i className="bi bi-camera-fill icon_circle"></i>}
-                                uploadMulMed={this.changeMulMedContent}
-                            />
-                            <MultiMediaButton 
-                                key="audioRec"
-                                type="audioRec" 
-                                title="Record an audio"
-                                icon={<i className="bi bi-mic-fill icon_circle"></i>}
-                                uploadMulMed={this.changeMulMedContent}
-                            />
-                            <MultiMediaButton 
-                                key="videoRec"
-                                type="videoRec" 
-                                title="Record a video"
-                                icon={<i className="bi bi-camera-reels-fill icon_circle"></i>}
-                                uploadMulMed={this.changeMulMedContent}
-                            />
-                        </Card>
+                    <MultiMediaButton
+                        key="image"
+                        type="image"
+                        title="Upload image"
+                        icon={<i className="bi bi-file-image icon_circle"></i>}
+                        uploadMulMed={this.changeMulMedContent}
+                    />
+                    <MultiMediaButton
+                        key="audio"
+                        type="audio"
+                        title="Upload audio"
+                        icon={<i className="bi bi-file-music icon_circle"></i>}
+                        uploadMulMed={this.changeMulMedContent}
+                    />
+                    <MultiMediaButton
+                        key="video"
+                        type="video"
+                        title="Upload video"
+                        icon={<i className="bi bi-film icon_circle"></i>}
+                        uploadMulMed={this.changeMulMedContent}
+                    />
+                    <MultiMediaButton
+                        key="imageRec"
+                        type="imageRec"
+                        title="Take a picture"
+                        icon={<i className="bi bi-camera-fill icon_circle"></i>}
+                        uploadMulMed={this.changeMulMedContent}
+                    />
+                    <MultiMediaButton
+                        key="audioRec"
+                        type="audioRec"
+                        title="Record an audio"
+                        icon={<i className="bi bi-mic-fill icon_circle"></i>}
+                        uploadMulMed={this.changeMulMedContent}
+                    />
+                    <MultiMediaButton
+                        key="videoRec"
+                        type="videoRec"
+                        title="Record a video"
+                        icon={<i className="bi bi-camera-reels-fill icon_circle"></i>}
+                        uploadMulMed={this.changeMulMedContent}
+                    />
+                </Card>
                 <div id='cid_inputs'>
-                    <Card   key="mulMedContainer" 
-                            id="mulMedContainer" 
-                            hidden={this.state.msgMulMedCont=="" ? true : false}>
+                    {<Card key="mulMedContainer"
+                        id="mulMedContainer"
+                        hidden={this.state.msgMulMedCont == "" || this.state.msgMulMedCont == undefined ? true : false}>
                         {this.state.msgMulMedPrev}
-                        <button onClick={this.clearMulMedContent}><i class="bi bi-x-lg"></i></button>
-                    </Card>
+                        {<Button onClick={this.clearMulMedContent}><i class="bi bi-x-lg"></i></Button>}
+                    </Card>}
                     <input
                         id='cid_text'
                         value={this.state.msgText}
                         onChange={(e) => { this.msgTextChanged(e) }}
                     />
                     <div id='cid_buttons'>
-                    
-                        <button 
-                            className="btn btn-circle my_btn" 
-                            data-bs-toggle="collapse" 
+
+                        <button
+                            className="btn btn-circle my_btn"
+                            data-bs-toggle="collapse"
                             data-bs-target="#uploadOptions"
                         >
                             <i className="bi bi-three-dots-vertical"></i>
                         </button>
                         <button className="btn btn-circle my_btn" onClick={() => this.sendMessage()}><i className="bi bi-send-fill"></i></button>
-                        
+
                     </div>
                 </div>
             </div>
