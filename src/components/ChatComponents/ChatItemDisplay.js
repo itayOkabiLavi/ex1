@@ -91,7 +91,6 @@ class ChatDisplay extends React.Component {
         msgMulMedPrev: ""
     })}
     render() {
-        let multiMediaModal = <MultiMedia show={state}></MultiMedia>
 
         return (
             <div className='cid_bg' key={this.key}>

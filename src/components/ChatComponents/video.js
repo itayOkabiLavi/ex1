@@ -15,7 +15,6 @@ const Video = ({ setVideoMsg }) => {
         url: ""
     });
     let preview = <video id="videopreview" width='480' height='200' autoPlay muted srcObject={''} controls={false}></video>
-    //let video1 = <video id="video1" controls src={''} ></video>
     const chunks = useRef([]);
 
     function getAccess() {
@@ -34,7 +33,10 @@ const Video = ({ setVideoMsg }) => {
 
                 const track = mediaRecorder.stream.getTracks()[0];
 
-                track.onended = () => console.log("ended");
+                track.onended = () => {
+                    console.log("ended");
+                    //navigator.mediaDevices.getUserMedia({ video: false, audio: false });
+                }
 
                 mediaRecorder.onstart = function () {
                     setRecording({
@@ -42,7 +44,7 @@ const Video = ({ setVideoMsg }) => {
                         available: false,
                         url: ""
                     });
-                    debugger
+
 
                     let video = document.querySelector("#videopreview");
                     video.srcObject = mic;
@@ -57,7 +59,7 @@ const Video = ({ setVideoMsg }) => {
                     console.log("data available");
                     chunks.current.push(e.data);
                 };
-
+                mediaRecorder.start()
                 mediaRecorder.onstop = function () {
                     console.log("stopped");
                     const url = URL.createObjectURL(chunks.current[0]);
@@ -68,11 +70,11 @@ const Video = ({ setVideoMsg }) => {
                         available: true,
                         url: url
                     });
-                    debugger
+
                     let video = document.querySelector("#videopreview");
                     video.srcObject = null
                     video.src = url;
-                    video.controls=true
+                    video.controls = true
                     mediaRecorder.stream.getTracks().forEach(track => track.stop());
                     let comp = <video key={recording.url} id="mulMedPrev" controls>
                         <source src={recording.url} type="video" />
@@ -92,28 +94,50 @@ const Video = ({ setVideoMsg }) => {
                 setStream({ ...stream, error });
             });
     }
-
     return (
         <div className="video">
-            {stream.access ? (
+            {(
                 <div className="video-container">
                     <button
                         className={recording.active ? "active" : null}
-                        onClick={() => !recording.active && stream.recorder.start()}
+                        onClick={() => {
+                            getAccess()
+                            //!recording.active && stream.recorder.start();
+                        }}
                     >
                         Start Recording
                     </button>
                     <button onClick={() => {
                         stream.recorder.stop();
+
                     }}>Stop Recording</button>
                     {preview}
                     {/*recording.available && video1*/}
                     {/*!recording.available && preview*/}
                 </div>
-            ) : (
-                <button onClick={getAccess}>Get Mic Access</button>
-            )}
+            )
+            }
         </div>
+        // <div className="video">
+        //     {stream.access ? (
+        //         <div className="video-container">
+        //             <button
+        //                 className={recording.active ? "active" : null}
+        //                 onClick={() => !recording.active && stream.recorder.start()}
+        //             >
+        //                 Start Recording
+        //             </button>
+        //             <button onClick={() => {
+        //                 stream.recorder.stop();
+        //             }}>Stop Recording</button>
+        //             {preview}
+        //             {/*recording.available && video1*/}
+        //             {/*!recording.available && preview*/}
+        //         </div>
+        //     ) : (
+        //         <button onClick={getAccess}>Get Mic Access</button>
+        //     )}
+        // </div>
     );
 }
 export default Video;
