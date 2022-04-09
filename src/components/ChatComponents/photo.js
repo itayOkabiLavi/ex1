@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 const Photo = ({ setImgMsg }) => {
     let [stream, setStream] = useState({
@@ -8,11 +8,6 @@ const Photo = ({ setImgMsg }) => {
     });
     let [clickable, setClickable] = useState(true);
 
-    let [recording, setRecording] = useState({
-        active: false,
-        available: false,
-        url: ""
-    });
     let preview = <video id="videopreview" muted srcObject={''} controls={false}></video>
     useEffect(() => {
         getAccess();
@@ -35,7 +30,9 @@ const Photo = ({ setImgMsg }) => {
                 track.onended = () => {
                     console.log("ended");
                 }
-
+                mediaPreview.onstop = function () {
+                    mediaPreview.stream.getTracks().forEach(track => track.stop());
+                }
                 mediaPreview.onstart = function () {
                     let video = document.querySelector("#videopreview");
                     video.srcObject = mic;
@@ -64,21 +61,14 @@ const Photo = ({ setImgMsg }) => {
         const canvas = document.querySelector("canvas");
         canvas.width = 720;
         canvas.height = 480;
-        canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+        canvas.getContext("2d").drawImage(video, 0, 0);
         var imgURL = canvas.toDataURL("image/png");
-        img.src = imgURL
-        console.log("stopped");
-        setRecording({
-            active: false,
-            available: true,
-            url: imgURL
-        });
+        img.src = imgURL        
         video.srcObject = null
         video.src = imgURL;
         let comp = <img key={'imageRec'} src={imgURL} id="mulMedPrev"></img>;
-        console.log("recording.url", img)
         setImgMsg({ msg: comp, content: imgURL, type: "image" })
-        video.srcObject.getTracks().forEach(track => track.stop());
+        stream.recorder.stop()
     };
     return (
         <div className="video">
@@ -86,8 +76,7 @@ const Photo = ({ setImgMsg }) => {
                 <div className="video-container">
                     <button onClick={() => {
                         if (clickable) {
-                            onstop()
-                            stream.recorder.stop()
+                            onstop();
                         }
                     }}>take photo</button>
                     {preview}

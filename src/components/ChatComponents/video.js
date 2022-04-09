@@ -56,7 +56,6 @@ const Video = ({ setVideoMsg }) => {
                     video.srcObject = mic;
                     video.onloadedmetadata = function (e) {
                         video.play();
-                        console.log('2')
                     };
                 }
                 mediaRecorder.ondataavailable = function (e) {
@@ -84,7 +83,6 @@ const Video = ({ setVideoMsg }) => {
                     let comp = <video key={recording.url} id="mulMedPrev" controls>
                         <source src={recording.url} type="video" />
                     </video>;
-                    console.log("recording.url", url)
                     setVideoMsg({ msg: comp, content: url, type: "video" })
                 };
 

@@ -69,7 +69,6 @@ const Audio = ({ setAudioMsg }) => {
                     let comp = <audio key={recording.url} id="mulMedPrev" controls>
                         <source src={recording.url} type="audio" />
                     </audio>;
-                    console.log("recording.url", url)
                     setAudioMsg({ msg: comp, content: url, type: "audio" })
                 };
 
