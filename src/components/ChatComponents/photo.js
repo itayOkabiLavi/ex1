@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
-const Video = ({ setVideoMsg }) => {
+const Photo = ({ setVideoMsg }) => {
     let [stream, setStream] = useState({
         access: false,
         recorder: null,
@@ -15,83 +15,71 @@ const Video = ({ setVideoMsg }) => {
         url: ""
     });
     let preview = <video id="videopreview" muted srcObject={''} controls={false}></video>
-    const chunks = useRef([]);
     useEffect(() => {
         getAccess();
     }, [])
     function getAccess() {
         navigator.mediaDevices
-            .getUserMedia({ video: true, audio: true })
+            .getUserMedia({ video: true })
             .then((mic) => {
-                let mediaRecorder;
                 let mediaPreview;
                 try {
                     mediaPreview = new MediaRecorder(mic, {
                         mimeType: "video/webm"
                     })
-                    mediaRecorder = new MediaRecorder(mic, {
-                        mimeType: "video/webm"
-                    });
                 } catch (err) {
                     console.log(err);
                 }
 
-                const track = mediaRecorder.stream.getTracks()[0];
+                const track = mediaPreview.stream.getTracks()[0];
 
                 track.onended = () => {
                     console.log("ended");
                 }
 
-                mediaRecorder.onstart = function () {
-                    setstartClickable(false);
-                    setstopClickable(true);
-                    setRecording({
-                        active: true,
-                        available: false,
-                        url: ""
-                    });
-                };
                 mediaPreview.onstart = function () {
                     let video = document.querySelector("#videopreview");
                     video.srcObject = mic;
                     video.onloadedmetadata = function (e) {
                         video.play();
-                        console.log('2')
                     };
                 }
-                mediaRecorder.ondataavailable = function (e) {
-                    console.log("data available");
-                    chunks.current.push(e.data);
-                };
+
                 mediaPreview.start();
-                mediaRecorder.onstop = function () {
+                mediaPreview.onstop = function () {
                     setstopClickable(false);
+                    let video = document.querySelector("#videopreview");
+                    let img = document.querySelector("#imgPre");
+                    const canvas = document.querySelector("canvas");
+                    canvas.width =400;
+                    canvas.height = 400;
+                    canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+                    var imgURL = canvas.toDataURL("image/png");
+                    img.src = imgURL
                     console.log("stopped");
-                    const url = URL.createObjectURL(chunks.current[0]);
-                    chunks.current = [];
+                    // const url = URL.createObjectURL(chunks.current[0]);
+                    // chunks.current = [];
 
                     setRecording({
                         active: false,
                         available: true,
-                        url: url
+                        url: imgURL
                     });
 
-                    let video = document.querySelector("#videopreview");
                     video.srcObject = null
-                    video.src = url;
+                    video.src = imgURL;
                     video.controls = true
-                    mediaRecorder.stream.getTracks().forEach(track => track.stop());
-                    let comp = <video key={recording.url} id="mulMedPrev" controls>
-                        <source src={recording.url} type="video" />
-                    </video>;
-                    console.log("recording.url", url)
-                    setVideoMsg({ msg: comp, content: url, type: "video" })
+                    mediaPreview.stream.getTracks().forEach(track => track.stop());
+                    let comp = <img key={img} id="mulMedPrev" controls>
+                        {/*<source src={img} type="image" />*/}
+                    </img>;
+                    console.log("recording.url", img)
+                    setVideoMsg({ msg: comp, content: imgURL, type: "image" })
                 };
-
                 setStream({
                     ...stream,
                     access: true,
-                    recorder: mediaRecorder
+                    recorder: mediaPreview
                 });
             })
             .catch((error) => {
@@ -120,11 +108,12 @@ const Video = ({ setVideoMsg }) => {
                         }
                     }}>Stop Recording</button>
                     {preview}
-                  
+                    <img id="imgPre" src=""></img>
+                    <canvas style={{display:"none"}}></canvas>
                 </div>
             )
             }
         </div>
     );
 }
-export default Video;
+export default Photo;

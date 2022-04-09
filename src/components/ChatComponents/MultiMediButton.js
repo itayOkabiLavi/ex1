@@ -3,6 +3,7 @@ import { Modal, Button } from "react-bootstrap";
 import "./MultiMediaButton.css"
 import Record from "./audio";
 import Video from "./video"
+import Photo from "./photo";
 function MultiMediaButton({ type, icon, uploadMulMed, title }) {
     const [content, setContent] = useState("")
     const [filter, setFilter] = useState("")
@@ -63,6 +64,7 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
                     <div>
                         {type == "audioRec" && <Record setAudioMsg={setAudioMsg}></Record>}
                         {type == "videoRec" && <Video setVideoMsg={setVideoMsg}></Video>}
+                        {type == "imageRec" && <Photo setVideoMsg={setVideoMsg}></Photo>}
 
                         <Button onClick={() => {
                             let video = document.querySelector("#videopreview");

@@ -1,9 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 const Audio = ({ setAudioMsg }) => {
-    let setMsg = setAudioMsg
-
-    const [stream, setStream] = useState({
+    let [stream, setStream] = useState({
         access: false,
         recorder: null,
         error: ""
@@ -11,12 +9,12 @@ const Audio = ({ setAudioMsg }) => {
     let [startClickable, setstartClickable] = useState(true);
     let [stopClickable, setstopClickable] = useState(false);
 
-    const [recording, setRecording] = useState({
+    let [recording, setRecording] = useState({
         active: false,
         available: false,
         url: ""
     });
-    let preview = <audio id="audiopreview" srcObject={''} controls={false}></audio>
+    let preview = <audio id="audiopreview" controls={false}></audio>
     const chunks = useRef([]);
     useEffect(() => {
         getAccess();
@@ -33,9 +31,7 @@ const Audio = ({ setAudioMsg }) => {
                 } catch (err) {
                     console.log(err);
                 }
-
                 const track = mediaRecorder.stream.getTracks()[0];
-
                 track.onended = () => {
                     console.log("ended");
                 }
@@ -48,15 +44,6 @@ const Audio = ({ setAudioMsg }) => {
                         available: false,
                         url: ""
                     });
-
-
-                    let audio = document.querySelector("#audiopreview");
-                    //audio.srcObject = mic;
-                    audio.onloadedmetadata = function (e) {
-                        //audio.play();
-                    };
-
-
                 };
                 
                 mediaRecorder.ondataavailable = function (e) {
@@ -76,7 +63,6 @@ const Audio = ({ setAudioMsg }) => {
                     });
 
                     let audio = document.querySelector("#audiopreview");
-                    audio.srcObject = null
                     audio.src = url;
                     audio.controls = true
                     mediaRecorder.stream.getTracks().forEach(track => track.stop());
@@ -117,7 +103,6 @@ const Audio = ({ setAudioMsg }) => {
                         if (stopClickable) {
                             stream.recorder.stop();
                         }
-
                     }}>Stop Recording</button>
                     {preview}
 
