@@ -9,6 +9,8 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
     const [filter, setFilter] = useState("")
     let [audioMsg, setAudioMsg] = useState("")
     let [videoMsg, setVideoMsg] = useState("")
+    let [imgMsg, setImgMsg] = useState("")
+
     useEffect(() => {
         let content = videoMsg.content
         let type = videoMsg.type
@@ -25,6 +27,13 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
         uploadMulMed(content, type, msg)
 
     }, [audioMsg])
+    useEffect(() => {
+        let content = imgMsg.content
+        let type = imgMsg.type
+        let msg = imgMsg.msg
+        console.log('useEffect', msg)
+        uploadMulMed(content, type, msg)
+    }, [imgMsg])
     const [showModal, setShowModal] = useState(false)
     const isRec = type.includes("Rec")
     //type = isRec ? type - "Rec" : type
@@ -64,7 +73,7 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
                     <div>
                         {type == "audioRec" && <Record setAudioMsg={setAudioMsg}></Record>}
                         {type == "videoRec" && <Video setVideoMsg={setVideoMsg}></Video>}
-                        {type == "imageRec" && <Photo setVideoMsg={setVideoMsg}></Photo>}
+                        {type == "imageRec" && <Photo setImgMsg={setImgMsg}></Photo>}
 
                         <Button onClick={() => {
                             let video = document.querySelector("#videopreview");

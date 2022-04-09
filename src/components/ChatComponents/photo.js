@@ -1,13 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 
-const Photo = ({ setVideoMsg }) => {
+const Photo = ({ setImgMsg }) => {
     let [stream, setStream] = useState({
         access: false,
         recorder: null,
         error: ""
     });
-    let [startClickable, setstartClickable] = useState(true);
-    let [stopClickable, setstopClickable] = useState(false);
+    let [clickable, setClickable] = useState(true);
 
     let [recording, setRecording] = useState({
         active: false,
@@ -46,36 +45,7 @@ const Photo = ({ setVideoMsg }) => {
                 }
 
                 mediaPreview.start();
-                mediaPreview.onstop = function () {
-                    setstopClickable(false);
-                    let video = document.querySelector("#videopreview");
-                    let img = document.querySelector("#imgPre");
-                    const canvas = document.querySelector("canvas");
-                    canvas.width =400;
-                    canvas.height = 400;
-                    canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
-                    var imgURL = canvas.toDataURL("image/png");
-                    img.src = imgURL
-                    console.log("stopped");
-                    // const url = URL.createObjectURL(chunks.current[0]);
-                    // chunks.current = [];
 
-                    setRecording({
-                        active: false,
-                        available: true,
-                        url: imgURL
-                    });
-
-                    video.srcObject = null
-                    video.src = imgURL;
-                    video.controls = true
-                    mediaPreview.stream.getTracks().forEach(track => track.stop());
-                    let comp = <img key={img} id="mulMedPrev" controls>
-                        {/*<source src={img} type="image" />*/}
-                    </img>;
-                    console.log("recording.url", img)
-                    setVideoMsg({ msg: comp, content: imgURL, type: "image" })
-                };
                 setStream({
                     ...stream,
                     access: true,
@@ -87,29 +57,45 @@ const Photo = ({ setVideoMsg }) => {
                 setStream({ ...stream, error });
             });
     }
+    let onstop = function () {
+        setClickable(false);
+        let video = document.querySelector("#videopreview");
+        let img = document.querySelector("#imgPre");
+        const canvas = document.querySelector("canvas");
+        canvas.width = 720;
+        canvas.height = 480;
+        canvas.getContext("2d").drawImage(video, 0, 0, canvas.width, canvas.height);
+        var imgURL = canvas.toDataURL("image/png");
+        img.src = imgURL
+        console.log("stopped");
+        setRecording({
+            active: false,
+            available: true,
+            url: imgURL
+        });
+        video.srcObject = null
+        video.src = imgURL;
+        let comp = <img key={'imageRec'} id="mulMedPrev">
+            {/*<source src={img} type="image" />*/}
+        </img>;
+        console.log("recording.url", img)
+        setImgMsg({ msg: comp, content: imgURL, type: "image" })
+        video.srcObject.getTracks().forEach(track => track.stop());
+
+    };
     return (
         <div className="video">
             {(
                 <div className="video-container">
-                    <button
-                        className={recording.active ? "active" : null}
-
-                        onClick={() => {
-                            if (startClickable) {
-                                stream.recorder.start();
-                            }
-                        }}
-                    >
-                        Start Recording
-                    </button>
                     <button onClick={() => {
-                        if (stopClickable) {
-                            stream.recorder.stop();
+                        if (clickable) {
+                            onstop()
+                            stream.recorder.stop()
                         }
-                    }}>Stop Recording</button>
+                    }}>take photo</button>
                     {preview}
                     <img id="imgPre" src=""></img>
-                    <canvas style={{display:"none"}}></canvas>
+                    <canvas style={{ display: "none" }}></canvas>
                 </div>
             )
             }
