@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const Video = ({ setVideoMsg }) => {
     let setMsg = setVideoMsg
@@ -16,14 +16,19 @@ const Video = ({ setVideoMsg }) => {
     });
     let preview = <video id="videopreview" width='480' height='200' autoPlay muted srcObject={''} controls={false}></video>
     const chunks = useRef([]);
-
+    useEffect(() => {
+        getAccess();
+    }, [])
     function getAccess() {
         navigator.mediaDevices
             .getUserMedia({ video: { width: 480, height: 144 }, audio: true })
             .then((mic) => {
                 let mediaRecorder;
-
+                let mediaPreview;
                 try {
+                    mediaPreview = new MediaRecorder(mic, {
+                        mimeType: "video/webm"
+                    })
                     mediaRecorder = new MediaRecorder(mic, {
                         mimeType: "video/webm"
                     });
@@ -54,12 +59,20 @@ const Video = ({ setVideoMsg }) => {
 
 
                 };
-
+                mediaPreview.onstart = function () { 
+                    let video = document.querySelector("#videopreview");
+                    video.srcObject = mic;
+                    video.onloadedmetadata = function (e) {
+                        video.play();
+                    };
+                }
                 mediaRecorder.ondataavailable = function (e) {
+                    //if (!recording.active) { return }
                     console.log("data available");
                     chunks.current.push(e.data);
                 };
-                mediaRecorder.start()
+                mediaPreview.start();
+                //mediaRecorder.start()
                 mediaRecorder.onstop = function () {
                     console.log("stopped");
                     const url = URL.createObjectURL(chunks.current[0]);
@@ -100,8 +113,9 @@ const Video = ({ setVideoMsg }) => {
                 <div className="video-container">
                     <button
                         className={recording.active ? "active" : null}
+
                         onClick={() => {
-                            getAccess()
+                            stream.recorder.start();
                             //!recording.active && stream.recorder.start();
                         }}
                     >
