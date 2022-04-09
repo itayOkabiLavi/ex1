@@ -8,6 +8,8 @@ const Video = ({ setVideoMsg }) => {
         recorder: null,
         error: ""
     });
+    let [startClickable, setstartClickable] = useState(true);
+    let [stopClickable, setstopClickable] = useState(false);
 
     const [recording, setRecording] = useState({
         active: false,
@@ -44,6 +46,8 @@ const Video = ({ setVideoMsg }) => {
                 }
 
                 mediaRecorder.onstart = function () {
+                    setstartClickable(false);
+                    setstopClickable(true);
                     setRecording({
                         active: true,
                         available: false,
@@ -59,7 +63,7 @@ const Video = ({ setVideoMsg }) => {
 
 
                 };
-                mediaPreview.onstart = function () { 
+                mediaPreview.onstart = function () {
                     let video = document.querySelector("#videopreview");
                     video.srcObject = mic;
                     video.onloadedmetadata = function (e) {
@@ -74,6 +78,7 @@ const Video = ({ setVideoMsg }) => {
                 mediaPreview.start();
                 //mediaRecorder.start()
                 mediaRecorder.onstop = function () {
+                    setstopClickable(false);
                     console.log("stopped");
                     const url = URL.createObjectURL(chunks.current[0]);
                     chunks.current = [];
@@ -115,14 +120,18 @@ const Video = ({ setVideoMsg }) => {
                         className={recording.active ? "active" : null}
 
                         onClick={() => {
-                            stream.recorder.start();
+                            if (startClickable) {
+                                stream.recorder.start();
+                            }
                             //!recording.active && stream.recorder.start();
                         }}
                     >
                         Start Recording
                     </button>
                     <button onClick={() => {
-                        stream.recorder.stop();
+                        if (stopClickable) {
+                            stream.recorder.stop();
+                        }
 
                     }}>Stop Recording</button>
                     {preview}
