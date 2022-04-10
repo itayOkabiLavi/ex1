@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-
+import './audio.css'
 const Audio = ({ setAudioMsg }) => {
     let [stream, setStream] = useState({
         access: false,
@@ -45,7 +45,7 @@ const Audio = ({ setAudioMsg }) => {
                         url: ""
                     });
                 };
-                
+
                 mediaRecorder.ondataavailable = function (e) {
                     console.log("data available");
                     chunks.current.push(e.data);
@@ -84,30 +84,25 @@ const Audio = ({ setAudioMsg }) => {
             });
     }
     return (
-        <div className="audio">
-            {(
-                <div className="audio-container">
-                    <button
-                        className={recording.active ? "active" : null}
 
-                        onClick={() => {
-                            if (startClickable) {
-                                stream.recorder.start();
-                            }
-                        }}
-                    >
-                        Start Recording
-                    </button>
-                    <button onClick={() => {
-                        if (stopClickable) {
-                            stream.recorder.stop();
-                        }
-                    }}>Stop Recording</button>
-                    {preview}
+        <div className="audio-container" id="audio-container">
+            <button
+                className={recording.active ? "active" : null}
 
-                </div>
-            )
-            }
+                onClick={() => {
+                    if (startClickable) {
+                        stream.recorder.start();
+                    }
+                }}
+            >
+                Start Recording
+            </button>
+            <button onClick={() => {
+                if (stopClickable) {
+                    stream.recorder.stop();
+                }
+            }}>Stop Recording</button>
+            {preview}
         </div>
 
     );

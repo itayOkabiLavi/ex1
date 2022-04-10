@@ -70,18 +70,18 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
                     {icon}
                 </label>
                 <Modal show={showModal}>
-                    <div>
-                        {type == "audioRec" && <Record setAudioMsg={setAudioMsg}></Record>}
-                        {type == "videoRec" && <Video setVideoMsg={setVideoMsg}></Video>}
-                        {type == "imageRec" && <Photo setImgMsg={setImgMsg}></Photo>}
+                <div id="recContainer">
+                    {type == "audioRec" && <Record setAudioMsg={setAudioMsg}></Record>}
+                    {type == "videoRec" && <Video setVideoMsg={setVideoMsg}></Video>}
+                    {type == "imageRec" && <Photo setImgMsg={setImgMsg}></Photo>}
 
-                        <Button onClick={() => {
-                            let video = document.querySelector("#videopreview");
-                            try {
-                                video.srcObject.getTracks().forEach(track => track.stop());
-                            } catch { }
-                            setShowModal(!showModal);
-                        }}>exit</Button>
+                    <Button onClick={() => {
+                        let video = document.querySelector("#videopreview");
+                        try {
+                            video.srcObject.getTracks().forEach(track => track.stop());
+                        } catch { }
+                        setShowModal(!showModal);
+                    }}>exit</Button>
                     </div>
                 </Modal>
             </div>
