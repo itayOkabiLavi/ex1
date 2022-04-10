@@ -147,12 +147,12 @@ class ChatDisplay extends React.Component {
                     />
                 </Card>
                 <div id='cid_inputs'>
-                    {<Card key="mulMedContainer"
+                    <Card key="mulMedContainer"
                         id="mulMedContainer"
                         hidden={this.state.msgMulMedCont == "" || this.state.msgMulMedCont == undefined ? true : false}>
                         {this.state.msgMulMedPrev}
-                        {<Button onClick={this.clearMulMedContent}><i class="bi bi-x-lg"></i></Button>}
-                    </Card>}
+                        <Button onClick={this.clearMulMedContent}><i class="bi bi-x-lg"></i></Button>
+                    </Card>
                     <input
                         id='cid_text'
                         value={this.state.msgText}
