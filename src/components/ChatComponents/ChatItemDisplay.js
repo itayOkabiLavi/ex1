@@ -145,7 +145,7 @@ class ChatDisplay extends React.Component {
                 <div id='cid_inputs'>
                     <Card   key="mulMedContainer" 
                             id="mulMedContainer" 
-                            hidden={this.state.msgMulMedCont=="" ? true : false}>
+                            hidden={this.state.msgMulMedCont == "" || this.state.msgMulMedCont == undefined ? true : false}>
                         {this.state.msgMulMedPrev}
                         <button onClick={this.clearMulMedContent}><i class="bi bi-x-lg"></i></button>
                     </Card>
