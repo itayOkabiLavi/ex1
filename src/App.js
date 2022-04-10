@@ -7,7 +7,7 @@ import './App.css'
 function App() {
   let [state, setState] = useState(() => {
     const savedAuthed = sessionStorage.getItem('authed');
-    const savedUser = sessionStorage.getItem('user');
+    const savedUser = JSON.parse(sessionStorage.getItem('user'));
     const initialValue = savedAuthed == 'true' ? true : false;
     return {
       authed: initialValue,
@@ -18,7 +18,7 @@ function App() {
 
   useEffect(() => {
     sessionStorage.setItem('authed', state.authed)
-    sessionStorage.setItem('user', state.user)
+    sessionStorage.setItem('user', JSON.stringify(state.user))
   }, [state])
 
   if (state.authed == false) {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { render } from 'react-dom';
 import Message from "./Message";
 import MultiMediaButton from "./MultiMediButton";
@@ -15,6 +15,7 @@ class ChatDisplay extends React.Component {
         this.id = this.props.id
         this.key = this.id
         let t = new Date();
+        this.showRecorder = false
         this.childComponentWillUnmount = props.childComponentWillUnmount
         console.log("constructor updateLastMessage = ", props.updateLastMessage);
         this.state = {
@@ -25,7 +26,7 @@ class ChatDisplay extends React.Component {
             messages: [...props.state.messages],
             now: new Date().toLocaleString(),
         }
-        console.log('props.state', {...props.state})
+        console.log('props.state', { ...props.state })
         this.messages = [...props.state.messages]
         console.log('this.messages', [...this.messages])
     }
@@ -76,6 +77,7 @@ class ChatDisplay extends React.Component {
         multiMediaWindowShow: true
     })}
     changeMulMedContent = (content, type, comp) => { 
+        console.log("changeMulMedContent",content, comp)
         this.setState({ 
             msgMulMedCont: content,
             msgMulMedType: type,
@@ -89,6 +91,7 @@ class ChatDisplay extends React.Component {
         msgMulMedPrev: ""
     })}
     render() {
+
         return (
             <div className='cid_bg' key={this.key}>
                 <div id="cid_chaat_id"><h1>{this.id}</h1></div>
@@ -157,7 +160,7 @@ class ChatDisplay extends React.Component {
                             className="btn btn-circle my_btn" 
                             data-bs-toggle="collapse" 
                             data-bs-target="#uploadOptions"
-                            >
+                        >
                             <i className="bi bi-three-dots-vertical"></i>
                         </button>
                         <button className="btn btn-circle my_btn" onClick={() => this.sendMessage()}><i className="bi bi-send-fill"></i></button>
