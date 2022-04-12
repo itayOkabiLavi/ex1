@@ -1,6 +1,6 @@
 .cid_bg {
     background-color: transparent;
-    height: 90vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     min-width: 700px;

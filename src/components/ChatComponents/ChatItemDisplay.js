@@ -14,7 +14,6 @@ class ChatDisplay extends React.Component {
         this.i = 0
         this.id = this.props.id
         this.key = this.id
-        let t = new Date();
         this.showRecorder = false
         this.childComponentWillUnmount = props.childComponentWillUnmount
         console.log("constructor updateLastMessage = ", props.updateLastMessage);
@@ -24,7 +23,7 @@ class ChatDisplay extends React.Component {
             msgMulMedType: "text",
             msgMulMedPrev: "",
             messages: [...props.state.messages],
-            now: new Date().toLocaleString(),
+            now: {date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString()},
         }
         console.log('props.state', { ...props.state })
         this.messages = [...props.state.messages]
@@ -32,28 +31,29 @@ class ChatDisplay extends React.Component {
     }
     msgTextChanged(event) { this.setState({ msgText: event.target.value }) }
     sendMessage() {
-        let t = new Date()
         console.log(this.props.updateLastMessage);
-        let updatedMessages = this.messages.push(
-            <Message
-                fromMe={true}
-                type={this.state.msgMulMedType}
-                mmContent={this.state.msgMulMedCont}
-                txtContent={this.state.msgText}
-                date={new Date().toLocaleString()}
-            />)
-        this.props.updateLastMessage(
-            {fromMe: true, 
-                type: this.state.msgMulMedType, 
-                contnet:{txt: this.state.msgText, mm: this.state.msgMulMedCont}, 
-                date:new Date().toLocaleString()}
-        )
-        this.setState({
-            ...this.state,
-            messages: updatedMessages,
-            msgText: ""
-        })
-        this.clearMulMedContent()
+        if (this.state.msgText !== "" || this.state.msgMulMedCont !== "") {
+            let updatedMessages = this.messages.push(
+                <Message
+                    fromMe={true}
+                    type={this.state.msgMulMedType}
+                    mmContent={this.state.msgMulMedCont}
+                    txtContent={this.state.msgText}
+                    date={{date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString()}}
+                />)
+            this.props.updateLastMessage(
+                {fromMe: true, 
+                    type: this.state.msgMulMedType, 
+                    contnet:{txt: this.state.msgText, mm: this.state.msgMulMedCont}, 
+                    date:{date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString()}}
+            )
+            this.setState({
+                ...this.state,
+                messages: updatedMessages,
+                msgText: ""
+            })
+            this.clearMulMedContent()
+        }
     }
     componentWillUnmount() {
         console.log('componentWillUnmount', [...this.messages])
