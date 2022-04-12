@@ -14,7 +14,6 @@ class ChatDisplay extends React.Component {
         this.i = 0
         this.id = this.props.id
         this.key = this.id
-        let t = new Date();
         this.showRecorder = false
         this.childComponentWillUnmount = props.childComponentWillUnmount
         console.log("constructor updateLastMessage = ", props.updateLastMessage);
@@ -24,7 +23,7 @@ class ChatDisplay extends React.Component {
             msgMulMedType: "text",
             msgMulMedPrev: "",
             messages: [...props.state.messages],
-            now: new Date().toLocaleString(),
+            now: {date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString()},
         }
         console.log('props.state', { ...props.state })
         this.messages = [...props.state.messages]
@@ -151,9 +150,9 @@ class ChatDisplay extends React.Component {
                     />
                 </Card>
                 <div id='cid_inputs'>
-                    <Card key="mulMedContainer"
-                        id="mulMedContainer"
-                        hidden={this.state.msgMulMedCont == "" || this.state.msgMulMedCont == undefined ? true : false}>
+                    <Card   key="mulMedContainer" 
+                            id="mulMedContainer" 
+                            hidden={this.state.msgMulMedCont == "" || this.state.msgMulMedCont == undefined ? true : false}>
                         {this.state.msgMulMedPrev}
                         <button onClick={this.clearMulMedContent}><i class="bi bi-x-lg"></i></button>
                     </Card>

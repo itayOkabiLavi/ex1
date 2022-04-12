@@ -67,7 +67,11 @@ class ChatItem extends React.Component {
                     </div>
                     <div id='msgsInfo'>
                         <h2>{this.messageSummary()}</h2>
-                        <small>{this.state.lastMessage.date}</small>
+                        <small>
+                            {this.state.lastMessage.date.time} 
+                            <br/> 
+                            {this.state.lastMessage.date.date}
+                        </small>
                     </div>
                 </div>
             </div>

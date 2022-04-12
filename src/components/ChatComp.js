@@ -71,61 +71,56 @@ class ChatComp extends React.Component {
     render() {
         return (
             <div id='chat_bg'>
-                <div id='chatCompMain'>
-                    <div id='chatslist'>
-                        <div id='chatsTools'>
-                            <div id='userInfo'>
-                                <img src={this.user.img} />
-                                <h1>{this.user.userName}</h1>
+                <div id='chatCompMain'>                  
+                    <div id='chatsTools'>
+                        <div id='userInfo'>
+                            <img src={this.user.img} />
+                        </div>
+                        
+                        <Button 
+                            id="addChat" 
+                            onClick={() => { this.openNewChat() }}
+                            title="Add new chat">
+                            <i className="bi bi-person-plus-fill"></i>
+                        </Button>
+                        <Button 
+                            onClick={()=>this.setToken({authed:false})}
+                            title="Logout">
+                            <i class="bi bi-box-arrow-right"></i>
+                        </Button>
+                        <Modal show={this.state.showModal}
+                        >
+                            <div id="addChatModal">
+                            <h1>Add new contact</h1>
+                            <label htmlFor='cName'>Enter new contact name
+                            <input id='cName'
+                                defaultValue={this.state.newContactName}
+                                onChange={(e) => { this.newContactNameChanged(e) }}
+                            /></label>
+                            <label htmlFor='cContactInfo'>Enter new contact's mail
+                            <input id='cContactInfo'
+                                type="email"
+                                defaultValue={this.state.newContactInfo}
+                                onChange={(e) => { this.newContactInfoChanged(e) }}
+                            /></label>
+                            <label htmlFor='cContactImg'>Enter new contact's image url
+                            <input id='cContactImg'
+                                type="text"
+                                defaultValue={this.state.newContactImg}
+                                onChange={(e) => { this.newContactImgChanged(e) }}
+                            /></label>
+                            <Button onClick={() => { this.closeNewChat() }}>
+                                <i class="bi bi-trash3"></i>
+                            </Button>
+                            <Button onClick={() => { this.addNewChat() }}>
+                                <i class="bi bi-plus-lg"></i>
+                            </Button>
+
                             </div>
-                            
-                            <Button 
-                                id="addChat" 
-                                onClick={() => { this.openNewChat() }}
-                                title="Add new chat">
-                                <i className="bi bi-person-plus-fill"></i>
-                            </Button>
-                            <Button 
-                                onClick={()=>this.setToken({authed:false})}
-                                title="Logout">
-                                <i class="bi bi-box-arrow-right"></i>
-                            </Button>
-                            <Modal show={this.state.showModal}
-                            >
-                                <div id="addChatModal">
-
-                                
-                                <h1>Add new contact</h1>
-                                <label htmlFor='cName'>Enter new contact name
-                                <input id='cName'
-                                    defaultValue={this.state.newContactName}
-                                    onChange={(e) => { this.newContactNameChanged(e) }}
-                                /></label>
-                                <label htmlFor='cContactInfo'>Enter new contact's mail
-                                <input id='cContactInfo'
-                                    type="email"
-                                    defaultValue={this.state.newContactInfo}
-                                    onChange={(e) => { this.newContactInfoChanged(e) }}
-                                /></label>
-                                <label htmlFor='cContactImg'>Enter new contact's image url
-                                <input id='cContactImg'
-                                    type="text"
-                                    defaultValue={this.state.newContactImg}
-                                    onChange={(e) => { this.newContactImgChanged(e) }}
-                                /></label>
-                                <Button onClick={() => { this.closeNewChat() }}>
-                                    <i class="bi bi-trash3"></i>
-                                </Button>
-                                <Button onClick={() => { this.addNewChat() }}>
-                                    <i class="bi bi-plus-lg"></i>
-                                </Button>
-
-                                </div>
-                            </Modal>
-                        </div>
-                        <div id='mainlist'>
-                            {this.chats}
-                        </div>
+                        </Modal>
+                    </div>
+                    <div id='mainlist'>
+                        {this.chats}
                     </div>
                     <div id="chatdisplay">
                     {this.state.noChats ? <div id='no_yet'><h1>Start chatting now!</h1></div> : this.state.currentDisplay}
