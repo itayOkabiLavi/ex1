@@ -7,16 +7,17 @@
 }
 
 #profPicLabel h4{
-    position: relative;
+    
     right: 50px;
-    width: 100vw;
+    width: 100vw !important;
     height: fit-content;
+    font-size: 100% !important;
     margin: 0;
 }
 
 #profPic {
     height: 100px;
-    width: 100px;
+    width: 100px;   
     border-radius: 50px;
     margin: 0;
 }
