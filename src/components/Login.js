@@ -61,14 +61,7 @@ class Login extends React.Component {
         })
         console.log(this.state.registerClicked, "login");
     }
-    pushNewUser = (userDetails) => {
-        let newUser = {
-            userName: userDetails.name,
-            password: userDetails.password,
-            isMail: userDetails.isMail,
-            contact: userDetails.contact,
-            img: userDetails.img
-        }
+    pushNewUser = (newUser) => {
         let updatedUsers = this.state.users
         updatedUsers.push(newUser)
         this.setState({

@@ -74,6 +74,7 @@
   background-color: transparent;
   flex-direction: row-reverse;
   padding: 10px;
+  border: 0;
 }
 
 #uploadOptions .icon_circle {
