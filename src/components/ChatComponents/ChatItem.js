@@ -37,7 +37,7 @@ class ChatItem extends React.Component {
         if (message.length <= this.maxSummary) {
             return message;
         }
-        return message.substring(0, this.maxSummary);
+        return new String().concat(message.substring(0, this.maxSummary), " ...") ;
     }
     childComponentWillUnmount = (oldState) => {
         console.log('data', { ...oldState })

@@ -57,7 +57,7 @@
 #mainlist {
     height: 100%;
     background-color: whitesmoke;
-    width: 30%;
+    width: calc(40% - 70px);
     min-width: 300px;
     overflow: auto !important;
 }
@@ -103,6 +103,9 @@
     flex-direction: column;
 }
 
+.modalHeader h1 {
+    font-size: 30px;
+}
 .modalBody {
     display: flex;
     flex-direction: column;
