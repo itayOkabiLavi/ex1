@@ -44,7 +44,7 @@ class RegisterComp extends React.Component {
                 contact:    event.target.contact.value,
                 img:        this.state.profileImageSrc
             }
-            this.addUser({ newUser })
+            this.addUser( newUser )
             this.setState({
                 nameTaken: false
             })
