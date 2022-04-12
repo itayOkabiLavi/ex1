@@ -77,7 +77,10 @@
 }
 
 #no_yet {
-    color: rgb(202, 202, 202);
+    background-image: url('../images/logo\ white\ on\ blue.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    
     text-align: center;
     padding-top: 20%;
     width: 100%;    

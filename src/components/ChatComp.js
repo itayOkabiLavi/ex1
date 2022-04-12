@@ -125,7 +125,7 @@ class ChatComp extends React.Component {
                         {this.chats}
                     </div>
                     <div id="chatdisplay">
-                    {this.state.noChats ? <div id='no_yet'><h1>Start chatting now!</h1></div> : this.state.currentDisplay}
+                    {this.state.noChats ? <div id='no_yet'></div> : this.state.currentDisplay}
                     </div>
                 </div>
             </div>
