@@ -155,7 +155,6 @@ class ChatDisplay extends React.Component {
                         onChange={(e) => { this.msgTextChanged(e) }}
                     />
                     <div id='cid_buttons'>
-                    
                         <button 
                             className="btn btn-circle my_btn" 
                             data-bs-toggle="collapse" 
@@ -164,7 +163,6 @@ class ChatDisplay extends React.Component {
                             <i className="bi bi-three-dots-vertical"></i>
                         </button>
                         <button className="btn btn-circle my_btn" onClick={() => this.sendMessage()}><i className="bi bi-send-fill"></i></button>
-                        
                     </div>
                 </div>
             </div>

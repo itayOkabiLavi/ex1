@@ -3,7 +3,7 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    min-width: 700px;
+    min-width: 400px;
 }
 
 #cid_chaat_id {
@@ -23,7 +23,7 @@
     flex-direction: column;
 }
 
-.cid_bg ::-webkit-scrollbar {
+.cid_bg > ::-webkit-scrollbar {
     width: 30px;
   }
   
@@ -50,27 +50,23 @@
     background-color: rgba(200, 200, 200, 0);
     display: flex;
     flex-direction: row;
-    height: 100px;
+    height: 80px;
+    max-height: 80px;
     justify-content: space-between;
     align-items: center;
-    border-radius: 50px;
+    border-radius: 40px;
     padding: 10px;
-}
-
-#cid_inputs input {
-  background-color: rgb(202, 202, 202);
 }
 
 #cid_inputs .btn-circle{
   /*background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.1) 49%, rgba(255, 255, 255, 0.5) 49%);*/
-  background-color: rgba(255, 255, 255, 0.406);
+  background-color: rgba(255, 255, 255, 0.0);
   color: black;
-  margin: 5px;
-  font-size: 30px !important;
-  height: 60px;
-  width: 60px;
-  flex: 0 1 60px;
-  border-radius: 30px !important;
+  font-size: 20px !important;
+  height: 50px;
+  width: 50px;
+  flex: 0 1 50px;
+  border-radius: 25px !important;
   border: 0px;
 }
 
@@ -79,6 +75,7 @@
   border: 0;
   flex-direction: row-reverse;
   padding: 10px;
+  position: relative;
 }
 
 #uploadOptions .icon_circle {
@@ -86,28 +83,31 @@
     background-color: rgba(187, 200, 255, 0.372);
     color: black;
     margin: 5px;
-    font-size: 30px !important;
+    font-size: 20px !important;
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
-    height: 60px;
-    width: 60px;
-    flex: 0 1 60px;
+    height: 50px;
+    width: 50px;
+    flex: 0;
     border-radius: 30px !important;
     border: 0px;
+}
+
+#cid_buttons {
+  min-width: fit-content;
 }
 
 #cid_text {
     background-color: rgba(255, 255, 255, 0.24) !important;
     box-shadow: inset 5px 5px 10px -5px black;
     border-color: transparent;
-    height: 60px;
+    height: 50px;
     overflow: scroll;
     padding: 15px;
     font-size: 20px;
-    font-weight: 700;
-    min-width: 500px;
+    font-weight: 600;
     margin-left: 10px;
     margin-right: 20px;
     flex: 1 1 auto;
@@ -115,8 +115,8 @@
 }
 
 #mulMedPrev {
-  max-width: 200px;
-  max-height: 200px;
+  max-width: 100px;
+  max-height: 100px;
 }
 
 #mulMedContainer {
