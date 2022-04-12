@@ -29,8 +29,8 @@ const Audio = ({ setAudioMsg }) => {
             ++toatlSec
             let min = document.getElementById("min")
             let sec = document.getElementById("sec")
-            sec.innerText = String(toatlSec % 60).padStart(2,'0')
-            min.innerText = String(parseInt(toatlSec / 60)).padStart(2,'0')
+            sec.innerText = String(toatlSec % 60).padStart(2, '0')
+            min.innerText = String(parseInt(toatlSec / 60)).padStart(2, '0')
         }, 1000)
     }
     useEffect(() => {
@@ -110,14 +110,18 @@ const Audio = ({ setAudioMsg }) => {
     return (
 
         <div className="audio-container" id="audio-container">
-            <Button class="btn btn-primary" id="stopStartButton" onClick={() => {
+            {recording.url == "" && <Button id="stopStartButton" onClick={() => {
                 if (!clickable) return;
                 if (recording.active) {
                     stream.recorder.stop();
                 } else {
                     stream.recorder.start();
                 }
-            }}><i class="bi-skip-start-circle"></i></Button>
+            }}>
+                <label id="">
+                    {<i class="bi-skip-start-circle"></i>}
+                </label>
+            </Button>}
             {recording.available ? preview : clock}
         </div>
 
