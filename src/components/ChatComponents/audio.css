@@ -1,0 +1,7 @@
+#audio-container {
+    display: flex;
+    flex-direction: row;
+}
+#clock{
+    display: flex;
+}

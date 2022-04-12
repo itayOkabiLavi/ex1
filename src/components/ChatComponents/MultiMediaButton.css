@@ -5,3 +5,14 @@
     background-color: transparent;
     border-color: transparent;
 }
+#recContainer {
+    align-self: center;
+    background-color: aliceblue;
+    width: fit-content;
+    position: relative;
+    padding: 3vmin;
+    border-radius: 8vmin;
+    display: flex !important; 
+    flex-direction: row;
+    align-items: center;
+}

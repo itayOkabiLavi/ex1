@@ -1,30 +1,50 @@
 import React, { useState, useRef, useEffect } from "react";
 
 const Video = ({ setVideoMsg }) => {
+    const chunks = useRef([]);
+    let [startClickable, setstartClickable] = useState(true);
+    let [stopClickable, setstopClickable] = useState(false);
+    let preview = <video id="videopreview" muted srcObject={''} controls={false}></video>
+    let toatlSec = 0
+    let mediaRecorder;
+    let mediaPreview;
+    let clock = <div id="clock"><span id="min"></span><span id="sec"></span></div>
+    let setI;
     let [stream, setStream] = useState({
         access: false,
         recorder: null,
         error: ""
     });
-    let [startClickable, setstartClickable] = useState(true);
-    let [stopClickable, setstopClickable] = useState(false);
+
 
     let [recording, setRecording] = useState({
         active: false,
         available: false,
         url: ""
     });
-    let preview = <video id="videopreview" muted srcObject={''} controls={false}></video>
-    const chunks = useRef([]);
+    let setTimer = () => {
+        return setInterval(() => {
+            ++toatlSec
+            let min = document.getElementById("min")
+            let sec = document.getElementById("sec")
+            sec.innerText = toatlSec % 60
+            min.innerText = parseInt(toatlSec / 60) + ':'
+        }, 1000)
+    }
     useEffect(() => {
         getAccess();
+        return () => {
+            clearInterval(setI)
+            console.log('willUnmount')
+            try {
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+            } catch { }
+        }
     }, [])
     function getAccess() {
         navigator.mediaDevices
             .getUserMedia({ video: true, audio: true })
             .then((mic) => {
-                let mediaRecorder;
-                let mediaPreview;
                 try {
                     mediaPreview = new MediaRecorder(mic, {
                         mimeType: "video/webm"
@@ -43,6 +63,7 @@ const Video = ({ setVideoMsg }) => {
                 }
 
                 mediaRecorder.onstart = function () {
+                    setI = setTimer()
                     setstartClickable(false);
                     setstopClickable(true);
                     setRecording({
@@ -64,6 +85,7 @@ const Video = ({ setVideoMsg }) => {
                 };
                 mediaPreview.start();
                 mediaRecorder.onstop = function () {
+                    clearInterval(setI)
                     setstopClickable(false);
                     console.log("stopped");
                     const url = URL.createObjectURL(chunks.current[0]);
@@ -102,7 +124,7 @@ const Video = ({ setVideoMsg }) => {
             {(
                 <div className="video-container">
                     <button
-                        className={recording.active ? "active" : null}
+                        className={"active"}
 
                         onClick={() => {
                             if (startClickable) {
@@ -117,6 +139,7 @@ const Video = ({ setVideoMsg }) => {
                             stream.recorder.stop();
                         }
                     }}>Stop Recording</button>
+                    {clock}
                     {preview}
                   
                 </div>
