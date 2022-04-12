@@ -45,7 +45,6 @@ const Audio = ({ setAudioMsg }) => {
         navigator.mediaDevices
             .getUserMedia({ audio: true })
             .then((mic) => {
-                //let mediaRecorder;
                 try {
                     mediaRecorder = new MediaRecorder(mic, {
                         mimeType: "audio/webm"
