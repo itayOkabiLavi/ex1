@@ -1,13 +1,15 @@
 import React, { useState, useRef, useEffect } from "react";
+import { Button } from "react-bootstrap";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import './audio.css'
 const Audio = ({ setAudioMsg }) => {
     let toatlSec = 0
     let mediaRecorder;
     let preview = <audio id="audiopreview" controls={false}></audio>
-    let clock = <div id="clock"><span id="min"></span><span id="sec"></span></div>
+    let clock = <div id="clock"><span id="min">00</span>:<span id="sec">00</span></div>
     let setI;
-    let [startClickable, setstartClickable] = useState(true);
-    let [stopClickable, setstopClickable] = useState(false);
+    let [clickable, setClickable] = useState(true);
     const chunks = useRef([]);
 
     let [stream, setStream] = useState({
@@ -15,7 +17,7 @@ const Audio = ({ setAudioMsg }) => {
         recorder: null,
         error: ""
     });
-    
+
 
     let [recording, setRecording] = useState({
         active: false,
@@ -27,8 +29,8 @@ const Audio = ({ setAudioMsg }) => {
             ++toatlSec
             let min = document.getElementById("min")
             let sec = document.getElementById("sec")
-            sec.innerText = toatlSec % 60
-            min.innerText = parseInt(toatlSec / 60) + ':'
+            sec.innerText = String(toatlSec % 60).padStart(2,'0')
+            min.innerText = String(parseInt(toatlSec / 60)).padStart(2,'0')
         }, 1000)
     }
     useEffect(() => {
@@ -58,8 +60,6 @@ const Audio = ({ setAudioMsg }) => {
                 }
                 mediaRecorder.onstart = function () {
                     setI = setTimer()
-                    setstartClickable(false);
-                    setstopClickable(true);
                     setRecording({
                         active: true,
                         available: false,
@@ -74,7 +74,7 @@ const Audio = ({ setAudioMsg }) => {
                 mediaRecorder.onstop = function () {
                     clearInterval(setI)
                     console.log(toatlSec)
-                    setstopClickable(false);
+                    setClickable(false);
                     console.log("stopped");
                     const url = URL.createObjectURL(chunks.current[0]);
                     chunks.current = [];
@@ -110,21 +110,14 @@ const Audio = ({ setAudioMsg }) => {
     return (
 
         <div className="audio-container" id="audio-container">
-            <button
-                className={"active"}
-                onClick={() => {
-                    if (startClickable) {
-                        stream.recorder.start();
-                    }
-                }}
-            >
-                Start Recording
-            </button>
-            <button onClick={() => {
-                if (stopClickable) {
+            <Button class="btn btn-primary" id="stopStartButton" onClick={() => {
+                if (!clickable) return;
+                if (recording.active) {
                     stream.recorder.stop();
+                } else {
+                    stream.recorder.start();
                 }
-            }}>Stop Recording</button>
+            }}><i class="bi-skip-start-circle"></i></Button>
             {recording.available ? preview : clock}
         </div>
 

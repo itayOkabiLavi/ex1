@@ -1,7 +1,20 @@
 #audio-container {
+    align-self: center;
+    background-color: aliceblue;
+    width: fit-content;
+    position: relative;
+    padding: 3vmin;
+    border-radius: 8vmin;
     display: flex;
     flex-direction: row;
+    align-items: center;
 }
 #clock{
     display: flex;
+    font: 4em sans-serif;
+}
+#stopStartButton{
+    float: left;
+    border:1px solid gray;
+
 }
