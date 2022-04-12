@@ -6,6 +6,8 @@ class Login extends React.Component {
     constructor(props) {
         super(props)
         this.defaultLoginNote = "Start chatting with your imaginary friends now!"
+        this.original = <span>And yes, the design and logo are all original.. So give us a some credit
+        <i class="bi bi-hand-thumbs-up"></i></span>
         this.state = {
             // users: [...users],
             registerClicked: false,
@@ -54,6 +56,7 @@ class Login extends React.Component {
     render() {
         return (
             <div id="login_bg">
+                <img src='./logo white on blue.png'/>
                 <div id="login_register_wrapper">
                      <div id='login_window'>
                             <div id="side_window">
@@ -61,7 +64,10 @@ class Login extends React.Component {
                                 <br/>
                                 {this.state.registerClicked 
                                 ? <p>{this.state.sideNote}</p>
-                                :<h2>{this.defaultLoginNote}</h2>
+                                :<div>
+                                    <h2>{this.defaultLoginNote}</h2>
+                                    {this.original}
+                                </div>
                                 }
                             </div>
                         

@@ -5,7 +5,7 @@ import './RegisterComp.css'
 class RegisterComp extends React.Component {
     constructor(props) {
         super(props)
-        this.defaultRegisterNote = "Enter your details. Error notes will appear here. Deffault password is Aa1!a "
+        this.defaultRegisterNote = "Enter your details. Error notes will appear here. Default password is Aa1!a "
         this.state = {
             regErrors: "",
             pwdType: 'password',
