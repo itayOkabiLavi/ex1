@@ -15,6 +15,7 @@ class RegisterComp extends React.Component {
         }
         this.currentUsers= props.importedUsers
         this.cancel = props.showLogin
+        this.setToken = props.setToken
         this.addUser = props.addUser
         this.setNotes = props.setNotes
         this.setNotes(this.defaultRegisterNote)
@@ -36,17 +37,18 @@ class RegisterComp extends React.Component {
     verifyReg(event) {
         event.preventDefault();
         if (this.fieldsOk(event.target)) {
-            this.addUser({
-                name:  event.target.name.value,
+            let newUser = {
+                userName:  event.target.name.value,
                 password:   event.target.password.value,
                 isMail:     true,
                 contact:    event.target.contact.value,
                 img:        this.state.profileImageSrc
-            })
+            }
+            this.addUser({ newUser })
             this.setState({
                 nameTaken: false
             })
-            this.cancel()
+            this.setToken({ authed: true, user: newUser});
         }
         
     }

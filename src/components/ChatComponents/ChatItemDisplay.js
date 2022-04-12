@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { render } from 'react-dom';
 import Message from "./Message";
 import MultiMediaButton from "./MultiMediButton";
-import "bootstrap-icons/font/bootstrap-icons.css";
 import './ChatItemDisplay.css'
+import "bootstrap-icons/font/bootstrap-icons.css";
 
-import { Form, FormGroup, Card, Modal } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 
 class ChatDisplay extends React.Component {
     constructor(props) {
@@ -103,7 +103,7 @@ class ChatDisplay extends React.Component {
                 <div id='cid_chat'>
                     {this.messages}
                 </div>
-                <Card className="collapse" id="uploadOptions">
+                <Card show="true" className="collapse" id="uploadOptions">
                     <MultiMediaButton
                         key="image"
                         type="image"
@@ -161,9 +161,12 @@ class ChatDisplay extends React.Component {
                     />
                     <div id='cid_buttons'>
                         <button
+                            type="button"
                             className="btn btn-circle my_btn"
                             data-bs-toggle="collapse"
                             data-bs-target="#uploadOptions"
+                            aria-expanded="false"
+                            onClick={()=>{console.log("show mulmed options2!")}}
                         >
                             <i className="bi bi-three-dots-vertical"></i>
                         </button>

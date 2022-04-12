@@ -95,6 +95,7 @@ class Login extends React.Component {
                             importedUsers={this.state.users}
                             addUser={this.pushNewUser}
                             showLogin={this.switchToLogin}
+                            setToken={this.setToken}
                             setNotes={this.registerNotes}
                         />
                         :
