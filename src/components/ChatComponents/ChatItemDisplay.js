@@ -4,7 +4,8 @@ import Message from "./Message";
 import MultiMediaButton from "./MultiMediButton";
 import './ChatItemDisplay.css'
 import { Button } from "bootstrap";
-import { Card } from "react-bootstrap";
+
+import { Form, FormGroup, Card, Modal } from "react-bootstrap";
 
 class ChatDisplay extends React.Component {
     constructor(props) {
