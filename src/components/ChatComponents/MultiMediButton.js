@@ -76,9 +76,12 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
                     {type == "imageRec" && <Photo setImgMsg={setImgMsg}></Photo>}
 
                     <Button onClick={() => {
+                        
                         let video = document.querySelector("#videopreview");
+                        let audio = document.querySelector("#audiopreview");
                         try {
                             video.srcObject.getTracks().forEach(track => track.stop());
+                            audio.srcObject.getTracks().forEach(track => track.stop());
                         } catch { }
                         setShowModal(!showModal);
                     }}>exit</Button>

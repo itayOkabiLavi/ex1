@@ -1,29 +1,51 @@
 import React, { useState, useRef, useEffect } from "react";
 import './audio.css'
 const Audio = ({ setAudioMsg }) => {
+    let toatlSec = 0
+    let mediaRecorder;
+    let preview = <audio id="audiopreview" controls={false}></audio>
+    let clock = <div id="clock"><span id="min"></span><span id="sec"></span></div>
+    let setI;
+    let [startClickable, setstartClickable] = useState(true);
+    let [stopClickable, setstopClickable] = useState(false);
+    const chunks = useRef([]);
+
     let [stream, setStream] = useState({
         access: false,
         recorder: null,
         error: ""
     });
-    let [startClickable, setstartClickable] = useState(true);
-    let [stopClickable, setstopClickable] = useState(false);
+    
 
     let [recording, setRecording] = useState({
         active: false,
         available: false,
         url: ""
     });
-    let preview = <audio id="audiopreview" controls={false}></audio>
-    const chunks = useRef([]);
+    let setTimer = () => {
+        return setInterval(() => {
+            ++toatlSec
+            let min = document.getElementById("min")
+            let sec = document.getElementById("sec")
+            sec.innerText = toatlSec % 60
+            min.innerText = parseInt(toatlSec / 60) + ':'
+        }, 1000)
+    }
     useEffect(() => {
         getAccess();
+        return () => {
+            clearInterval(setI)
+            console.log('willUnmount')
+            try {
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+            } catch { }
+        }
     }, [])
     function getAccess() {
         navigator.mediaDevices
             .getUserMedia({ audio: true })
             .then((mic) => {
-                let mediaRecorder;
+                //let mediaRecorder;
                 try {
                     mediaRecorder = new MediaRecorder(mic, {
                         mimeType: "audio/webm"
@@ -35,8 +57,8 @@ const Audio = ({ setAudioMsg }) => {
                 track.onended = () => {
                     console.log("ended");
                 }
-
                 mediaRecorder.onstart = function () {
+                    setI = setTimer()
                     setstartClickable(false);
                     setstopClickable(true);
                     setRecording({
@@ -51,6 +73,8 @@ const Audio = ({ setAudioMsg }) => {
                     chunks.current.push(e.data);
                 };
                 mediaRecorder.onstop = function () {
+                    clearInterval(setI)
+                    console.log(toatlSec)
                     setstopClickable(false);
                     console.log("stopped");
                     const url = URL.createObjectURL(chunks.current[0]);
@@ -77,6 +101,7 @@ const Audio = ({ setAudioMsg }) => {
                     access: true,
                     recorder: mediaRecorder
                 });
+                console.log(stream.recorder)
             })
             .catch((error) => {
                 console.log(error);
@@ -87,8 +112,7 @@ const Audio = ({ setAudioMsg }) => {
 
         <div className="audio-container" id="audio-container">
             <button
-                className={recording.active ? "active" : null}
-
+                className={"active"}
                 onClick={() => {
                     if (startClickable) {
                         stream.recorder.start();
@@ -102,7 +126,7 @@ const Audio = ({ setAudioMsg }) => {
                     stream.recorder.stop();
                 }
             }}>Stop Recording</button>
-            {preview}
+            {recording.available ? preview : clock}
         </div>
 
     );
