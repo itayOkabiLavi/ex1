@@ -43,6 +43,17 @@
     margin-bottom: 20px;
 }
 
+#chatsTools button {
+    color: white;
+    background-color: transparent;
+    border: 0;
+    margin: 5px;
+    font-size: 20px;
+    height: 40px;
+    width: 40px;
+    border-radius: 20px !important;
+}
+
 #mainlist {
     height: 100%;
     background-color: whitesmoke;
@@ -57,26 +68,11 @@
     background-color: rgba(255, 255, 255, 0.5)
 }
 
-#userinfo {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
 #userinfo img {
     background-color: transparent;
     height: 60px;   
     width: 60px;
     border-radius: 30px; 
-}
-
-#userinfo h1 {
-    background-color: transparent;
-    margin-left: 20px;
-    color: white;
-    text-shadow: 5px 5px 10px rgba(0, 0, 0, 0.8);
-    font-size: 35px;
 }
 
 #no_yet {
@@ -90,7 +86,7 @@
 #addChatModal {
     align-self: center;
     background-color: aliceblue;
-    width: fit-content;
+    width: 110%;
     position: relative;
     padding: 10px;
     display: flex;
@@ -99,7 +95,6 @@
 }
 
 #addChatModal h1 {
-    width: 20vw;
     font-size: 30px;
     margin-right: 5vmin;
 }
@@ -115,12 +110,14 @@
     font-size: 2vmin;
     border-radius: 3vmin;
     padding-left: 1vmin;
+    border-color: transparent;
+    background-color: transparent;
+    box-shadow: inset 2px 2px 5px 0 rgba(0, 0, 0, 0.8);
 }
-#addChatModal button, #chatsTools button {
+#addChatModal button{
     color: black;
     flex: 0 1 auto;
     float: right;
-    background-color: rgba(255, 255, 255, 0.502);
     border: 0;
     margin: 5px;
     font-size: 30px !important;
