@@ -3,7 +3,7 @@ import { render } from 'react-dom';
 import Message from "./Message";
 import MultiMediaButton from "./MultiMediButton";
 import './ChatItemDisplay.css'
-import "bootstrap-icons/font/bootstrap-icons.css";
+import { Button } from "bootstrap";
 
 import { Card } from "react-bootstrap";
 
