@@ -64,29 +64,24 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
     }
     if (isRec) {
         console.log("type", type)
+        let myComp = ""
+        switch (type) {
+            case "audioRec":
+                myComp = <Record setAudioMsg={setAudioMsg}/>
+                break
+            case "videoRec":
+                myComp = <Video setVideoMsg={setVideoMsg}/>
+                break
+            case "imageRec":
+                myComp = <Photo setImgMsg={setImgMsg}/>
+                break
+        }
         return (
             <div id={type}>
                 <label key={type} id="mulMedInput" title={title} onClick={() => setShowModal(!showModal)}>
                     {icon}
                 </label>
-                <Modal show={showModal}>
-                <div id="recContainer">
-                    {type == "audioRec" && <Record setAudioMsg={setAudioMsg}></Record>}
-                    {type == "videoRec" && <Video setVideoMsg={setVideoMsg}></Video>}
-                    {type == "imageRec" && <Photo setImgMsg={setImgMsg}></Photo>}
-
-                    <Button onClick={() => {
-                        
-                        let video = document.querySelector("#videopreview");
-                        let audio = document.querySelector("#audiopreview");
-                        try {
-                            video.srcObject.getTracks().forEach(track => track.stop());
-                            audio.srcObject.getTracks().forEach(track => track.stop());
-                        } catch { }
-                        setShowModal(!showModal);
-                    }}>exit</Button>
-                    </div>
-                </Modal>
+                {showModal ? myComp : ""}
             </div>
         )
     }

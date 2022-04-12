@@ -3,13 +3,19 @@ import { Button } from "react-bootstrap";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import './audio.css'
+import { Modal } from "react-bootstrap";
 const Audio = ({ setAudioMsg }) => {
     let toatlSec = 0
     let mediaRecorder;
     let preview = <audio id="audiopreview" controls={false}></audio>
-    let clock = <div id="clock"><span id="min">00</span>:<span id="sec">00</span></div>
+    let clock = <div id="clock"><span id="min">00</span><span> : </span><span id="sec">00</span></div>
     let setI;
     let [clickable, setClickable] = useState(true);
+    let [showMe, setShowMe] = useState(true);
+
+    const startButton = <label id="" style={{color: "red"}}><i class="bi bi-record-circle"></i></label>
+    const stopButton = <label id=""><i class="bi bi-stop-fill"></i></label>
+    let [startStopLabel, setStartStopLabel] = useState(startButton)
     const chunks = useRef([]);
 
     let [stream, setStream] = useState({
@@ -108,22 +114,28 @@ const Audio = ({ setAudioMsg }) => {
             });
     }
     return (
-
-        <div className="audio-container" id="audio-container">
-            {recording.url == "" && <Button id="stopStartButton" onClick={() => {
+        <Modal className="myModal" show={showMe}>
+            <Modal.Header className="modalHeader"><h1>Record</h1></Modal.Header>
+            <Modal.Body className="modalBody">
+                {recording.available ? preview : clock}
+            </Modal.Body>
+            <Modal.Footer className="modalFooter">
+            {recording.url == "" && <Button className="btn" onClick={() => {
                 if (!clickable) return;
                 if (recording.active) {
                     stream.recorder.stop();
+                    setStartStopLabel("")
                 } else {
                     stream.recorder.start();
+                    setStartStopLabel(stopButton)
                 }
-            }}>
-                <label id="">
-                    {<i class="bi-skip-start-circle"></i>}
-                </label>
+                }}>
+                {startStopLabel}
             </Button>}
-            {recording.available ? preview : clock}
-        </div>
+            <Button onClick={(e)=> setShowMe(false)}><i class="bi bi-trash3"></i></Button>
+            </Modal.Footer>
+            
+        </Modal>
 
     );
 }

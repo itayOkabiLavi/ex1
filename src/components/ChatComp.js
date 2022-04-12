@@ -88,36 +88,35 @@ class ChatComp extends React.Component {
                             title="Logout">
                             <i class="bi bi-box-arrow-right"></i>
                         </Button>
-                        <Modal show={this.state.showModal}
-                        >
+                        <Modal className='myModal' show={this.state.showModal}>
                             <div id="addChatModal">
-                            <Modal.Header><h1>Add new contact</h1></Modal.Header>
-                            <Modal.Body>
-                            <label htmlFor='cName'>Enter new contact name
-                            <input id='cName'
-                                defaultValue={this.state.newContactName}
-                                onChange={(e) => { this.newContactNameChanged(e) }}
-                            /></label>
-                            <label htmlFor='cContactInfo'>Enter new contact's mail
-                            <input id='cContactInfo'
-                                type="email"
-                                defaultValue={this.state.newContactInfo}
-                                onChange={(e) => { this.newContactInfoChanged(e) }}
-                            /></label>
-                            <label htmlFor='cContactImg'>Enter new contact's image url
-                            <input id='cContactImg'
-                                type="text"
-                                defaultValue={this.state.newContactImg}
-                                onChange={(e) => { this.newContactImgChanged(e) }}
-                            /></label>
+                            <Modal.Header className='modalHeader'><h1>Add new contact</h1></Modal.Header>
+                            <Modal.Body className='modalBody'>
+                                <label htmlFor='cName'>Enter new contact name
+                                <input id='cName'
+                                    defaultValue={this.state.newContactName}
+                                    onChange={(e) => { this.newContactNameChanged(e) }}
+                                /></label>
+                                <label htmlFor='cContactInfo'>Enter new contact's mail
+                                <input id='cContactInfo'
+                                    type="email"
+                                    defaultValue={this.state.newContactInfo}
+                                    onChange={(e) => { this.newContactInfoChanged(e) }}
+                                /></label>
+                                <label htmlFor='cContactImg'>Enter new contact's image url
+                                <input id='cContactImg'
+                                    type="text"
+                                    defaultValue={this.state.newContactImg}
+                                    onChange={(e) => { this.newContactImgChanged(e) }}
+                                /></label>
                             </Modal.Body>
-                            <Modal.Footer>
-                            <Button onClick={() => { this.closeNewChat() }}>
-                                <i class="bi bi-trash3"></i>
-                            </Button>
-                            <Button onClick={() => { this.addNewChat() }}>
-                                <i class="bi bi-plus-lg"></i>
-                            </Button>
+                            <Modal.Footer className='modalFooter'>
+                                <Button className='modalFooterButton' onClick={() => { this.closeNewChat() }}>
+                                    <i class="bi bi-trash3"></i>
+                                </Button>
+                                <Button className='modalFooterButton' onClick={() => { this.addNewChat() }}>
+                                    <i class="bi bi-plus-lg"></i>
+                                </Button>
                             </Modal.Footer>
                             </div>
                         </Modal>

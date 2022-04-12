@@ -1,3 +1,4 @@
+import { Modal } from "bootstrap";
 import React, { useState, useRef, useEffect } from "react";
 
 const Video = ({ setVideoMsg }) => {
@@ -129,7 +130,7 @@ const Video = ({ setVideoMsg }) => {
             });
     }
     return (
-        <div className="video">
+        <Modal className="myModal">
             {(
                 <div className="video-container">
                     <button
@@ -154,7 +155,7 @@ const Video = ({ setVideoMsg }) => {
                 </div>
             )
             }
-        </div>
+        </Modal>
     );
 }
 export default Video;

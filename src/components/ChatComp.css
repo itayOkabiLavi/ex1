@@ -84,29 +84,21 @@
     height: 100%;
 }
 
-#addChatModal {
-    align-self: center;
-    background-color: aliceblue;
-    width: 110%;
+.myModal {
+    align-self: center;    
     position: relative;
-    padding: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-#addChatModal h1 {
-    font-size: 30px;
-    margin-right: 5vmin;
-}
-
-#addChatModal label {
+.myModal label {
     display: flex;
     flex-direction: column;
-    width: 100%;
+    width: 50%;
 }
 
-#addChatModal input{
+.myModal input{
     height: 6vmin;
     font-size: 2vmin;
     border-radius: 3vmin;
@@ -115,16 +107,54 @@
     background-color: transparent;
     box-shadow: inset 2px 2px 5px 0 rgba(0, 0, 0, 0.8);
 }
-#addChatModal button{
-    color: black;
-    flex: 0 1 auto;
-    float: right;
+
+.myModal {
+    padding: 0;
+    border: 0px;
+}
+
+.modalHeader {
+    background-color: rgba(204, 0, 104, 1);
+    color: white;
+    margin: 5px 5px 15px 5px;
+}
+
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center !important;
+    align-items: center;
+}
+
+.modalBody span{
+    font-size: 30px;
+}
+
+.modalFooter{
+    display: flex;
+    flex-direction: row;
+    justify-content: center !important;
+}
+
+.modalFooter button{
+    color: rgba(204, 0, 104, 1) !important;
+    background-color: transparent !important;
+    border-color: transparent !important;
     border: 0;
     margin: 5px;
-    font-size: 30px !important;
+    font-size: 25px !important;
     height: 60px;
     width: 60px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: fit-content;
     border-radius: 30px !important;
+}
+
+.modalFooter button:hover {
+    background-color: rgba(186, 186, 186, 0.4) !important;
 }
 
 /* width */
