@@ -92,16 +92,22 @@
     background-color: aliceblue;
     width: fit-content;
     position: relative;
-    padding: 3vmin;
-    border-radius: 8vmin;
+    padding: 10px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
 }
 
 #addChatModal h1 {
     width: 20vw;
+    font-size: 30px;
     margin-right: 5vmin;
+}
+
+#addChatModal label {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
 #addChatModal input{

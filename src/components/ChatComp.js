@@ -91,7 +91,8 @@ class ChatComp extends React.Component {
                         <Modal show={this.state.showModal}
                         >
                             <div id="addChatModal">
-                            <h1>Add new contact</h1>
+                            <Modal.Header><h1>Add new contact</h1></Modal.Header>
+                            <Modal.Body>
                             <label htmlFor='cName'>Enter new contact name
                             <input id='cName'
                                 defaultValue={this.state.newContactName}
@@ -109,13 +110,15 @@ class ChatComp extends React.Component {
                                 defaultValue={this.state.newContactImg}
                                 onChange={(e) => { this.newContactImgChanged(e) }}
                             /></label>
+                            </Modal.Body>
+                            <Modal.Footer>
                             <Button onClick={() => { this.closeNewChat() }}>
                                 <i class="bi bi-trash3"></i>
                             </Button>
                             <Button onClick={() => { this.addNewChat() }}>
                                 <i class="bi bi-plus-lg"></i>
                             </Button>
-
+                            </Modal.Footer>
                             </div>
                         </Modal>
                     </div>
