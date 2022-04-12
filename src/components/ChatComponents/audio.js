@@ -113,13 +113,20 @@ const Audio = ({ setAudioMsg }) => {
                 setStream({ ...stream, error });
             });
     }
+    const close = () => {
+        setShowMe(false)
+    }
+    const ok = () => {
+        setShowMe(false)
+    }
     return (
         <Modal className="myModal" show={showMe}>
-            <Modal.Header className="modalHeader"><h1>Record</h1></Modal.Header>
+            <Modal.Header className="modalHeader"><h1>Record an audio message</h1></Modal.Header>
             <Modal.Body className="modalBody">
                 {recording.available ? preview : clock}
             </Modal.Body>
             <Modal.Footer className="modalFooter">
+            <button onClick={(e)=> close()}><i class="bi bi-x-circle"></i></button>
             {recording.url == "" && <Button className="btn" onClick={() => {
                 if (!clickable) return;
                 if (recording.active) {
@@ -132,7 +139,11 @@ const Audio = ({ setAudioMsg }) => {
                 }}>
                 {startStopLabel}
             </Button>}
-            <Button onClick={(e)=> setShowMe(false)}><i class="bi bi-trash3"></i></Button>
+            <button 
+                id="okRecBtn"
+                onClick={(e)=>{ok()}}>
+                <i class="bi bi-check2-circle"></i>
+            </button>
             </Modal.Footer>
             
         </Modal>

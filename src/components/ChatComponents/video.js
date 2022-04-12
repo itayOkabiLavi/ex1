@@ -1,8 +1,10 @@
-import { Modal } from "bootstrap";
+import { Modal } from "react-bootstrap";
 import React, { useState, useRef, useEffect } from "react";
 
 const Video = ({ setVideoMsg }) => {
     const chunks = useRef([]);
+    let [showMe, setShowMe] = useState(true);   
+
     let [startClickable, setstartClickable] = useState(true);
     let [stopClickable, setstopClickable] = useState(false);
     let preview = <video id="videopreview" muted srcObject={''} controls={false}></video>
@@ -129,32 +131,36 @@ const Video = ({ setVideoMsg }) => {
                 setStream({ ...stream, error });
             });
     }
+    const close = () => {
+        setShowMe(false)
+    }
+    const ok = () => {
+        setShowMe(false)
+    }
     return (
-        <Modal className="myModal">
-            {(
-                <div className="video-container">
-                    <button
-                        className={"active"}
-
-                        onClick={() => {
-                            if (startClickable) {
-                                stream.recorder.start();
-                            }
-                        }}
-                    >
-                        Start Recording
-                    </button>
-                    <button onClick={() => {
-                        if (stopClickable) {
-                            stream.recorder.stop();
-                        }
-                    }}>Stop Recording</button>
-                    {clock}
-                    {preview}
-                  
-                </div>
-            )
-            }
+        <Modal className="myModal" show={showMe}>
+            <Modal.Header className="modalHeader"><h1>Record a video</h1>
+            Wait for the video preview to load.
+            </Modal.Header>
+            <Modal.Body className="modalBody">
+                {clock}
+                {preview}
+            </Modal.Body>
+            <Modal.Footer className="modalFooter">
+            <button onClick={(e)=> close()}><i class="bi bi-x-circle"></i></button>
+            <button id="startRecordingBtn" 
+                    onClick={(e) => { if (startClickable) { stream.recorder.start(); } }}>
+                    <i class="bi bi-record-circle"></i>
+            </button>
+            <button id="" onClick={(e) => {if (stopClickable) {stream.recorder.stop()}}}>
+                <i class="bi bi-stop-fill"></i>
+            </button>
+            <button 
+                id="okRecBtn"
+                onClick={(e)=>{ok()}}>
+                <i class="bi bi-check2-circle"></i>
+            </button>
+            </Modal.Footer>
         </Modal>
     );
 }

@@ -90,6 +90,30 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0;
+    border: 0px;
+}
+
+
+.modalHeader {
+    background-color: rgba(204, 0, 104, 1);
+    color: white;
+    margin: 5px 5px 15px 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modalBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: center !important;
+    align-items: center;
+}
+
+.modalFooter{
+    display: flex;
+    flex-direction: row;
+    justify-content: center !important;
 }
 
 .myModal label {
@@ -108,36 +132,16 @@
     box-shadow: inset 2px 2px 5px 0 rgba(0, 0, 0, 0.8);
 }
 
-.myModal {
-    padding: 0;
-    border: 0px;
-}
-
-.modalHeader {
-    background-color: rgba(204, 0, 104, 1);
-    color: white;
-    margin: 5px 5px 15px 5px;
-}
-
-.modalBody {
-    display: flex;
-    flex-direction: column;
-    justify-content: center !important;
-    align-items: center;
-}
-
 .modalBody span{
     font-size: 30px;
 }
 
-.modalFooter{
-    display: flex;
-    flex-direction: row;
-    justify-content: center !important;
+.modalBody video, .modalBody img, .modalBody div{
+    max-width: 100%;
 }
 
 .modalFooter button{
-    color: rgba(204, 0, 104, 1) !important;
+    color: rgb(0, 0, 0) !important;
     background-color: transparent !important;
     border-color: transparent !important;
     border: 0;
@@ -156,6 +160,9 @@
 .modalFooter button:hover {
     background-color: rgba(186, 186, 186, 0.4) !important;
 }
+
+.modalFooter #okRecBtn { color: rgb(0, 119, 255) !important;}
+.modalFooter #startRecordingBtn { color: rgb(255, 0, 0) !important;}
 
 /* width */
 #mainlist ::-webkit-scrollbar {

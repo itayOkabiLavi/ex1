@@ -1,3 +1,4 @@
+import { Modal } from "react-bootstrap";
 import React, { useState, useEffect } from "react";
 
 const Photo = ({ setImgMsg }) => {
@@ -7,8 +8,10 @@ const Photo = ({ setImgMsg }) => {
         error: ""
     });
     let [clickable, setClickable] = useState(true);
-
+    let [showMe, setShowMe] = useState(true);   
+    
     let preview = <video id="videopreview" muted srcObject={''} controls={false}></video>
+    let [showPreview, setShowPreview] = useState(true)
     useEffect(() => {
         getAccess();
     }, [])
@@ -56,6 +59,7 @@ const Photo = ({ setImgMsg }) => {
     }
     let onstop = function () {
         setClickable(false);
+        setShowPreview(false)
         let video = document.querySelector("#videopreview");
         let img = document.querySelector("#imgPre");
         const canvas = document.querySelector("canvas");
@@ -70,22 +74,36 @@ const Photo = ({ setImgMsg }) => {
         setImgMsg({ msg: comp, content: imgURL, type: "image" })
         stream.recorder.stop()
     };
+    let close = () => {
+        setShowMe(false)
+    }
+    const ok = () => {
+        setShowMe(false)
+    }
     return (
-        <div className="video">
-            {(
-                <div className="video-container">
-                    <button onClick={() => {
-                        if (clickable) {
-                            onstop();
-                        }
-                    }}>take photo</button>
-                    {preview}
+        <Modal className="myModal" show={showMe}>
+            <Modal.Header className="modalHeader"><h1>Take a selfie</h1></Modal.Header>
+            <Modal.Body className="modalBody">
+                {showPreview ? preview : 
+                <div>
                     <img id="imgPre" src=""></img>
                     <canvas style={{ display: "none" }}></canvas>
                 </div>
-            )
-            }
-        </div>
+                }
+            </Modal.Body>
+            <Modal.Footer className="modalFooter">
+                <button onClick={(e)=> close()}><i class="bi bi-x-circle"></i></button>
+                <button id="retakePic"><i class="bi bi-arrow-clockwise"></i></button>
+                <button onClick={() => { if (clickable) { onstop(); }}}>
+                    <i class="bi bi-camera"></i>
+                </button>
+                <button 
+                    id="okRecBtn"
+                    onClick={(e)=>{ok()}}>
+                    <i class="bi bi-check2-circle"></i>
+                </button>
+            </Modal.Footer>
+        </Modal>
     );
 }
 export default Photo;
