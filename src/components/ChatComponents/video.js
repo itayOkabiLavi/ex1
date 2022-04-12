@@ -63,6 +63,8 @@ const Video = ({ setVideoMsg }) => {
                 }
 
                 mediaRecorder.onstart = function () {
+                    //mediaPreview.stop()
+                    //mediaPreview.stream.getTracks().forEach(track => track.stop());
                     setI = setTimer()
                     setstartClickable(false);
                     setstopClickable(true);
@@ -79,11 +81,18 @@ const Video = ({ setVideoMsg }) => {
                         video.play();
                     };
                 }
+                mediaPreview.onstop=()=>{
+                    // let video = document.querySelector("#videopreview");
+                    // console.log(video)
+                    // video.srcObject = null
+                    // video.src=null
+                }
                 mediaRecorder.ondataavailable = function (e) {
                     console.log("data available");
                     chunks.current.push(e.data);
                 };
                 mediaPreview.start();
+
                 mediaRecorder.onstop = function () {
                     clearInterval(setI)
                     setstopClickable(false);
