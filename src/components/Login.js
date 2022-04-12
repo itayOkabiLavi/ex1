@@ -1,45 +1,27 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import RegisterComp from './RegisterComp'
 import './Login.css'
-
+import users from '../database/users'
 class Login extends React.Component {
     constructor(props) {
         super(props)
         this.defaultLoginNote = "Start chatting with your imaginary friends now!"
         this.state = {
-            users: [
-                {
-                    userName: 'y',
-                    password: '1',
-                },
-                {
-                    userName: 'goku',
-                    password: 'gohan1',
-                    isMail: true,
-                    contactInfo: 'asd@gmail.com',
-                    img: 'https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg'
-                },
-                {
-                    userName: 'vegeta',
-                    password: 'bulma2',
-                    isMail: true,
-                    contactInfo: 'asd@gmail.com',
-                    img: 'https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg'
-                }
-            ],
+            // users: [...users],
             registerClicked: false,
             sideNote: "",
             wrongUpwdOrUName: false
         }
         this.setToken = props.setToken
     }
+    
     handleSubmit(e) {
         e.preventDefault();
         let name = e.target[0].value
         let pass = e.target[1].value
-        console.log("myUsers: ", this.state.users);
-        let userIndex = this.state.users.findIndex((x) => { return x.userName === name && x.password === pass; })
-        let newUser = (userIndex !== -1) ? this.state.users[userIndex] : null
+        console.log("myUsers: ", users);
+        let userIndex = users.findIndex((x) => { return x.userName === name && x.password === pass; })
+        let newUser = (userIndex !== -1) ? users[userIndex] : null
         this.setState({
             wrongUpwdOrUName: (userIndex !== -1) ? " " : "Wrong user name or passsword"
         }) 
@@ -62,12 +44,12 @@ class Login extends React.Component {
         console.log(this.state.registerClicked, "login");
     }
     pushNewUser = (newUser) => {
-        let updatedUsers = this.state.users
+        let updatedUsers = users
         updatedUsers.push(newUser)
         this.setState({
             users: updatedUsers
         })
-        console.log("new user addded ", newUser, "now:\n", this.state.users)
+        console.log("new user addded ", newUser, "now:\n", users)
     }
     render() {
         return (
@@ -85,7 +67,7 @@ class Login extends React.Component {
                         
                             {this.state.registerClicked
                         ? <RegisterComp
-                            importedUsers={this.state.users}
+                            importedUsers={users}
                             addUser={this.pushNewUser}
                             showLogin={this.switchToLogin}
                             setToken={this.setToken}
