@@ -8,12 +8,12 @@ const Audio = ({ setAudioMsg }) => {
     let toatlSec = 0
     let mediaRecorder;
     let preview = <audio id="audiopreview" controls={false}></audio>
-    let clock = <div id="clock"><span id="min">00</span><span> : </span><span id="sec">00</span></div>
+    let clock = <div id="clock"><span id="min">00</span><span>:</span><span id="sec">00</span></div>
     let setI;
     let [clickable, setClickable] = useState(true);
     let [showMe, setShowMe] = useState(true);
 
-    const startButton = <label id="" style={{color: "red"}}><i class="bi bi-record-circle"></i></label>
+    const startButton = <label id="" style={{ color: "red" }}><i class="bi bi-record-circle"></i></label>
     const stopButton = <label id=""><i class="bi bi-stop-fill"></i></label>
     let [startStopLabel, setStartStopLabel] = useState(startButton)
     const chunks = useRef([]);
@@ -30,7 +30,7 @@ const Audio = ({ setAudioMsg }) => {
         available: false,
         url: ""
     });
-    let setTimer = () => {
+    const setTimer = () => {
         return setInterval(() => {
             ++toatlSec
             let min = document.getElementById("min")
@@ -41,13 +41,13 @@ const Audio = ({ setAudioMsg }) => {
     }
     useEffect(() => {
         getAccess();
-        return () => {
-            clearInterval(setI)
-            console.log('willUnmount')
-            try {
-                mediaRecorder.stream.getTracks().forEach(track => track.stop());
-            } catch { }
-        }
+        // return () => {
+        //     clearInterval(setI)
+        //     console.log('willUnmount')
+        //     try {
+        //         mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        //     } catch { }
+        // }
     }, [])
     function getAccess() {
         navigator.mediaDevices
@@ -95,10 +95,10 @@ const Audio = ({ setAudioMsg }) => {
                     audio.src = url;
                     audio.controls = true
                     mediaRecorder.stream.getTracks().forEach(track => track.stop());
-                    let comp = <audio key={recording.url} id="mulMedPrev" controls>
-                        <source src={recording.url} type="audio" />
-                    </audio>;
-                    setAudioMsg({ msg: comp, content: url, type: "audio" })
+                    // let comp = <audio key={recording.url} id="mulMedPrev" controls>
+                    //     <source src={recording.url} type="audio" />
+                    // </audio>;
+                    // setAudioMsg({ msg: comp, content: url, type: "audio" })
                 };
 
                 setStream({
@@ -113,11 +113,26 @@ const Audio = ({ setAudioMsg }) => {
                 setStream({ ...stream, error });
             });
     }
+    const beforeClose = () => {
+        clearInterval(setI)
+        console.log('beforeClose')
+        try {
+            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+        } catch { }
+    }
     const close = () => {
+        if (recording.active) stream.recorder.stop();
+        beforeClose()
         setShowMe(false)
+        setAudioMsg({ msg: '', content: '', type: "" })
     }
     const ok = () => {
+        beforeClose()
         setShowMe(false)
+        let comp = <audio key={recording.url} id="mulMedPrev" controls>
+            <source src={recording.url} type="audio" />
+        </audio>;
+        setAudioMsg({ msg: comp, content: recording.url, type: "audio" })
     }
     return (
         <Modal className="myModal" show={showMe}>
@@ -126,26 +141,26 @@ const Audio = ({ setAudioMsg }) => {
                 {recording.available ? preview : clock}
             </Modal.Body>
             <Modal.Footer className="modalFooter">
-            <button onClick={(e)=> close()}><i class="bi bi-x-circle"></i></button>
-            {recording.url == "" && <Button className="btn" onClick={() => {
-                if (!clickable) return;
-                if (recording.active) {
-                    stream.recorder.stop();
-                    setStartStopLabel("")
-                } else {
-                    stream.recorder.start();
-                    setStartStopLabel(stopButton)
-                }
+                <button onClick={(e) => close()}><i class="bi bi-x-circle"></i></button>
+                {recording.url == "" && <Button className="btn" onClick={() => {
+                    if (!clickable) return;
+                    if (recording.active) {
+                        stream.recorder.stop();
+                        setStartStopLabel("")
+                    } else {
+                        stream.recorder.start();
+                        setStartStopLabel(stopButton)
+                    }
                 }}>
-                {startStopLabel}
-            </Button>}
-            <button 
-                id="okRecBtn"
-                onClick={(e)=>{ok()}}>
-                <i class="bi bi-check2-circle"></i>
-            </button>
+                    {startStopLabel}
+                </Button>}
+                {recording.available && <button
+                    id="okRecBtn"
+                    onClick={(e) => { ok() }}>
+                    <i class="bi bi-check2-circle"></i>
+                </button>}
             </Modal.Footer>
-            
+
         </Modal>
 
     );
