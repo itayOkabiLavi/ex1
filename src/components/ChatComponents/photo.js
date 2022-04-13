@@ -82,7 +82,8 @@ const Photo = ({ setImgMsg }) => {
     }
     return (
         <Modal className="myModal" show={showMe}>
-            <Modal.Header className="modalHeader"><h1>Take a selfie</h1></Modal.Header>
+            <Modal.Header className="modalHeader"><h1>Take a selfie</h1>
+            Please wait for the picture preview to load.</Modal.Header>
             <Modal.Body className="modalBody">
                 {showPreview ? preview : 
                 <div>

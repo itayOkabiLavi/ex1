@@ -151,7 +151,7 @@ const Video = ({ setVideoMsg }) => {
     return (
         <Modal className="myModal" show={showMe}>
             <Modal.Header className="modalHeader"><h1>Record a video</h1>
-                Wait for the video preview to load.
+                Please wait for the video preview to load.
             </Modal.Header>
             <Modal.Body className="modalBody">
                 {clock}
