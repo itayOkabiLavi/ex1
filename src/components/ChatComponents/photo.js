@@ -7,9 +7,17 @@ const Photo = ({ setImgMsg }) => {
         recorder: null,
         error: ""
     });
-    let [clickable, setClickable] = useState(true);
-    let [showMe, setShowMe] = useState(true);   
-    
+    let [image, setImage] = useState({
+        available: false,
+        url: ''
+    })
+    let [recording, setRecording] = useState({
+        active: false,
+        available: false,
+        url: ""
+    });
+    let [showMe, setShowMe] = useState(true);
+
     let preview = <video id="videopreview" muted srcObject={''} controls={false}></video>
     let [showPreview, setShowPreview] = useState(true)
     useEffect(() => {
@@ -34,9 +42,33 @@ const Photo = ({ setImgMsg }) => {
                     console.log("ended");
                 }
                 mediaPreview.onstop = function () {
+                    //setImage({ available: true })
+
+                    let video = document.querySelector("#videopreview");
+                    let img = document.querySelector("#imgPre");
+                    const canvas = document.querySelector("canvas");
+                    canvas.width = 720;
+                    canvas.height = 480;
+                    canvas.getContext("2d").drawImage(video, 0, 0);
+                    var imgURL = canvas.toDataURL("image/png");
+                    img.src = imgURL
+                    video.srcObject = null
+                    video.src = imgURL;
+                    setShowPreview(false)
+                    setImage({ available: true, url: imgURL })
+                    setRecording({
+                        active: false,
+                        available: true,
+                        url: imgURL
+                    });
                     mediaPreview.stream.getTracks().forEach(track => track.stop());
                 }
                 mediaPreview.onstart = function () {
+                    setRecording({
+                        active: true,
+                        available: false,
+                        url: ""
+                    });
                     let video = document.querySelector("#videopreview");
                     video.srcObject = mic;
                     video.onloadedmetadata = function (e) {
@@ -57,52 +89,49 @@ const Photo = ({ setImgMsg }) => {
                 setStream({ ...stream, error });
             });
     }
-    let onstop = function () {
-        setClickable(false);
-        setShowPreview(false)
-        let video = document.querySelector("#videopreview");
-        let img = document.querySelector("#imgPre");
-        const canvas = document.querySelector("canvas");
-        canvas.width = 720;
-        canvas.height = 480;
-        canvas.getContext("2d").drawImage(video, 0, 0);
-        var imgURL = canvas.toDataURL("image/png");
-        img.src = imgURL        
-        video.srcObject = null
-        video.src = imgURL;
-        let comp = <img key={'imageRec'} src={imgURL} id="mulMedPrev"></img>;
-        setImgMsg({ msg: comp, content: imgURL, type: "image" })
-        stream.recorder.stop()
-    };
-    let close = () => {
+
+    const beforeClose = () => {
+        console.log('beforeClose')
+        try {
+            stream.recorder.stop()
+        } catch { console.log('1 fail') }
+        try {
+            stream.recorder.getTracks().forEach(track => track.stop());
+        } catch { console.log('2 fail') }
         setShowMe(false)
     }
+    let close = () => {
+        beforeClose()
+        setImgMsg({ msg: '', content: '', type: "" })
+    }
     const ok = () => {
-        setShowMe(false)
+        beforeClose()
+        let comp = <img key={'imageRec'} src={image.url} id="mulMedPrev"></img>;
+        setImgMsg({ msg: comp, content: image.url, type: "image" })
     }
     return (
         <Modal className="myModal" show={showMe}>
             <Modal.Header className="modalHeader"><h1>Take a selfie</h1>
-            Please wait for the picture preview to load.</Modal.Header>
+                Please wait for the picture preview to load.</Modal.Header>
             <Modal.Body className="modalBody">
-                {showPreview ? preview : 
-                <div>
-                    <img id="imgPre" src=""></img>
-                    <canvas style={{ display: "none" }}></canvas>
-                </div>
+                {showPreview ? preview :
+                    <div>
+                        <img id="imgPre" src=""></img>
+                        <canvas style={{ display: "true" }}></canvas>
+                    </div>
                 }
             </Modal.Body>
             <Modal.Footer className="modalFooter">
-                <button onClick={(e)=> close()}><i class="bi bi-x-circle"></i></button>
+                <button onClick={(e) => close()}><i class="bi bi-x-circle"></i></button>
                 <button id="retakePic"><i class="bi bi-arrow-clockwise"></i></button>
-                <button onClick={() => { if (clickable) { onstop(); }}}>
+                {!image.available && <button onClick={() => { stream.recorder.stop() }}>
                     <i class="bi bi-camera"></i>
-                </button>
-                <button 
+                </button>}
+                {image.available && <button
                     id="okRecBtn"
-                    onClick={(e)=>{ok()}}>
+                    onClick={(e) => { ok() }}>
                     <i class="bi bi-check2-circle"></i>
-                </button>
+                </button>}
             </Modal.Footer>
         </Modal>
     );
