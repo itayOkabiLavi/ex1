@@ -11,8 +11,12 @@ class ChatItem extends React.Component {
         this.aImg = prop.img
         this.id = this.aName
         this.key = this.id
+        this.display = ""
+        this.maxSummary = 30
+        this.callBack = prop.callBack
         this.state = {
             lastMessage: prop.lastMessage,
+            lastMessageObj: this.messageSummary(prop.lastMessage),
             savedState: {
                 messages: prop.messages,
                 msgText: "",
@@ -21,29 +25,40 @@ class ChatItem extends React.Component {
             }
         }
         console.log('savedState',this.state.savedState)
-        this.display = ""
-        this.maxSummary = 30
-        this.callBack = prop.callBack
+        
     }
     showDisplay = () => {
         this.display = <ChatDisplay 
             id={this.aName} 
             key={this.key} 
             childComponentWillUnmount={this.childComponentWillUnmount} 
-            updateLastMessage={(lastMessage)=>(this.setState({lastMessage: lastMessage}))}
+            updateLastMessage={(lastMessage)=>{this.setState({
+                lastMessage: lastMessage,
+                lastMessageObj: this.messageSummary(lastMessage)
+                })}}
             state={this.state.savedState} />
         this.callBack(this.display, this.aName);
         console.log('chatitem');
     }
-    messageSummary() {
-        var lm = this.state.lastMessage
+    messageSummary(lm) {
         console.log('lm',lm)
-        var message = lm.type == "text" ? lm.content.txt : "<" + lm.type + "> + " + lm.content.txt
-        console.log('msg',message)
-        if (message.length <= this.maxSummary) {
-            return message;
+        var mulMedIcon = ""
+        switch (lm.type){
+            case "image":
+                mulMedIcon = <i class="bi bi-file-earmark-image"></i>
+                break;
+            case "audio":
+                mulMedIcon = <i class="bi bi-file-earmark-music"></i>
+                break;
+            case "video":
+                mulMedIcon = <i class="bi bi-film"></i>
         }
-        return new String().concat(message.substring(0, this.maxSummary), " ...") ;
+        var summary = lm.content.txt
+        if (summary.length > this.maxSummary) summary = new String().concat(summary.substring(0, this.maxSummary), " ...")
+        var message = lm.type == "text" ? <h2>{summary}</h2> 
+         : <span>{mulMedIcon}<h2>{summary}</h2></span>
+        //console.log('msg',message)
+        return message
     }
     childComponentWillUnmount = (oldState) => {
         console.log('data', { ...oldState })
@@ -69,7 +84,7 @@ class ChatItem extends React.Component {
                         <small></small>
                     </div>
                     <div id='msgsInfo'>
-                        <h2>{this.messageSummary()}</h2>
+                        {this.state.lastMessageObj}
                         <small>
                             {this.state.lastMessage.date.time} 
                             <br/> 

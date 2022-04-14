@@ -49,6 +49,20 @@
     overflow: hidden;
 }
 
+#msgsInfo span{
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    gap: 10px;
+    padding: 5px;
+    max-height: 100%;
+}
+
+#msgsInfo i{
+    margin-top: 5px;
+    align-self:flex-start;
+}
+
 #msgsInfo small {
     /*box-shadow: 0px 0px 10px 10px aliceblue;*/
     color: rgba(100, 100, 100, 1);
@@ -60,10 +74,13 @@
 }
 
 #msgsInfo h2 {
+    margin: 0;
     background: -webkit-linear-gradient(left, rgb(81, 81, 81) 50%, transparent);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     font-size: 17px;
     font-weight: 450;
     align-self: center;
+    max-height: 40px; 
+    overflow: hidden;
 }
