@@ -38,7 +38,7 @@ class ChatItem extends React.Component {
     messageSummary() {
         var lm = this.state.lastMessage
         console.log('lm',lm)
-        var message = lm.type == "text" ? lm.content.txt : lm.type + lm.content.txt
+        var message = lm.type == "text" ? lm.content.txt : "<" + lm.type + "> + " + lm.content.txt
         console.log('msg',message)
         if (message.length <= this.maxSummary) {
             return message;

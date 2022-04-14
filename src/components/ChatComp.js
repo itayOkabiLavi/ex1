@@ -10,13 +10,14 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 
 
 class ChatComp extends React.Component {
-
+    
     constructor(prop) {
         super(prop)
         this.i = 1
         this.chats = []
         this.user=this.props.user
         this.setToken = this.props.setToken
+        
         this.state = {
             chats: this.parseAllChatItems(),
             showModal: false,
@@ -28,22 +29,27 @@ class ChatComp extends React.Component {
             noChats: true
         };
     }
-    parseAllChatItems = () => {
+    getSrcType = (type, fileName) => {
+        const mulmedType = /(?:\.([^.]+))?$/;
+        return type + "/" + mulmedType.exec(fileName)[1]
+    }
+    parseMessages = (msgsArray) => {
+        let msgsObjArray = []
+        msgsArray.forEach(msg => {msgsObjArray.push(
+                <Message
+                    fromMe={msg.fromMe}
+                    type={msg.type}
+                    mmContent={msg.content.mm}
+                    txtContent={msg.content.txt}
+                    date={ msg.date}
+                />   
+            )
+        })
+        return msgsObjArray
+    };
+    parseAllChatItems () {
         let tempChats = []
-        function parseMessages(msgsArray) {
-            let msgsObjArray = []
-            msgsArray.forEach(msg => {msgsObjArray.push(
-                    <Message
-                        fromMe={msg.fromMe}
-                        type={msg.type}
-                        mmContent={msg.content.mm}
-                        txtContent={msg.content.txt}
-                        date={ msg.date}
-                    />   
-                )
-            })
-            return msgsObjArray
-        };
+        
         this.user.chats.forEach(chat => {
             tempChats.push(<ChatItem
                         key={chat.addressee}
@@ -52,7 +58,7 @@ class ChatComp extends React.Component {
                         contact_info={chat.contactInfo}
                         img={chat.img}
                         lastMessage={chat.messages[chat.messages.length - 1]}
-                        messages={parseMessages(chat.messages)}
+                        messages={this.parseMessages(chat.messages)}
                         callBack={(childsDisplay, id) => {this.setState({currentDisplay: childsDisplay})}}
                     />
             )

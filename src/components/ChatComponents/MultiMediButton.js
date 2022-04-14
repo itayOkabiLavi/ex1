@@ -42,7 +42,7 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
         let val = e.target.files[0]
         console.log("called uploadMulMed ", val, type)
         let comp = "Not valid"
-        let srcType = "audio/" + val.name.split(".")[1]
+        let srcType = type + "/" + val.name.split(".")[1]
         let content = URL.createObjectURL(val)
         switch (type) {
             case "image":
