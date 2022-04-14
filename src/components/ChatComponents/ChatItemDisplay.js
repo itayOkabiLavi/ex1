@@ -31,8 +31,9 @@ class ChatDisplay extends React.Component {
     msgTextChanged(event) { this.setState({ msgText: event.target.value }) }
     sendMessage() {
         console.log(this.props.updateLastMessage);
-        if ((this.state.msgText == "" || this.state.msgText == undefined) && (this.state.msgMulMedCont == "" || this.state.msgMulMedCont == undefined)) { return }
-        let type=this.state.msgMulMedType != undefined ? this.state.msgMulMedType : 'text'
+        if ((this.state.msgText == "" || this.state.msgText == undefined) 
+            && (this.state.msgMulMedCont == "" || this.state.msgMulMedCont == undefined)) { return }
+        let type = this.state.msgMulMedType != undefined ? this.state.msgMulMedType : 'text'
         let updatedMessages = this.messages.push(
             <Message
                 fromMe={true}
@@ -45,7 +46,7 @@ class ChatDisplay extends React.Component {
             {
                 fromMe: true,
                 type: type,
-                contnet: { txt: this.state.msgText, mm: this.state.msgMulMedCont },
+                content: { txt: this.state.msgText, mm: this.state.msgMulMedCont },
                 date: { date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString() }
             }
         )
@@ -80,7 +81,7 @@ class ChatDisplay extends React.Component {
         })
     }
     changeMulMedContent = (content, type, comp) => {
-        console.log("changeMulMedContent", content, comp)
+        //console.log("changeMulMedContent", content, comp)
         this.setState({
             msgMulMedCont: content,
             msgMulMedType: type,

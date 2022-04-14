@@ -11,7 +11,7 @@ class RegisterComp extends React.Component {
             pwdType: 'password',
             pwdIcon: <i class="bi bi-eye-slash"></i>,
             pwdsNotMatch: false,
-            profileImageSrc: 'https://i.pinimg.com/originals/57/79/4b/57794be8a33303e29861e3f6c7db7587.jpg'
+            profileImageSrc: 'https://cdn-icons-png.flaticon.com/512/720/720236.png'
         }
         this.currentUsers= props.importedUsers
         this.cancel = props.showLogin
@@ -41,8 +41,9 @@ class RegisterComp extends React.Component {
                 userName:  event.target.name.value,
                 password:   event.target.password.value,
                 isMail:     true,
-                contact:    event.target.contact.value,
-                img:        this.state.profileImageSrc
+                contactInfo:    event.target.contact.value,
+                img:        this.state.profileImageSrc,
+                chats: []
             }
             this.addUser( newUser )
             this.setState({
@@ -104,8 +105,9 @@ class RegisterComp extends React.Component {
                     />
                 </label>
                 <div className="ending_buttons">
-                    <Button type="submit" id='apply_reg' onSubmit={this.submit}>Apply</Button>
-                    <Button type="button" id='cancel_reg' onClick={(e)=>{this.cancel()}}>Cancel</Button>
+                    <button type="submit" id='apply_reg' onSubmit={this.submit}
+                    style={{color:"aliceblue", backgroundColor:"rgb(240, 0, 104)"}}>Apply</button>
+                    <button type="button" id='cancel_reg' onClick={(e)=>{this.cancel()}}>Cancel</button>
                 </div>
             </form>
         </div>

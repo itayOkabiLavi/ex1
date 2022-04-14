@@ -12,13 +12,9 @@ class ChatItem extends React.Component {
         this.id = this.aName
         this.key = this.id
         this.state = {
-            lastMessage: {
-                fromMe: false, 
-                type:"text", 
-                contnet:{txt: "", mm:""}, 
-                date: ""},
+            lastMessage: prop.lastMessage,
             savedState: {
-                messages: [],
+                messages: prop.messages,
                 msgText: "",
                 msgImg: "",
                 msgAud: ""
@@ -29,10 +25,20 @@ class ChatItem extends React.Component {
         this.maxSummary = 30
         this.callBack = prop.callBack
     }
+    showDisplay = () => {
+        this.display = <ChatDisplay 
+            id={this.aName} 
+            key={this.key} 
+            childComponentWillUnmount={this.childComponentWillUnmount} 
+            updateLastMessage={(lastMessage)=>(this.setState({lastMessage: lastMessage}))}
+            state={this.state.savedState} />
+        this.callBack(this.display, this.aName);
+        console.log('chatitem');
+    }
     messageSummary() {
         var lm = this.state.lastMessage
         console.log('lm',lm)
-        var message = lm.type == "text" ? lm.contnet.txt : lm.type + lm.contnet.txt
+        var message = lm.type == "text" ? lm.content.txt : "<" + lm.type + "> + " + lm.content.txt
         console.log('msg',message)
         if (message.length <= this.maxSummary) {
             return message;
@@ -53,14 +59,9 @@ class ChatItem extends React.Component {
         console.log('newState', this.state.savedState)
     }
     render() {
-        this.display = <ChatDisplay 
-            id={this.aName} 
-            key={this.key} 
-            childComponentWillUnmount={this.childComponentWillUnmount} 
-            updateLastMessage={(lastMessage)=>(this.setState({lastMessage: lastMessage}))}
-            state={this.state.savedState} />
+        console.log("i am ", this)
         return (
-            <div id='chatCard' key={this.key} onClick={(e) => { this.callBack(this.display, this.aName); console.log('chatitem'); }}>
+            <div id='chatCard' key={this.key} onClick={(e) => { this.showDisplay() }}>
                 <img src={this.aImg} />
                 <div id='textedInfos'>
                     <div id='addresseeInfo'>
