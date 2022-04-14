@@ -11,11 +11,7 @@ const Photo = ({ setImgMsg }) => {
         available: false,
         url: ''
     })
-    let [recording, setRecording] = useState({
-        active: false,
-        available: false,
-        url: ""
-    });
+
     let [showMe, setShowMe] = useState(true);
 
     let preview = <video id="videopreview" muted srcObject={''} controls={false}></video>
@@ -47,6 +43,7 @@ const Photo = ({ setImgMsg }) => {
                     let video = document.querySelector("#videopreview");
                     let img = document.querySelector("#imgPre");
                     const canvas = document.querySelector("canvas");
+                    console.log(canvas)
                     canvas.width = 720;
                     canvas.height = 480;
                     canvas.getContext("2d").drawImage(video, 0, 0);
@@ -56,19 +53,11 @@ const Photo = ({ setImgMsg }) => {
                     video.src = imgURL;
                     setShowPreview(false)
                     setImage({ available: true, url: imgURL })
-                    setRecording({
-                        active: false,
-                        available: true,
-                        url: imgURL
-                    });
+                    
                     mediaPreview.stream.getTracks().forEach(track => track.stop());
                 }
                 mediaPreview.onstart = function () {
-                    setRecording({
-                        active: true,
-                        available: false,
-                        url: ""
-                    });
+                    
                     let video = document.querySelector("#videopreview");
                     video.srcObject = mic;
                     video.onloadedmetadata = function (e) {
@@ -89,14 +78,13 @@ const Photo = ({ setImgMsg }) => {
                 setStream({ ...stream, error });
             });
     }
-
     const beforeClose = () => {
         console.log('beforeClose')
         try {
             stream.recorder.stop()
         } catch { console.log('1 fail') }
         try {
-            stream.recorder.getTracks().forEach(track => track.stop());
+            stream.recorder.stream.getTracks().forEach(track => track.stop());
         } catch { console.log('2 fail') }
         setShowMe(false)
     }
@@ -114,16 +102,14 @@ const Photo = ({ setImgMsg }) => {
             <Modal.Header className="modalHeader"><h1>Take a selfie</h1>
                 Please wait for the picture preview to load.</Modal.Header>
             <Modal.Body className="modalBody">
-                {showPreview ? preview :
-                    <div>
-                        <img id="imgPre" src=""></img>
-                        <canvas style={{ display: "true" }}></canvas>
-                    </div>
-                }
+                <div>
+                    {showPreview && preview}
+                    <img id="imgPre" src=""></img>
+                    <canvas style={{ display: "none" }}></canvas>
+                </div>
             </Modal.Body>
             <Modal.Footer className="modalFooter">
                 <button onClick={(e) => close()}><i class="bi bi-x-circle"></i></button>
-                <button id="retakePic"><i class="bi bi-arrow-clockwise"></i></button>
                 {!image.available && <button onClick={() => { stream.recorder.stop() }}>
                     <i class="bi bi-camera"></i>
                 </button>}
