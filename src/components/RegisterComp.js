@@ -41,8 +41,9 @@ class RegisterComp extends React.Component {
                 userName:  event.target.name.value,
                 password:   event.target.password.value,
                 isMail:     true,
-                contact:    event.target.contact.value,
-                img:        this.state.profileImageSrc
+                contactInfo:    event.target.contact.value,
+                img:        this.state.profileImageSrc,
+                chats: []
             }
             this.addUser( newUser )
             this.setState({

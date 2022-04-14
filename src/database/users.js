@@ -26,10 +26,10 @@ let users= [
         contactInfo: 'asd@gmail.com',
         img: 'https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg',
         chats: [
-            {   addressee: 'chi chi',
-                img: 'https://dragonball.guru/wp-content/uploads/2021/03/Chi-Chi-Profile-Pic-415x415.png',
-                contactInfo: 'chichi@gmail.com',
-                messages: [
+            cht('chi chi',
+                'https://dragonball.guru/wp-content/uploads/2021/03/Chi-Chi-Profile-Pic-415x415.png',
+                'chichi@gmail.com',
+                [
                     msg(false, "hey", "", "14/04/2022", "08:05"),
                     msg(false, "buy cucumber", "", "14/04/2022", "08:05"),
                     msg(true, "what is cucumber?", "", "14/04/2022", "08:06"),
@@ -37,7 +37,7 @@ let users= [
                     msg(true, "?", "", "14/04/2022", "08:07"),
                     msg(false, "", "https://static.libertyprim.com/files/familles/concombre-large.jpg?1569271746", "14/04/2022", "08:08", "image"),
                     msg(false, "", "https://www.myinstants.com/media/sounds/you-are-so-dumb.mp3", "14/04/2022", "08:08", "audio")
-            ]},
+            ]),
             cht("Gohan",
                 'https://dragonball.guru/wp-content/uploads/2021/03/toppng.com-mystic-gohan-dragon-ball-z-gohan-1021x2859-1-e1617011806816-400x400.png',
                 "gohan@gmail.com",
