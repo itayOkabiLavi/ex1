@@ -2,6 +2,7 @@ let users= [
     {
         userName: 'y',
         password: '1',
+        chats:[]
     },
     {
         userName: 'goku',
