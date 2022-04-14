@@ -15,7 +15,7 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
         let content = videoMsg.content
         let type = videoMsg.type
         let msg = videoMsg.msg
-        console.log('useEffect', msg)
+        //console.log('useEffect', msg)
         uploadMulMed(content, type, msg)
 
     }, [videoMsg])
@@ -23,7 +23,7 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
         let content = audioMsg.content
         let type = audioMsg.type
         let msg = audioMsg.msg
-        console.log('useEffect', msg)
+        //console.log('useEffect', msg)
         uploadMulMed(content, type, msg)
 
     }, [audioMsg])
@@ -31,7 +31,7 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
         let content = imgMsg.content
         let type = imgMsg.type
         let msg = imgMsg.msg
-        console.log('useEffect', msg)
+        //console.log('useEffect', msg)
         uploadMulMed(content, type, msg)
     }, [imgMsg])
     const [showModal, setShowModal] = useState(false)
@@ -63,7 +63,7 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
         e.target.value = null
     }
     if (isRec) {
-        console.log("type", type)
+        //console.log("type", type)
         let myComp = ""
         switch (type) {
             case "audioRec":

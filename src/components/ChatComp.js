@@ -4,6 +4,7 @@ import './ChatComp.css';
 import ChatItem from './ChatComponents/ChatItem';
 import ChatDisplay from './ChatComponents/ChatItemDisplay';
 import Message from './ChatComponents/Message';
+import users from '../database/users';
 import { Button, Form, Modal, Nav, TabContent } from 'react-bootstrap';
 import "bootstrap-icons/font/bootstrap-icons.css";
 
@@ -17,19 +18,50 @@ class ChatComp extends React.Component {
         this.user=this.props.user
         this.setToken = this.props.setToken
         this.state = {
-            chats: [],
+            chats: this.parseAllChatItems(),
             showModal: false,
             newContactName: 'new',
             newContactInfo: 'mail',
             newContactImg: 'https://i.pinimg.com/originals/57/79/4b/57794be8a33303e29861e3f6c7db7587.jpg',
             newContactNote: '',
-            currentDisplay: "",
+            currentDisplay: <div id='no_yet'><img src='./logo white on blue.png'/></div>,
             noChats: true
         };
     }
+    parseAllChatItems = () => {
+        let tempChats = []
+        function parseMessages(msgsArray) {
+            let msgsObjArray = []
+            msgsArray.forEach(msg => {msgsObjArray.push(
+                    <Message
+                        fromMe={msg.fromMe}
+                        type={msg.type}
+                        mmContent={msg.content.mm}
+                        txtContent={msg.content.txt}
+                        date={ msg.date}
+                    />   
+                )
+            })
+            return msgsObjArray
+        };
+        this.user.chats.forEach(chat => {
+            tempChats.push(<ChatItem
+                        key={chat.addressee}
+                        name={chat.addressee}
+                        is_mail={true}
+                        contact_info={chat.contactInfo}
+                        img={chat.img}
+                        lastMessage={chat.messages[chat.messages.length - 1]}
+                        messages={parseMessages(chat.messages)}
+                        callBack={(childsDisplay, id) => {this.setState({currentDisplay: childsDisplay})}}
+                    />
+            )
+        });
+        console.log("chatItems: ", tempChats)
+        return tempChats
+    }
     openNewChat() { this.setState({ showModal: true }) }
     closeNewChat() { this.setState({ showModal: false }) }
-
     newContactNameChanged(event) { this.setState({ newContactName: event.target.value }) }
     newContactInfoChanged(event) { this.setState({ newContactInfo: event.target.value }) }
     newContactImgChanged(event) { this.setState({ newContactImg: event.target.value }) }
@@ -37,20 +69,20 @@ class ChatComp extends React.Component {
     addNewChat() {
         if (this.chatExists()) { }
         else {
-            let updatedChats = this.chats.push(
+            let updatedChats = this.state.chats
+            updatedChats.push(
                 <ChatItem
                     key={this.state.newContactName}
                     name={this.state.newContactName}
                     is_mail={true}
                     contact_info={this.state.newContactInfo}
                     img={this.state.newContactImg}
-                    callBack={(childsDisplay, id) => {
-                        let newState = {
-                            currentDisplay: childsDisplay
-                        }
-                        this.setState(newState);
-                    }
-                    }
+                    messages={[]}
+                    lastMessage={{  fromMe: false, 
+                                    type:"text", 
+                                    content: { txt: " ", mm: " " },
+                                    date: {time: "", date: ""}}}
+                    callBack={(childsDisplay, id) => {this.setState({currentDisplay: childsDisplay})}}
                 />
             )
             this.setState({
@@ -122,10 +154,10 @@ class ChatComp extends React.Component {
                         </Modal>
                     </div>
                     <div id='mainlist'>
-                        {this.chats}
+                        {this.state.chats}
                     </div>
                     <div id="chatdisplay">
-                    {this.state.noChats ? <div id='no_yet'><img src='./logo white on blue.png'/></div> : this.state.currentDisplay}
+                    {this.state.currentDisplay}
                     </div>
                 </div>
             </div>
