@@ -117,7 +117,7 @@ const Audio = ({ setAudioMsg }) => {
         clearInterval(setI)
         console.log('beforeClose')
         try {
-            mediaRecorder.stream.getTracks().forEach(track => track.stop());
+            stream.recorder.stream.getTracks().forEach(track => track.stop());
         } catch { }
     }
     const close = () => {

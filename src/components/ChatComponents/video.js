@@ -132,7 +132,7 @@ const Video = ({ setVideoMsg }) => {
             stream.preview.stop()
         } catch {console.log('1 fail') }
         try {
-            stream.recorder.getTracks().forEach(track => track.stop());
+            stream.recorder.stream.getTracks().forEach(track => track.stop());
         } catch { console.log('2 fail')}
         clearInterval(setI)
         setShowMe(false)
