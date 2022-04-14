@@ -23,7 +23,7 @@ class ChatComp extends React.Component {
             showModal: false,
             newContactName: 'new',
             newContactInfo: 'mail',
-            newContactImg: 'https://i.pinimg.com/originals/57/79/4b/57794be8a33303e29861e3f6c7db7587.jpg',
+            newContactImg: 'https://cdn-icons-png.flaticon.com/512/720/720236.png',
             newContactNote: '',
             currentDisplay: <div id='no_yet'><img src='./logo white on blue.png'/></div>,
             noChats: true
@@ -97,7 +97,7 @@ class ChatComp extends React.Component {
                 showModal: false,
                 newContactName: 'new' + Math.floor(Math.random() * 100),
                 newContactInfo: 'mail',
-                newContactImg: 'https://i.pinimg.com/originals/57/79/4b/57794be8a33303e29861e3f6c7db7587.jpg',
+                newContactImg: 'https://cdn-icons-png.flaticon.com/512/720/720236.png',
                 newContactNote: ''
             })
         }

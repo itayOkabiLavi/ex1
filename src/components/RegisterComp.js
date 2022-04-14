@@ -11,7 +11,7 @@ class RegisterComp extends React.Component {
             pwdType: 'password',
             pwdIcon: <i class="bi bi-eye-slash"></i>,
             pwdsNotMatch: false,
-            profileImageSrc: 'https://i.pinimg.com/originals/57/79/4b/57794be8a33303e29861e3f6c7db7587.jpg'
+            profileImageSrc: 'https://cdn-icons-png.flaticon.com/512/720/720236.png'
         }
         this.currentUsers= props.importedUsers
         this.cancel = props.showLogin
