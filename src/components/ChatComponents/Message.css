@@ -18,6 +18,10 @@
     overflow-wrap: break-word;
 }
 
+.msg audio{
+    max-width: 100%;
+}
+
 #fromMe {
     background-color: rgba(255, 239, 252, 0.833) !important;
     border-radius: 20px 20px 20px 0;
