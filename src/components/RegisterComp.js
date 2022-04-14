@@ -105,8 +105,9 @@ class RegisterComp extends React.Component {
                     />
                 </label>
                 <div className="ending_buttons">
-                    <Button type="submit" id='apply_reg' onSubmit={this.submit}>Apply</Button>
-                    <Button type="button" id='cancel_reg' onClick={(e)=>{this.cancel()}}>Cancel</Button>
+                    <button type="submit" id='apply_reg' onSubmit={this.submit}
+                    style={{color:"aliceblue", backgroundColor:"rgb(240, 0, 104)"}}>Apply</button>
+                    <button type="button" id='cancel_reg' onClick={(e)=>{this.cancel()}}>Cancel</button>
                 </div>
             </form>
         </div>
