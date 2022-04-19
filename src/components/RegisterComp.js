@@ -83,10 +83,11 @@ class RegisterComp extends React.Component {
                 </label>
 
                 <form onSubmit={(e) => (this.verifyReg(e))}>
-                    <label className="two-in-line" id="namesLabel"><input
-                        id='new_user_name'
-                        placeholder="User name"
-                        name="name" />
+                    <label className="two-in-line" id="namesLabel">
+                        <input autoFocus
+                            id='new_user_name'
+                            placeholder="User name"
+                            name="name" />
                         <input id='new_user_nickname'
                             placeholder="Nickname"
                             name="nickname" />

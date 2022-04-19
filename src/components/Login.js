@@ -84,7 +84,7 @@ class Login extends React.Component {
                                 <h1>Login</h1>
                                 <br/>
                                 <br/>
-                                <input name='userName' type="text" placeholder='User name' />
+                                <input autoFocus name='userName' type="text" placeholder='User name' />
                                 <input name='password' type="password" placeholder='Password'/>
                                 <h4>{this.state.wrongUpwdOrUName}</h4>
                                 <div className='ending_buttons'>

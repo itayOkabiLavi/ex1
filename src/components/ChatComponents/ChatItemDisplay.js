@@ -167,7 +167,7 @@ class ChatDisplay extends React.Component {
                         {this.state.msgMulMedPrev}
                         <button onClick={this.clearMulMedContent}><i class="bi bi-x-lg"></i></button>
                     </Card>
-                    <input
+                    <input autoFocus
                         id='cid_text'
                         value={this.state.msgText}
                         onChange={(e) => { this.msgTextChanged(e) }}

@@ -132,7 +132,7 @@ class ChatComp extends React.Component {
                             <Modal.Header className='modalHeader'><h1>Add new contact</h1></Modal.Header>
                             <Modal.Body className='modalBody'>
                                 <label htmlFor='cName'>Enter new contact name
-                                <input id='cName'
+                                <input autoFocus id='cName'
                                     defaultValue={this.state.newContactName}
                                     onChange={(e) => { this.newContactNameChanged(e) }}
                                 /></label>
