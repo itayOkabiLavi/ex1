@@ -28,7 +28,7 @@
     height: 0;
 }
 
-#pwdLabel {
+.two-in-line {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
