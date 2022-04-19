@@ -62,22 +62,16 @@ class ChatDisplay extends React.Component {
         objDiv.scrollTop = objDiv.scrollHeight;
     }
     componentDidMount = () => {
-        var objDiv = window.document.getElementById("cid_chat");
-        objDiv.scrollTop = objDiv.scrollHeight;
         window.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 this.sendMessage();
             }
         })
+        var objDiv = window.document.getElementById("cid_chat");
+        objDiv.scrollTop = objDiv.scrollHeight;
     }
     componentWillUnmount() {
         console.log('componentWillUnmount', [...this.messages])
-        let newState = {
-            msgText: this.state.msgText,
-            msgMulMedPrev: this.state.msgMulMedPrev,
-            messages: [...this.messages]
-        }
-        //this.setState(newState)
         this.childComponentWillUnmount({
             msgText: this.state.msgText,
             msgMulMedPrev: this.state.msgMulMedPrev,
@@ -167,7 +161,7 @@ class ChatDisplay extends React.Component {
                         {this.state.msgMulMedPrev}
                         <button onClick={this.clearMulMedContent}><i class="bi bi-x-lg"></i></button>
                     </Card>
-                    <input autoFocus
+                    <input autocomplete="off" autoFocus
                         id='cid_text'
                         value={this.state.msgText}
                         onChange={(e) => { this.msgTextChanged(e) }}

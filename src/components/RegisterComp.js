@@ -82,7 +82,7 @@ class RegisterComp extends React.Component {
                     <h4>Upload your profile picture here. Square ones recommended.</h4>
                 </label>
 
-                <form onSubmit={(e) => (this.verifyReg(e))}>
+                <form autocomplete="off" onSubmit={(e) => (this.verifyReg(e))}>
                     <label className="two-in-line" id="namesLabel">
                         <input autoFocus
                             id='new_user_name'

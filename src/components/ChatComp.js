@@ -137,7 +137,7 @@ class ChatComp extends React.Component {
                                     onChange={(e) => { this.newContactNameChanged(e) }}
                                 /></label>
                                 <label htmlFor='cContactInfo'>Enter new contact's mail
-                                <input id='cContactInfo'
+                                <input autocomplete="off" id='cContactInfo'
                                     type="email"
                                     defaultValue={this.state.newContactInfo}
                                     onChange={(e) => { this.newContactInfoChanged(e) }}
