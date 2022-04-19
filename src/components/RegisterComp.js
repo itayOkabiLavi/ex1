@@ -78,17 +78,20 @@ class RegisterComp extends React.Component {
             </label>
             
             <form onSubmit={(e)=>(this.verifyReg(e))}>
-                <input 
+                <label className="two-in-line" id="namesLabel"><input 
                     id='new_user_name' 
                     placeholder="User name"
                     name="name"/>
-
+                    <input id='new_user_nickname' 
+                    placeholder="Nickname"
+                    name="nickname"/>
+                </label>
                 <input 
                     id='new_user_contactInfo'
                     placeholder="Phone number"
                     name="contact"/>
 
-                <label htmlFor='new_user_pwd' id="pwdLabel">
+                <label htmlFor='new_user_pwd' className="two-in-line" id="pwdLabel">
                 <input
                     type={this.state.pwdType}
                     id='new_user_pwd' 
