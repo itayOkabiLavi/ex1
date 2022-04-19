@@ -42,14 +42,14 @@ class ChatDisplay extends React.Component {
                 type={type}
                 mmContent={this.state.msgMulMedCont}
                 txtContent={this.state.msgText}
-                date={{ date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString() }}
+                date={{ date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}
             />)
         this.props.updateLastMessage(
             {
                 fromMe: true,
                 type: type,
                 content: { txt: this.state.msgText, mm: this.state.msgMulMedCont },
-                date: { date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString() }
+                date: { date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }
             }
         )
         this.setState({
@@ -161,7 +161,7 @@ class ChatDisplay extends React.Component {
                         {this.state.msgMulMedPrev}
                         <button onClick={this.clearMulMedContent}><i class="bi bi-x-lg"></i></button>
                     </Card>
-                    <input autocomplete="off" autoFocus
+                    <input autoComplete="off" autoFocus
                         id='cid_text'
                         value={this.state.msgText}
                         onChange={(e) => { this.msgTextChanged(e) }}

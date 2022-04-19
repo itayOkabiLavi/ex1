@@ -75,9 +75,10 @@
 
 #msgsInfo h2 {
     margin: 0;
+    margin-right: 10%;
     background: -webkit-linear-gradient(left, rgb(81, 81, 81) 50%, transparent);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    /* -webkit-text-fill-color: transparent; */
     font-size: 17px;
     font-weight: 450;
     align-self: center;

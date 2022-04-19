@@ -136,18 +136,6 @@ class ChatComp extends React.Component {
                                     defaultValue={this.state.newContactName}
                                     onChange={(e) => { this.newContactNameChanged(e) }}
                                 /></label>
-                                <label htmlFor='cContactInfo'>Enter new contact's mail
-                                <input autocomplete="off" id='cContactInfo'
-                                    type="email"
-                                    defaultValue={this.state.newContactInfo}
-                                    onChange={(e) => { this.newContactInfoChanged(e) }}
-                                /></label>
-                                <label htmlFor='cContactImg'>Enter new contact's image url
-                                <input id='cContactImg'
-                                    type="text"
-                                    defaultValue={this.state.newContactImg}
-                                    onChange={(e) => { this.newContactImgChanged(e) }}
-                                /></label>
                             </Modal.Body>
                             <Modal.Footer className='modalFooter'>
                                 <Button className='modalFooterButton' onClick={() => { this.closeNewChat() }}>

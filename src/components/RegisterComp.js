@@ -28,9 +28,11 @@ class RegisterComp extends React.Component {
         if (fields.nickname.value.length == 0 || fields.nickname.value.length > 7) {
             notes += "NickName should be non empty and 7 characters at most. "
         }
-        const reg = /(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!?@#$%^&*()\-+\\\/.,:;"'{}\[\]<>~])[A-Za-z0-9!?@#$%^&*()\-+\\\/.,:;"'{}\[\]<>~]{5,}/
+        const reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}/
+        //const reg = /(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!?@#$%^&*()\-+\\\/.,:;"'{}\[\]<>~])[A-Za-z0-9!?@#$%^&*()\-+\\\/.,:;"'{}\[\]<>~]{5,}/
         if (!reg.test(fields.password.value))
-            notes += "Password must have 5+ characters, at least 1 Uppercase, 1 lower, 1 number and 1 special. "
+            notes += "Password must have 5+ characters, at least 1 letter and 1 number. "
+        // notes += "Password must have 5+ characters, at least 1 Uppercase, 1 lower, 1 number and 1 special. "
         else if (fields.password.value !== fields.passwordVer.value) notes += "Passwords don't match. "
         if (fields.contact.value == "") notes += "Enter contact info."
         //this.setState({ regErrors: notes })
@@ -82,7 +84,7 @@ class RegisterComp extends React.Component {
                     <h4>Upload your profile picture here. Square ones recommended.</h4>
                 </label>
 
-                <form autocomplete="off" onSubmit={(e) => (this.verifyReg(e))}>
+                <form autoComplete="off" onSubmit={(e) => (this.verifyReg(e))}>
                     <label className="two-in-line" id="namesLabel">
                         <input autoFocus
                             id='new_user_name'

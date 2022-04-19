@@ -12,7 +12,7 @@ class ChatItem extends React.Component {
         this.id = this.aName
         this.key = this.id
         this.display = ""
-        this.maxSummary = 30
+        this.maxSummary = 10
         this.callBack = prop.callBack
         this.state = {
             lastMessage: prop.lastMessage,
