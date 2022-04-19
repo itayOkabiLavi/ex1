@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { render } from 'react-dom';
 import Message from "./Message";
 import MultiMediaButton from "./MultiMediButton";
@@ -24,14 +24,16 @@ class ChatDisplay extends React.Component {
             messages: [...props.state.messages],
             now: { date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString() },
         }
+
         console.log('props.state', { ...props.state })
         this.messages = [...props.state.messages]
         console.log('this.messages', [...this.messages])
     }
+
     msgTextChanged(event) { this.setState({ msgText: event.target.value }) }
     sendMessage() {
         console.log(this.props.updateLastMessage);
-        if ((this.state.msgText == "" || this.state.msgText == undefined) 
+        if ((this.state.msgText == "" || this.state.msgText == undefined)
             && (this.state.msgMulMedCont == "" || this.state.msgMulMedCont == undefined)) { return }
         let type = this.state.msgMulMedType != undefined ? this.state.msgMulMedType : 'text'
         let updatedMessages = this.messages.push(
@@ -56,8 +58,18 @@ class ChatDisplay extends React.Component {
             msgText: ""
         })
         this.clearMulMedContent()
+        var objDiv = window.document.getElementById("cid_chat");
+        objDiv.scrollTop = objDiv.scrollHeight;
     }
-
+    componentDidMount = () => {
+        var objDiv = window.document.getElementById("cid_chat");
+        objDiv.scrollTop = objDiv.scrollHeight;
+        window.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                this.sendMessage();
+            }
+        })
+    }
     componentWillUnmount() {
         console.log('componentWillUnmount', [...this.messages])
         let newState = {
@@ -167,7 +179,7 @@ class ChatDisplay extends React.Component {
                             data-bs-toggle="collapse"
                             data-bs-target="#uploadOptions"
                             aria-expanded="false"
-                            onClick={()=>{console.log("show mulmed options2!")}}
+                            onClick={() => { console.log("show mulmed options2!") }}
                         >
                             <i className="bi bi-three-dots-vertical"></i>
                         </button>
