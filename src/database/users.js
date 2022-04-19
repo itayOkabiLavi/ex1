@@ -21,6 +21,7 @@ function msg(fromMe, txtContent, mmContent, dateDate, dateTime, type = "text") {
 let users = [
     {
         userName: 'y',
+        nickName:'yehuda',
         password: '1',
         chats: [
             cht('Itay',

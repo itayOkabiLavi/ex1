@@ -113,6 +113,7 @@ class ChatComp extends React.Component {
                     <div id='chatsTools'>
                         <div id='userInfo'>
                             <img src={this.user.img} />
+                            <span id='nickName'>{this.user.nickName}</span>
                         </div>
                         
                         <Button 

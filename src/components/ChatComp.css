@@ -75,7 +75,9 @@
     border-radius: 30px; 
     margin-bottom: 20px;
 }
-
+#nickName{
+    color: aliceblue;
+}
 #no_yet {
     background-size: contain;
     background-repeat: no-repeat;
