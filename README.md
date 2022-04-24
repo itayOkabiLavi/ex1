@@ -19,7 +19,7 @@ Allows user to create new account which includes: prof. picture, unique username
 ###### Notes
 > - username must be unique (not exist in database).
 > - password requirements are based on the following regex: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}/. Meaning pwd is at least 5 chars, with at least on character from each type (capital, low, number).
-## chatComp
+## ChatComp
 Main window displaying the user's chats. Allows user to upload or record image, audio and video files and send in a chat. Contains three parts:
 1.  left bar - contains user's data, add chat and logout btns. 
 2.  Middle section - contains chats list: an array of ChatItem objects.
@@ -28,7 +28,7 @@ Main window displaying the user's chats. Allows user to upload or record image, 
 > - new addressee name must be unique.
 ### ChatItem
 contains all data of the chat: addressee image, name, last message info and mainly - a chatDisplayItem which iteslf contains all messages of the chat. When the chatItem is clicked he requests the main chat component to project its display item on the right section.
-#### chatDisplayItem
+#### ChatDisplayItem
 Contains all the inputs (text typing area, uploading windows, recording windows) and outputs (all messages sent). Upload/Record btns are made of the ssame object - MultiMediButton - which changes it's purpose according to its attributes values.
 ###### Notes
 > - messages sent by user are in light-green background. Received messages in white background color.
