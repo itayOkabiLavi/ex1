@@ -1,5 +1,5 @@
 # Project Structure:
-## index > body , App (func)
+## App
 body is reffered to as App (id='r')
 Switches between Login window and Chat window, Where Login itself contains the Register window.
 App stores the authentications details after login.
