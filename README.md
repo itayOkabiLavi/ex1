@@ -3,7 +3,7 @@
 body is reffered to as App (id='r')
 Switches between Login window and Chat window, Where Login itself contains the Register window.
 App stores the authentications details after login.
-## Login (class)
+## Login
 Starts by entering default registered users.
 When login btn is clicked the details are searched in the DB "users", and the result changes
 the App token state.
@@ -14,7 +14,7 @@ the Register window.
 > - Hard coded users:
 >   -  uname=goku, password=gohan1
 >   -  uname=y, password=1
-### Register (class)
+### Register
 Allows user to create new account which includes: prof. picture, unique username, nickname and password. Errors and notes during registration will appear on left side of the screen. When input is valid, clicking on "Apply" btn changes the state of the if-statement in App comp. which loads the chat window.
 ###### Notes
 > - username must be unique (not exist in database).
