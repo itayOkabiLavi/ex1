@@ -53,15 +53,16 @@ class ChatComp extends React.Component {
         let tempChats = []
 
         this.user.chats.forEach(chat => {
-            tempChats.push(<ChatItem
-                key={chat.addressee}
-                name={chat.addressee}
-                contact_info={chat.contactInfo}
-                img={chat.img}
-                lastMessage={chat.messages[chat.messages.length - 1]}
-                messages={this.parseMessages(chat.messages)}
-                callBack={(childsDisplay, id) => { this.setState({ currentDisplay: childsDisplay }) }}
-            />
+            tempChats.push(
+                <ChatItem
+                    key={chat.addressee}
+                    name={chat.addressee}
+                    contact_info={chat.contactInfo}
+                    img={chat.img}
+                    lastMessage={chat.messages[chat.messages.length - 1]}
+                    messages={this.parseMessages(chat.messages)}
+                    callBack={(childsDisplay) => { this.setState({ currentDisplay: childsDisplay }) }}
+                />
             )
         });
         console.log("chatItems: ", tempChats)
@@ -128,7 +129,6 @@ class ChatComp extends React.Component {
                             <img src={this.user.img} />
                             <span id='nickName'>{this.user.nickName}</span>
                         </div>
-
                         <Button
                             id="addChat"
                             onClick={() => { this.openNewChat() }}
