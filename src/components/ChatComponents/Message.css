@@ -23,12 +23,12 @@
 }
 
 #fromMe {
-    background-color: rgba(255, 239, 252, 0.833) !important;
+    background-color: rgb(139, 255, 191) !important;
     border-radius: 20px 20px 20px 0;
     align-self: flex-start;
 }
 #toMe {
-    background-color: rgb(139, 255, 191) !important;
+    background-color:  rgba(255, 239, 252, 0.833) !important;
     border-radius: 20px 20px 0 20px;
     align-self: flex-end;
 }
