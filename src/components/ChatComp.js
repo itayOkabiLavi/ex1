@@ -76,7 +76,7 @@ class ChatComp extends React.Component {
         if (this.chatExists()) { }
         else {
             let updatedChats = this.state.chats
-            updatedChats.push(
+            updatedChats.unshift(
                 <ChatItem
                     key={this.state.newContactName}
                     name={this.state.newContactName}
