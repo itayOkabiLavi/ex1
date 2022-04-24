@@ -5,7 +5,7 @@ import './RegisterComp.css'
 class RegisterComp extends React.Component {
     constructor(props) {
         super(props)
-        this.defaultRegisterNote = "Enter your details. Error notes will appear here. Default password is Aa1!a "
+        this.defaultRegisterNote = "Enter your details. Error notes will appear here."
         this.state = {
             regErrors: "",
             pwdType: 'password',
@@ -34,7 +34,6 @@ class RegisterComp extends React.Component {
             notes += "Password must have 5+ characters, at least 1 letter and 1 number. "
         // notes += "Password must have 5+ characters, at least 1 Uppercase, 1 lower, 1 number and 1 special. "
         else if (fields.password.value !== fields.passwordVer.value) notes += "Passwords don't match. "
-        if (fields.contact.value == "") notes += "Enter contact info."
         //this.setState({ regErrors: notes })
         this.setNotes(notes)
         return notes === ""
@@ -46,8 +45,6 @@ class RegisterComp extends React.Component {
                 userName: event.target.name.value,
                 nickName: event.target.nickname.value,
                 password: event.target.password.value,
-                isMail: true,
-                contactInfo: event.target.contact.value,
                 img: this.state.profileImageSrc,
                 chats: []
             }
@@ -94,25 +91,20 @@ class RegisterComp extends React.Component {
                             placeholder="Nickname"
                             name="nickname" />
                     </label>
-                    <input
-                        id='new_user_contactInfo'
-                        placeholder="Phone number"
-                        name="contact" />
-
                     <label htmlFor='new_user_pwd' className="two-in-line" id="pwdLabel">
                         <input
                             type={this.state.pwdType}
                             id='new_user_pwd'
                             placeholder="Enter password"
                             name="password"
-                            defaultValue="Aa1!a"
+                            defaultValue=""
                         />
                         <input
                             type={this.state.pwdType}
                             id='new_user_pwd_ver'
-                            placeholder="Reenter password"
+                            placeholder="Validate password"
                             name="passwordVer"
-                            defaultValue="Aa1!a"
+                            defaultValue=""
                         />
                     </label>
                     <div className="ending_buttons">
