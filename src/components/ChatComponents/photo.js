@@ -14,7 +14,7 @@ const Photo = ({ setImgMsg }) => {
 
     let [showMe, setShowMe] = useState(true);
 
-    let preview = <video id="videopreview" muted srcObject={''} controls={false}></video>
+    let preview = <video id="videopreview" muted srcobject={''} controls={false}></video>
     let [showPreview, setShowPreview] = useState(true)
     useEffect(() => {
         getAccess();
@@ -35,15 +35,11 @@ const Photo = ({ setImgMsg }) => {
                 const track = mediaPreview.stream.getTracks()[0];
 
                 track.onended = () => {
-                    console.log("ended");
                 }
                 mediaPreview.onstop = function () {
-                    //setImage({ available: true })
-
                     let video = document.querySelector("#videopreview");
                     let img = document.querySelector("#imgPre");
                     const canvas = document.querySelector("canvas");
-                    console.log(canvas)
                     canvas.width = 720;
                     canvas.height = 480;
                     canvas.getContext("2d").drawImage(video, 0, 0);
@@ -79,13 +75,12 @@ const Photo = ({ setImgMsg }) => {
             });
     }
     const beforeClose = () => {
-        console.log('beforeClose')
         try {
             stream.recorder.stop()
-        } catch { console.log('1 fail') }
+        } catch {  }
         try {
             stream.recorder.stream.getTracks().forEach(track => track.stop());
-        } catch { console.log('2 fail') }
+        } catch {  }
         setShowMe(false)
     }
     let close = () => {
@@ -109,14 +104,14 @@ const Photo = ({ setImgMsg }) => {
                 </div>
             </Modal.Body>
             <Modal.Footer className="modalFooter">
-                <button onClick={(e) => close()}><i class="bi bi-x-circle"></i></button>
+                <button onClick={(e) => close()}><i className="bi bi-x-circle"></i></button>
                 {!image.available && <button onClick={() => { stream.recorder.stop() }}>
-                    <i class="bi bi-camera"></i>
+                    <i className="bi bi-camera"></i>
                 </button>}
                 {image.available && <button
                     id="okRecBtn"
                     onClick={(e) => { ok() }}>
-                    <i class="bi bi-check2-circle"></i>
+                    <i className="bi bi-check2-circle"></i>
                 </button>}
             </Modal.Footer>
         </Modal>

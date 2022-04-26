@@ -7,9 +7,8 @@ class Login extends React.Component {
         super(props)
         this.defaultLoginNote = "Start chatting with your imaginary friends now!"
         this.original = <span>And yes, the design and logo are all original.. So give us a some credit
-        <i class="bi bi-hand-thumbs-up"></i></span>
+        <i className="bi bi-hand-thumbs-up"></i></span>
         this.state = {
-            // users: [...users],
             registerClicked: false,
             sideNote: "",
             wrongUpwdOrUName: false
@@ -21,20 +20,17 @@ class Login extends React.Component {
         e.preventDefault();
         let name = e.target[0].value
         let pass = e.target[1].value
-        console.log("myUsers: ", users);
         let userIndex = users.findIndex((x) => { return x.userName === name && x.password === pass; })
         let newUser = (userIndex !== -1) ? users[userIndex] : null
         this.setState({
             wrongUpwdOrUName: (userIndex !== -1) ? " " : "Wrong user name or passsword"
         }) 
-        console.log("login result : ", newUser)
         this.setToken({ authed: userIndex !== -1, user: newUser});
     }
     switchToRegister() {
         this.setState({ 
             registerClicked: true
         })
-        console.log(this.state.registerClicked, "register");
     }
     registerNotes = (newNotes) => {
         this.setState({sideNote: newNotes})
@@ -43,7 +39,6 @@ class Login extends React.Component {
         this.setState({ 
             registerClicked: false
         })
-        console.log(this.state.registerClicked, "login");
     }
     pushNewUser = (newUser) => {
         let updatedUsers = users
@@ -51,7 +46,6 @@ class Login extends React.Component {
         this.setState({
             users: updatedUsers
         })
-        console.log("new user addded ", newUser, "now:\n", users)
     }
     render() {
         return (

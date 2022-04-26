@@ -32,6 +32,5 @@ export default function parseUserChats( user, newContactInfo, chatCompSetState )
                 />
         )
     });
-    console.log("dbParser says:", chats)
     return chats
 }

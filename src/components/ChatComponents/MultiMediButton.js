@@ -5,8 +5,6 @@ import Record from "./audio";
 import Video from "./video"
 import Photo from "./photo";
 function MultiMediaButton({ type, icon, uploadMulMed, title }) {
-    const [content, setContent] = useState("")
-    const [filter, setFilter] = useState("")
     let [audioMsg, setAudioMsg] = useState("")
     let [videoMsg, setVideoMsg] = useState("")
     let [imgMsg, setImgMsg] = useState("")
@@ -15,7 +13,6 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
         let content = videoMsg.content
         let type = videoMsg.type
         let msg = videoMsg.msg
-        //console.log('useEffect', msg)
         uploadMulMed(content, type, msg)
 
     }, [videoMsg])
@@ -23,7 +20,6 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
         let content = audioMsg.content
         let type = audioMsg.type
         let msg = audioMsg.msg
-        //console.log('useEffect', msg)
         uploadMulMed(content, type, msg)
 
     }, [audioMsg])
@@ -31,16 +27,12 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
         let content = imgMsg.content
         let type = imgMsg.type
         let msg = imgMsg.msg
-        //console.log('useEffect', msg)
         uploadMulMed(content, type, msg)
     }, [imgMsg])
     const [showModal, setShowModal] = useState(false)
     const isRec = type.includes("Rec")
-    //type = isRec ? type - "Rec" : type
-    // 
     function upload(e) {
         let val = e.target.files[0]
-        console.log("called uploadMulMed ", val, type)
         let comp = "Not valid"
         let srcType = type + "/" + val.name.split(".")[1]
         let content = URL.createObjectURL(val)
@@ -63,7 +55,6 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
         e.target.value = null
     }
     if (isRec) {
-        //console.log("type", type)
         let myComp = ""
         switch (type) {
             case "audioRec":

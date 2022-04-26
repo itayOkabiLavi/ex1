@@ -4,14 +4,14 @@ import React, { useState, useRef, useEffect } from "react";
 const Video = ({ setVideoMsg }) => {
     const chunks = useRef([]);
     let [showMe, setShowMe] = useState(true);
-    let preview = <video id="videopreview" muted srcObject={''} controls={false}></video>
+    let preview = <video id="videopreview" muted srcobject={''} controls={false}></video>
     let toatlSec = 0
     let mediaRecorder;
     let mediaPreview;
     let clock = <div id="clock"><span id="min">00</span><span>:</span><span id="sec">00</span></div>
     let setI;
-    const startButton = <label id="" style={{ color: "red" }}><i class="bi bi-record-circle"></i></label>
-    const stopButton = <label id=""><i class="bi bi-stop-fill"></i></label>
+    const startButton = <label id="" style={{ color: "red" }}><i className="bi bi-record-circle"></i></label>
+    const stopButton = <label id=""><i className="bi bi-stop-fill"></i></label>
     let [startStopLabel, setStartStopLabel] = useState(startButton)
 
     let [stream, setStream] = useState({
@@ -39,7 +39,6 @@ const Video = ({ setVideoMsg }) => {
         getAccess();
         return () => {
             clearInterval(setI)
-            console.log('willUnmount')
             try {
                 mediaRecorder.stream.getTracks().forEach(track => track.stop());
             } catch { }
@@ -63,7 +62,6 @@ const Video = ({ setVideoMsg }) => {
                 const track = mediaRecorder.stream.getTracks()[0];
 
                 track.onended = () => {
-                    console.log("ended");
                 }
 
                 mediaRecorder.onstart = function () {
@@ -85,7 +83,6 @@ const Video = ({ setVideoMsg }) => {
                     mediaPreview.stream.getTracks().forEach(track => track.stop());
                 }
                 mediaRecorder.ondataavailable = function (e) {
-                    console.log("data available");
                     chunks.current.push(e.data);
                 };
                 mediaPreview.start();
@@ -97,7 +94,6 @@ const Video = ({ setVideoMsg }) => {
                     video.src = url;
                     video.controls = true
                     clearInterval(setI)
-                    console.log("stopped");
                     chunks.current = [];
 
                     setRecording({
@@ -107,10 +103,6 @@ const Video = ({ setVideoMsg }) => {
                     });
                     mediaPreview.stream.getTracks().forEach(track => track.stop());
                     mediaRecorder.stream.getTracks().forEach(track => track.stop());
-                    // let comp = <video key={recording.url} id="mulMedPrev" controls>
-                    //     <source src={recording.url} type="video" />
-                    // </video>;
-                    // setVideoMsg({ msg: comp, content: url, type: "video" })
                 };
 
                 setStream({
@@ -127,13 +119,12 @@ const Video = ({ setVideoMsg }) => {
     }
     const beforeClose = () => {
         if (recording.active) stream.recorder.stop();
-        console.log('beforeClose')
         try {
             stream.preview.stop()
-        } catch {console.log('1 fail') }
+        } catch { }
         try {
             stream.recorder.stream.getTracks().forEach(track => track.stop());
-        } catch { console.log('2 fail')}
+        } catch { }
         clearInterval(setI)
         setShowMe(false)
     }
@@ -158,7 +149,7 @@ const Video = ({ setVideoMsg }) => {
                 {preview}
             </Modal.Body>
             <Modal.Footer className="modalFooter">
-                <button onClick={(e) => close()}><i class="bi bi-x-circle"></i></button>
+                <button onClick={(e) => close()}><i className="bi bi-x-circle"></i></button>
                 {recording.url == "" && <Button className="btn" onClick={() => {
                     if (recording.active) {
                         stream.recorder.stop();
@@ -173,7 +164,7 @@ const Video = ({ setVideoMsg }) => {
                 {recording.available && <button
                     id="okRecBtn"
                     onClick={(e) => { ok() }}>
-                    <i class="bi bi-check2-circle"></i>
+                    <i className="bi bi-check2-circle"></i>
                 </button>}
             </Modal.Footer>
         </Modal>

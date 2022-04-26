@@ -44,6 +44,7 @@ class ChatComp extends React.Component {
                     mmContent={msg.content.mm}
                     txtContent={msg.content.txt}
                     date={msg.date}
+                    key={msg.content.txt != "" ? msg.content.txt : msg.content.mm}
                 />
             )
         })
@@ -65,7 +66,6 @@ class ChatComp extends React.Component {
                 />
             )
         });
-        console.log("chatItems: ", tempChats)
         return tempChats
     }
     openNewChat() { this.setState({ showModal: true }) }
@@ -118,7 +118,6 @@ class ChatComp extends React.Component {
     }
     childComponentWillUnmount = ({ id, data }) => {
         this.chatsDict = { ...this.chatsDict, [id]: data };
-        console.log(this.chatsDict)
     }
     render() {
         return (
@@ -138,7 +137,7 @@ class ChatComp extends React.Component {
                         <Button
                             onClick={() => this.setToken({ authed: false })}
                             title="Logout">
-                            <i class="bi bi-box-arrow-right"></i>
+                            <i className="bi bi-box-arrow-right"></i>
                         </Button>
                         <Modal className='myModal' show={this.state.showModal}>
                             <div id="addChatModal">
@@ -146,7 +145,6 @@ class ChatComp extends React.Component {
                                 <Modal.Body className='modalBody'>
                                     <label htmlFor='cName'>Enter new contact name
                                         <input autoFocus id='cName'
-                                            //defaultValue={this.state.newContactName}
                                             onChange={(e) => { this.newContactNameChanged(e) }}
                                         />
                                     </label>
@@ -156,10 +154,10 @@ class ChatComp extends React.Component {
                                 </Modal.Body>
                                 <Modal.Footer className='modalFooter'>
                                     <Button className='modalFooterButton' onClick={() => { this.closeNewChat() }}>
-                                        <i class="bi bi-trash3"></i>
+                                        <i className="bi bi-trash3"></i>
                                     </Button>
                                     <Button className='modalFooterButton' onClick={() => { this.addNewChat() }}>
-                                        <i class="bi bi-plus-lg"></i>
+                                        <i className="bi bi-plus-lg"></i>
                                     </Button>
                                 </Modal.Footer>
                             </div>

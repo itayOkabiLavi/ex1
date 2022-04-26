@@ -15,7 +15,6 @@ class ChatDisplay extends React.Component {
         this.key = this.id
         this.showRecorder = false
         this.childComponentWillUnmount = props.childComponentWillUnmount
-        console.log("constructor updateLastMessage = ", props.updateLastMessage);
         this.state = {
             msgText: "",
             msgMulMedCont: "",
@@ -25,14 +24,11 @@ class ChatDisplay extends React.Component {
             now: { date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString() },
         }
 
-        console.log('props.state', { ...props.state })
         this.messages = [...props.state.messages]
-        console.log('this.messages', [...this.messages])
     }
 
     msgTextChanged(event) { this.setState({ msgText: event.target.value }) }
     sendMessage() {
-        console.log(this.props.updateLastMessage);
         if ((this.state.msgText == "" || this.state.msgText == undefined)
             && (this.state.msgMulMedCont == "" || this.state.msgMulMedCont == undefined)) { return }
         let type = this.state.msgMulMedType != undefined ? this.state.msgMulMedType : 'text'
@@ -40,6 +36,7 @@ class ChatDisplay extends React.Component {
             <Message
                 fromMe={true}
                 type={type}
+                key={this.state.msgText !== "" ? this.state.msgText : this.state.msgMulMedCont}
                 mmContent={this.state.msgMulMedCont}
                 txtContent={this.state.msgText}
                 date={{ date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}
@@ -71,7 +68,6 @@ class ChatDisplay extends React.Component {
         objDiv.scrollTop = objDiv.scrollHeight;
     }
     componentWillUnmount() {
-        console.log('componentWillUnmount', [...this.messages])
         this.childComponentWillUnmount({
             msgText: this.state.msgText,
             msgMulMedPrev: this.state.msgMulMedPrev,
@@ -80,14 +76,12 @@ class ChatDisplay extends React.Component {
     }
     showMultiMediaWindow = (event, type) => {
         event.preventDefault()
-        console.log(type)
         this.setState({
             multiMediaType: type,
             multiMediaWindowShow: true
         })
     }
     changeMulMedContent = (content, type, comp) => {
-        //console.log("changeMulMedContent", content, comp)
         this.setState({
             msgMulMedCont: content,
             msgMulMedType: type,
@@ -159,7 +153,7 @@ class ChatDisplay extends React.Component {
                         id="mulMedContainer"
                         hidden={this.state.msgMulMedCont == "" || this.state.msgMulMedCont == undefined ? true : false}>
                         {this.state.msgMulMedPrev}
-                        <button onClick={this.clearMulMedContent}><i class="bi bi-x-lg"></i></button>
+                        <button onClick={this.clearMulMedContent}><i className="bi bi-x-lg"></i></button>
                     </Card>
                     <input autoComplete="off" autoFocus
                         id='cid_text'
@@ -173,7 +167,7 @@ class ChatDisplay extends React.Component {
                             data-bs-toggle="collapse"
                             data-bs-target="#uploadOptions"
                             aria-expanded="false"
-                            onClick={() => { console.log("show mulmed options2!") }}
+                            onClick={() => { }}
                         >
                             <i className="bi bi-three-dots-vertical"></i>
                         </button>

@@ -24,7 +24,6 @@ class ChatItem extends React.Component {
                 msgAud: ""
             }
         }
-        console.log('savedState',this.state.savedState)
         
     }
     showDisplay = () => {
@@ -38,30 +37,26 @@ class ChatItem extends React.Component {
                 })}}
             state={this.state.savedState} />
         this.callBack(this.display, this.aName);
-        console.log('chatitem');
     }
     messageSummary(lm) {
-        console.log('lm',lm)
         var mulMedIcon = ""
         switch (lm.type){
             case "image":
-                mulMedIcon = <i class="bi bi-file-earmark-image"></i>
+                mulMedIcon = <i className="bi bi-file-earmark-image"></i>
                 break;
             case "audio":
-                mulMedIcon = <i class="bi bi-file-earmark-music"></i>
+                mulMedIcon = <i className="bi bi-file-earmark-music"></i>
                 break;
             case "video":
-                mulMedIcon = <i class="bi bi-film"></i>
+                mulMedIcon = <i className="bi bi-film"></i>
         }
         var summary = lm.content.txt
         if (summary.length > this.maxSummary) summary = new String().concat(summary.substring(0, this.maxSummary), " ...")
         var message = lm.type == "text" ? <h2>{summary}</h2> 
          : <span>{mulMedIcon}<h2>{summary}</h2></span>
-        //console.log('msg',message)
         return message
     }
     childComponentWillUnmount = (oldState) => {
-        console.log('data', { ...oldState })
         this.setState({
             savedState: {
                 messages: [...oldState.messages],
@@ -71,10 +66,8 @@ class ChatItem extends React.Component {
 
             },
         })
-        console.log('newState', this.state.savedState)
     }
     render() {
-        console.log("i am ", this)
         return (
             <div id='chatCard' key={this.key} onClick={(e) => { this.showDisplay() }}>
                 <img src={this.aImg} />
