@@ -3,13 +3,14 @@
 - Yehuda Schwartz 208994285
 - Itay Okabi-Lavi 208390559
 ## Packages
+- npm (npm install)
 - bootstrap-icons@1.8.1
 - bootstrap@5.1.3
 - react-bootstrap@2.2.3
 - react-dom@17.0.2
 - react-router-dom@6.3.0
 ## Code Flow
-On starting login window will show. You can either log-in using the following hard-coded users:
+On starting (npm start) login window will show. You can either log-in using the following hard-coded users:
 - username=goku, password=gohan1
 - username=Jack, password=895hj
 
