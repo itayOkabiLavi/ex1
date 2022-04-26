@@ -29,12 +29,9 @@ class RegisterComp extends React.Component {
             notes += "NickName should be non empty and 7 characters at most. "
         }
         const reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}/
-        //const reg = /(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!?@#$%^&*()\-+\\\/.,:;"'{}\[\]<>~])[A-Za-z0-9!?@#$%^&*()\-+\\\/.,:;"'{}\[\]<>~]{5,}/
         if (!reg.test(fields.password.value))
             notes += "Password must have 5+ characters, at least 1 letter and 1 number. "
-        // notes += "Password must have 5+ characters, at least 1 Uppercase, 1 lower, 1 number and 1 special. "
         else if (fields.password.value !== fields.passwordVer.value) notes += "Passwords don't match. "
-        //this.setState({ regErrors: notes })
         this.setNotes(notes)
         return notes === ""
     }

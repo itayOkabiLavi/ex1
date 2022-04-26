@@ -12,7 +12,6 @@ class Message extends React.Component {
         this.mmContent = props.mmContent
         let comp = ""
         this.key = this.txtContent != "" ? this.txtContent : this.mmContent;
-        //this.key = props.key;
         this.type = props.type
         switch (this.type) {
             case "image":
