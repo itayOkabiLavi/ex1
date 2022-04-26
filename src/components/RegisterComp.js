@@ -9,7 +9,7 @@ class RegisterComp extends React.Component {
         this.state = {
             regErrors: "",
             pwdType: 'password',
-            pwdIcon: <i class="bi bi-eye-slash"></i>,
+            pwdIcon: <i className="bi bi-eye-slash"></i>,
             pwdsNotMatch: false,
             profileImageSrc: 'https://cdn-icons-png.flaticon.com/512/720/720236.png'
         }

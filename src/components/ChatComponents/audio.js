@@ -13,8 +13,8 @@ const Audio = ({ setAudioMsg }) => {
     let [clickable, setClickable] = useState(true);
     let [showMe, setShowMe] = useState(true);
 
-    const startButton = <label id="" style={{ color: "red" }}><i class="bi bi-record-circle"></i></label>
-    const stopButton = <label id=""><i class="bi bi-stop-fill"></i></label>
+    const startButton = <label id="" style={{ color: "red" }}><i className="bi bi-record-circle"></i></label>
+    const stopButton = <label id=""><i className="bi bi-stop-fill"></i></label>
     let [startStopLabel, setStartStopLabel] = useState(startButton)
     const chunks = useRef([]);
 
@@ -124,7 +124,7 @@ const Audio = ({ setAudioMsg }) => {
                 {recording.available ? preview : clock}
             </Modal.Body>
             <Modal.Footer className="modalFooter">
-                <button onClick={(e) => close()}><i class="bi bi-x-circle"></i></button>
+                <button onClick={(e) => close()}><i className="bi bi-x-circle"></i></button>
                 {recording.url == "" && <Button className="btn" onClick={() => {
                     if (!clickable) return;
                     if (recording.active) {
@@ -140,7 +140,7 @@ const Audio = ({ setAudioMsg }) => {
                 {recording.available && <button
                     id="okRecBtn"
                     onClick={(e) => { ok() }}>
-                    <i class="bi bi-check2-circle"></i>
+                    <i className="bi bi-check2-circle"></i>
                 </button>}
             </Modal.Footer>
 

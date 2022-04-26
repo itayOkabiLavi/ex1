@@ -11,20 +11,21 @@ class Message extends React.Component {
         this.txtContent = props.txtContent
         this.mmContent = props.mmContent
         let comp = ""
-        this.key = Math.floor(Math.random() * 100)
+        this.key = this.txtContent != "" ? this.txtContent : this.mmContent;
+        //this.key = props.key;
         this.type = props.type
         switch (this.type) {
             case "image":
-                comp = <img key={props.mmContent} id="mulMedMsg" src={props.mmContent}/>
+                comp = <img key={props.mmContent} id="mulMedMsg" src={props.mmContent} />
                 break;
             case "audio":
                 comp = <audio key={props.mmContent} id="mulMedMsg" controls>
-                    <source src={props.mmContent} type={props.srcType}/>
+                    <source src={props.mmContent} type={props.srcType} />
                 </audio>
                 break;
             case "video":
                 comp = <video key={props.mmContent} id="mulMedMsg" controls autoPlay muted>
-                    <source src={props.mmContent} type={props.srcType}/>
+                    <source src={props.mmContent} type={props.srcType} />
                 </video>
                 break;
         }

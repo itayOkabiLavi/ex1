@@ -42,13 +42,13 @@ class ChatItem extends React.Component {
         var mulMedIcon = ""
         switch (lm.type){
             case "image":
-                mulMedIcon = <i class="bi bi-file-earmark-image"></i>
+                mulMedIcon = <i className="bi bi-file-earmark-image"></i>
                 break;
             case "audio":
-                mulMedIcon = <i class="bi bi-file-earmark-music"></i>
+                mulMedIcon = <i className="bi bi-file-earmark-music"></i>
                 break;
             case "video":
-                mulMedIcon = <i class="bi bi-film"></i>
+                mulMedIcon = <i className="bi bi-film"></i>
         }
         var summary = lm.content.txt
         if (summary.length > this.maxSummary) summary = new String().concat(summary.substring(0, this.maxSummary), " ...")

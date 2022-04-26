@@ -14,7 +14,7 @@ const Photo = ({ setImgMsg }) => {
 
     let [showMe, setShowMe] = useState(true);
 
-    let preview = <video id="videopreview" muted srcObject={''} controls={false}></video>
+    let preview = <video id="videopreview" muted srcobject={''} controls={false}></video>
     let [showPreview, setShowPreview] = useState(true)
     useEffect(() => {
         getAccess();
@@ -104,14 +104,14 @@ const Photo = ({ setImgMsg }) => {
                 </div>
             </Modal.Body>
             <Modal.Footer className="modalFooter">
-                <button onClick={(e) => close()}><i class="bi bi-x-circle"></i></button>
+                <button onClick={(e) => close()}><i className="bi bi-x-circle"></i></button>
                 {!image.available && <button onClick={() => { stream.recorder.stop() }}>
-                    <i class="bi bi-camera"></i>
+                    <i className="bi bi-camera"></i>
                 </button>}
                 {image.available && <button
                     id="okRecBtn"
                     onClick={(e) => { ok() }}>
-                    <i class="bi bi-check2-circle"></i>
+                    <i className="bi bi-check2-circle"></i>
                 </button>}
             </Modal.Footer>
         </Modal>

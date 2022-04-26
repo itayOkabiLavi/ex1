@@ -36,6 +36,7 @@ class ChatDisplay extends React.Component {
             <Message
                 fromMe={true}
                 type={type}
+                key={this.state.msgText !== "" ? this.state.msgText : this.state.msgMulMedCont}
                 mmContent={this.state.msgMulMedCont}
                 txtContent={this.state.msgText}
                 date={{ date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}
@@ -152,7 +153,7 @@ class ChatDisplay extends React.Component {
                         id="mulMedContainer"
                         hidden={this.state.msgMulMedCont == "" || this.state.msgMulMedCont == undefined ? true : false}>
                         {this.state.msgMulMedPrev}
-                        <button onClick={this.clearMulMedContent}><i class="bi bi-x-lg"></i></button>
+                        <button onClick={this.clearMulMedContent}><i className="bi bi-x-lg"></i></button>
                     </Card>
                     <input autoComplete="off" autoFocus
                         id='cid_text'
@@ -166,7 +167,7 @@ class ChatDisplay extends React.Component {
                             data-bs-toggle="collapse"
                             data-bs-target="#uploadOptions"
                             aria-expanded="false"
-                            onClick={() => {  }}
+                            onClick={() => { }}
                         >
                             <i className="bi bi-three-dots-vertical"></i>
                         </button>
