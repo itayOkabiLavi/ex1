@@ -44,6 +44,7 @@ class ChatComp extends React.Component {
                     mmContent={msg.content.mm}
                     txtContent={msg.content.txt}
                     date={msg.date}
+                    key={msg.content.txt != "" ? msg.content.txt : msg.content.mm}
                 />
             )
         })
