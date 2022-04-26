@@ -35,15 +35,11 @@ const Photo = ({ setImgMsg }) => {
                 const track = mediaPreview.stream.getTracks()[0];
 
                 track.onended = () => {
-                    console.log("ended");
                 }
                 mediaPreview.onstop = function () {
-                    //setImage({ available: true })
-
                     let video = document.querySelector("#videopreview");
                     let img = document.querySelector("#imgPre");
                     const canvas = document.querySelector("canvas");
-                    console.log(canvas)
                     canvas.width = 720;
                     canvas.height = 480;
                     canvas.getContext("2d").drawImage(video, 0, 0);
@@ -79,13 +75,12 @@ const Photo = ({ setImgMsg }) => {
             });
     }
     const beforeClose = () => {
-        console.log('beforeClose')
         try {
             stream.recorder.stop()
-        } catch { console.log('1 fail') }
+        } catch {  }
         try {
             stream.recorder.stream.getTracks().forEach(track => track.stop());
-        } catch { console.log('2 fail') }
+        } catch {  }
         setShowMe(false)
     }
     let close = () => {

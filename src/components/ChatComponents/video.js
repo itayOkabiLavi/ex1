@@ -39,7 +39,6 @@ const Video = ({ setVideoMsg }) => {
         getAccess();
         return () => {
             clearInterval(setI)
-            console.log('willUnmount')
             try {
                 mediaRecorder.stream.getTracks().forEach(track => track.stop());
             } catch { }
@@ -63,7 +62,6 @@ const Video = ({ setVideoMsg }) => {
                 const track = mediaRecorder.stream.getTracks()[0];
 
                 track.onended = () => {
-                    console.log("ended");
                 }
 
                 mediaRecorder.onstart = function () {
@@ -85,7 +83,6 @@ const Video = ({ setVideoMsg }) => {
                     mediaPreview.stream.getTracks().forEach(track => track.stop());
                 }
                 mediaRecorder.ondataavailable = function (e) {
-                    console.log("data available");
                     chunks.current.push(e.data);
                 };
                 mediaPreview.start();
@@ -97,7 +94,6 @@ const Video = ({ setVideoMsg }) => {
                     video.src = url;
                     video.controls = true
                     clearInterval(setI)
-                    console.log("stopped");
                     chunks.current = [];
 
                     setRecording({
@@ -107,10 +103,6 @@ const Video = ({ setVideoMsg }) => {
                     });
                     mediaPreview.stream.getTracks().forEach(track => track.stop());
                     mediaRecorder.stream.getTracks().forEach(track => track.stop());
-                    // let comp = <video key={recording.url} id="mulMedPrev" controls>
-                    //     <source src={recording.url} type="video" />
-                    // </video>;
-                    // setVideoMsg({ msg: comp, content: url, type: "video" })
                 };
 
                 setStream({
@@ -127,13 +119,12 @@ const Video = ({ setVideoMsg }) => {
     }
     const beforeClose = () => {
         if (recording.active) stream.recorder.stop();
-        console.log('beforeClose')
         try {
             stream.preview.stop()
-        } catch {console.log('1 fail') }
+        } catch { }
         try {
             stream.recorder.stream.getTracks().forEach(track => track.stop());
-        } catch { console.log('2 fail')}
+        } catch { }
         clearInterval(setI)
         setShowMe(false)
     }

@@ -8,8 +8,7 @@ function cht(addressee, addresseeImg, contactInfo, messages = []) {
 }
 
 function msg(fromMe, txtContent, mmContent, dateDate, dateTime, type = "text") {
-    if (type !== "text" && type !== "image" && type !== "audio" && type !== "video")
-        console.log("wrong type: ", type)
+    if (type !== "text" && type !== "image" && type !== "audio" && type !== "video"){}
     return {
         fromMe: fromMe,
         type: type,

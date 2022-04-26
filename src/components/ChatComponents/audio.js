@@ -41,13 +41,6 @@ const Audio = ({ setAudioMsg }) => {
     }
     useEffect(() => {
         getAccess();
-        // return () => {
-        //     clearInterval(setI)
-        //     console.log('willUnmount')
-        //     try {
-        //         mediaRecorder.stream.getTracks().forEach(track => track.stop());
-        //     } catch { }
-        // }
     }, [])
     function getAccess() {
         navigator.mediaDevices
@@ -62,7 +55,6 @@ const Audio = ({ setAudioMsg }) => {
                 }
                 const track = mediaRecorder.stream.getTracks()[0];
                 track.onended = () => {
-                    console.log("ended");
                 }
                 mediaRecorder.onstart = function () {
                     setI = setTimer()
@@ -74,14 +66,11 @@ const Audio = ({ setAudioMsg }) => {
                 };
 
                 mediaRecorder.ondataavailable = function (e) {
-                    console.log("data available");
                     chunks.current.push(e.data);
                 };
                 mediaRecorder.onstop = function () {
                     clearInterval(setI)
-                    console.log(toatlSec)
                     setClickable(false);
-                    console.log("stopped");
                     const url = URL.createObjectURL(chunks.current[0]);
                     chunks.current = [];
 
@@ -95,10 +84,6 @@ const Audio = ({ setAudioMsg }) => {
                     audio.src = url;
                     audio.controls = true
                     mediaRecorder.stream.getTracks().forEach(track => track.stop());
-                    // let comp = <audio key={recording.url} id="mulMedPrev" controls>
-                    //     <source src={recording.url} type="audio" />
-                    // </audio>;
-                    // setAudioMsg({ msg: comp, content: url, type: "audio" })
                 };
 
                 setStream({
@@ -106,7 +91,6 @@ const Audio = ({ setAudioMsg }) => {
                     access: true,
                     recorder: mediaRecorder
                 });
-                console.log(stream.recorder)
             })
             .catch((error) => {
                 console.log(error);
@@ -115,7 +99,6 @@ const Audio = ({ setAudioMsg }) => {
     }
     const beforeClose = () => {
         clearInterval(setI)
-        console.log('beforeClose')
         try {
             stream.recorder.stream.getTracks().forEach(track => track.stop());
         } catch { }

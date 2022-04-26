@@ -62,11 +62,9 @@ class RegisterComp extends React.Component {
             if (fileReader.readyState === 2) this.setState({ profileImageSrc: fileReader.result })
         }
         fileReader.readAsDataURL(event.target.files[0])
-        console.log("prof pic details: \n", fileReader);
     }
     submit = (e) => {
         e.preventDefault()
-        console.log("applying");
         this.verifyReg(e)
     }
     render() {
