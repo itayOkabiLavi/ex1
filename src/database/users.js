@@ -21,10 +21,10 @@ function msg(fromMe, txtContent, mmContent, dateDate, dateTime, type = "text") {
 
 let users = [
     {
-        userName: 'y',
-        nickName: 'yehuda',
-        password: '1',
-        contactInfo: 'asd@gmail.com',
+        userName: 'Jack',
+        nickName: 'Jiji',
+        password: '895hj',
+        contactInfo: 'Jack@gmail.com',
         img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/The_Blue_Marble_%28remastered%29.jpg/800px-The_Blue_Marble_%28remastered%29.jpg',
         chats: [
             cht('Itay Levi',
@@ -130,12 +130,5 @@ let users = [
             )
         ]
     },
-    {
-        userName: 'vegeta',
-        password: 'bulma2',
-        isMail: true,
-        contactInfo: 'asd@gmail.com',
-        img: 'https://dragonball.guru/wp-content/uploads/2021/01/goku-dragon-ball-guru.jpg'
-    }
 ]
 export default users;
