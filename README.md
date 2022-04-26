@@ -17,7 +17,7 @@ Or create new account by clicking on registeration button. You may enter your pr
 - username must be unique (not exist in database).
 - password requirements are based on the following regex: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}/. Meaning pwd is at least 5 chars, with at least on character from each type (capital, low, number).
 
-Applying valid values to the forms mentioned, will take you to the chats' window, Where you can create new chats (addressee's name must be unique). In each chat you may send text messages as well as images, audio and video files. Messges sent by you have green background, and sent to you will have white one. 
+Applying valid values to the forms mentioned, will take you to the chats' window, Where you can create new chats (addressee's name must be unique). In each chat you may send text messages as well as images, audio and video files. Messges sent by you have light-blue background, and sent to you will have white one. 
 We also provide options for recording multimedia (voice message, video or taking a 'selfie'), a log out button, and comfortable resizing of the screen.
 
 # Project Structure
@@ -53,4 +53,4 @@ contains all data of the chat: addressee image, name, last message info and main
 #### ChatDisplayItem
 Contains all the inputs (text typing area, uploading windows, recording windows) and outputs (all messages sent). Upload/Record btns are made of the ssame object - MultiMediButton - which changes it's purpose according to its attributes values.
 ###### Notes
-> - messages sent by user are in light-green background. Received messages in white background color.
+> - messages sent by user are in light-blue background. Received messages in white background color.

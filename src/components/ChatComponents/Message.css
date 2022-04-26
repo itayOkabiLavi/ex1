@@ -23,7 +23,7 @@
 }
 
 #fromMe {
-    background-color: rgb(139, 255, 191) !important;
+    background-color: rgba(201, 223, 255, 0.833) !important;
     border-radius: 20px 20px 20px 0;
     align-self: flex-start;
 }
