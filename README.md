@@ -16,7 +16,7 @@ On starting (npm start) login window will show. You can either log-in using the 
 
 Or create new account by clicking on registeration button. You may enter your profile picture and nickname, but must provide a valid username and password (including password verification):
 - username must be unique (not exist in database).
-- password requirements are based on the following regex: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}/. Meaning pwd is at least 5 chars, with at least on character from each type (capital, low, number).
+- password requirements are based on the following regex: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}/. Meaning pwd is at least 5 chars, with at least on character from each type (character, number).
 
 Applying valid values to the forms mentioned, will take you to the chats' window, Where you can create new chats (addressee's name must be unique). In each chat you may send text messages as well as images, audio and video files. Messges sent by you have light-blue background, and sent to you will have white one. 
 We also provide options for recording multimedia (voice message, video or taking a 'selfie'), a log out button, and comfortable resizing of the screen.
@@ -36,12 +36,12 @@ the Register window.
 ###### Notes
 > - Hard coded users:
 >   -  uname=goku, password=gohan1
->   -  uname=y, password=1
+>   -  uname=Jack, password=895hj
 ### Register
 Allows user to create new account which includes: prof. picture, unique username, nickname and password. Errors and notes during registration will appear on left side of the screen. When input is valid, clicking on "Apply" btn changes the state of the if-statement in App comp. which loads the chat window.
 ###### Notes
 > - username must be unique (not exist in database).
-> - password requirements are based on the following regex: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}/. Meaning pwd is at least 5 chars, with at least on character from each type (capital, low, number).
+> - password requirements are based on the following regex: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}/. Meaning pwd is at least 5 chars, with at least on character from each type (character, number).
 ## ChatComp
 Main window displaying the user's chats. Allows user to upload or record image, audio and video files and send in a chat. Contains three parts:
 1.  left bar - contains user's data, add chat and logout btns. 
