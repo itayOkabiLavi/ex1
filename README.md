@@ -10,8 +10,8 @@
 - react-router-dom@6.3.0
 ## Code Flow
 On starting login window will show. You can either log-in using the following hard-coded users:
-> - username=goku, password=gohan1.
-> - username=y, password=1.
+- username=goku, password=gohan1.
+- username=y, password=1.
 Or create new account by clicking on registeration button. You may enter your profile picture and nickname, but must provide a valid username and password (including password verification):
 > - username must be unique (not exist in database).
 > - password requirements are based on the following regex: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}/. Meaning pwd is at least 5 chars, with at least on character from each type (capital, low, number).
