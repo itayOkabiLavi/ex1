@@ -14,18 +14,40 @@ class Login extends React.Component {
             wrongUpwdOrUName: false
         }
         this.setToken = props.setToken
+        this.server = props.URLport
     }
     
     handleSubmit(e) {
         e.preventDefault();
-        let name = e.target[0].value
-        let pass = e.target[1].value
+        let loginData = {
+            name: e.target[0].value,
+            password: e.target[1].value
+        }
+        /*
         let userIndex = users.findIndex((x) => { return x.userName === name && x.password === pass; })
-        let newUser = (userIndex !== -1) ? users[userIndex] : null
+         : null
         this.setState({
             wrongUpwdOrUName: (userIndex !== -1) ? " " : "Wrong user name or passsword"
-        }) 
-        this.setToken({ authed: userIndex !== -1, user: newUser});
+        })
+        */
+        const mainThis = this
+        fetch(
+            this.server + 'Users/login?' + new URLSearchParams(loginData), {method: 'POST'}
+         ).then(
+            function(response) {
+                console.log(response.status)
+                if (response.status != 200) {
+                    console.log('login denied');
+                    mainThis.setState({ wrongUpwdOrUName: "Wrong user name or passsword" });
+                    mainThis.setToken({ authed: false });
+                } else {
+                    console.log('access approved');
+                    mainThis.setState({ wrongUpwdOrUName: " " });
+                    let newUser = users[0]
+                    mainThis.setToken({ authed: true, user: newUser });
+                }
+            }
+        )
     }
     switchToRegister() {
         this.setState({ 

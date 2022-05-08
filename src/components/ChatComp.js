@@ -15,7 +15,8 @@ class ChatComp extends React.Component {
         super(prop)
         this.i = 1
         this.chats = []
-        this.user = this.props.user
+        this.server = this.props.URLport
+        this.user = this.getUser(this.props.user)
         this.setToken = this.props.setToken
 
         this.state = {
@@ -30,6 +31,10 @@ class ChatComp extends React.Component {
             chatExistsMsg: false
         };
     }
+    getUser = (server) => {
+        return server
+    }
+
     getSrcType = (type, fileName) => {
         const mulmedType = /(?:\.([^.]+))?$/;
         return type + "/" + mulmedType.exec(fileName)[1]
