@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import "./MultiMediaButton.css"
+import { api } from "../../api";
 import Record from "./audio";
 import Video from "./video"
 import Photo from "./photo";

@@ -1,4 +1,5 @@
 import React from 'react';
+import { api } from '../../api';
 import './ChatItem.css'
 import { Card, Row } from 'react-bootstrap';
 import ChatDisplay from './ChatItemDisplay';
@@ -57,6 +58,9 @@ class ChatItem extends React.Component {
         return message
     }
     childComponentWillUnmount = (oldState) => {
+        /*
+        fetch()
+        */
         this.setState({
             savedState: {
                 messages: [...oldState.messages],
@@ -67,6 +71,7 @@ class ChatItem extends React.Component {
             },
         })
     }
+
     render() {
         return (
             <div id='chatCard' key={this.key} onClick={(e) => { this.showDisplay() }}>
