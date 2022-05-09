@@ -33,7 +33,7 @@ class ChatComp extends React.Component {
         };
     }
     getUser = () => {
-        fetch( api.getContacts(),
+        fetch( api.getAllContacts_URL(),
          {method: 'POST', body: this.userToken.token} 
         ).then(
             function(response) {

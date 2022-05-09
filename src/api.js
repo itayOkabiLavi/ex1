@@ -7,11 +7,11 @@ let apiServer = {
 }
 
 const api = {
-    getIP: () => apiServer.ip,
-    getRegister: (registrationDetails) => { return apiServer.users + 'register?' +  new URLSearchParams(registrationDetails) },
-    getLogin: (loginData) => { return apiServer.users + 'login?' + new URLSearchParams(loginData) },
-    getContacts: () => { return apiServer.ip + 'Contacts' },
-    getSingleContact: (contactID) => { return apiServer.users + 'contacts/' + contactID }
+    getIP_URL: () => apiServer.ip,
+    getRegister_URL: (registrationDetails) => { return apiServer.users + 'register?' +  new URLSearchParams(registrationDetails) },
+    getLogin_URL: (loginData) => { return apiServer.users + 'login?' + new URLSearchParams(loginData) },
+    getAllContacts_URL: () => { return apiServer.ip + 'Contacts' },
+    getSingleContact_URL: (contactID) => { return apiServer.users + 'contacts/' + contactID }
     
 };
 

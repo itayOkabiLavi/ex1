@@ -38,7 +38,7 @@ class RegisterComp extends React.Component {
         }
         const mainThis = this
         fetch(
-            api.getRegister(registrationDetails),
+            api.getRegister_URL(registrationDetails),
             {method: 'POST'}
          ).then(
             function(response) {

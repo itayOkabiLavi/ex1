@@ -32,7 +32,7 @@ class Login extends React.Component {
         */
         const mainThis = this
         fetch(
-            api.getLogin(loginData), {method: 'POST'}
+            api.getLogin_URL(loginData), {method: 'POST'}
          ).then(
             function(response) {
                 console.log(response.status)
