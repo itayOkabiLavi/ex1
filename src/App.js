@@ -1,22 +1,22 @@
 import Login from './components/Login';
+import './api.js'
 import ChatComp from './components/ChatComp';
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 
 function App() {
-  const server = 'https://localhost:7135/api/'
   let [state, setState] = useState({
     authed: false,
-    user: undefined,
+    userToken: undefined,
   });
-  let loginComp = <Login setToken={setState} URLport={server}/>
+  let loginComp = <Login setToken={setState}/>
 
   if (state.authed == false) {
     return loginComp;
   }
   return (
-    <ChatComp user={state.user} setToken={setState} URLport={server}/>
+    <ChatComp userToken={state.userToken} setToken={setState}/>
   );
 }
 export default App;

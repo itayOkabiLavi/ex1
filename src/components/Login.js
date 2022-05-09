@@ -2,6 +2,7 @@ import React,{useEffect} from 'react'
 import RegisterComp from './RegisterComp'
 import './Login.css'
 import users from '../database/users'
+import { api } from '../api.js'
 class Login extends React.Component {
     constructor(props) {
         super(props)
@@ -14,7 +15,6 @@ class Login extends React.Component {
             wrongUpwdOrUName: false
         }
         this.setToken = props.setToken
-        this.server = props.URLport
     }
     
     handleSubmit(e) {
@@ -32,7 +32,7 @@ class Login extends React.Component {
         */
         const mainThis = this
         fetch(
-            this.server + 'Users/login?' + new URLSearchParams(loginData), {method: 'POST'}
+            api.getLogin(loginData), {method: 'POST'}
          ).then(
             function(response) {
                 console.log(response.status)
@@ -41,10 +41,16 @@ class Login extends React.Component {
                     mainThis.setState({ wrongUpwdOrUName: "Wrong user name or passsword" });
                     mainThis.setToken({ authed: false });
                 } else {
-                    console.log('access approved');
-                    mainThis.setState({ wrongUpwdOrUName: " " });
-                    let newUser = users[0]
-                    mainThis.setToken({ authed: true, user: newUser });
+                    
+                    response.text().then((tokenGot) => {
+
+                        console.log('access approved');
+                        let token = JSON.parse(tokenGot, (key, value) => {return value})
+                        console.log(token)
+                        mainThis.setState({ wrongUpwdOrUName: " " });
+                        mainThis.setToken({ authed: true, userToken: token });
+                    })
+                    
                 }
             }
         )

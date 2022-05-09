@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Form, Modal, Nav, TabContent } from 'react-bootstrap';
 import './RegisterComp.css'
-
+import { api } from '../api.js'
 class RegisterComp extends React.Component {
     constructor(props) {
         super(props)
@@ -22,8 +22,6 @@ class RegisterComp extends React.Component {
     }
     fieldsOk(fields) {
         let notes = ""
-        if (this.currentUsers.findIndex((x) => { return x.userName === fields.name.value; }) !== -1)
-            notes += "User name is taken.\n"
         if (fields.name.value == "") notes += "Enter user name. "
         if (fields.nickname.value.length == 0 || fields.nickname.value.length > 7) {
             notes += "NickName should be non empty and 7 characters at most. "
@@ -32,8 +30,33 @@ class RegisterComp extends React.Component {
         if (!reg.test(fields.password.value))
             notes += "Password must have 5+ characters, at least 1 letter and 1 number. "
         else if (fields.password.value !== fields.passwordVer.value) notes += "Passwords don't match. "
-        this.setNotes(notes)
-        return notes === ""
+        const registrationDetails = {
+            name: fields.name.value,
+            nickname: fields.nickname.value,
+            password: fields.password.value,
+            profileImage: this.state.profileImageSrc
+        }
+        const mainThis = this
+        fetch(
+            api.getRegister(registrationDetails),
+            {method: 'POST'}
+         ).then(
+            function(response) {
+                console.log(response.status)
+                if (response.status != 200) {
+                    console.log('register denied');
+                    notes += "User name is taken.\n"
+                } else {
+                    console.log('register approved');
+                }
+                mainThis.setNotes(notes)
+                return notes === ""
+            }
+        )
+        /*
+        if (this.currentUsers.findIndex((x) => { return x.userName === fields.name.value; }) !== -1)
+        */  
+        
     }
     verifyReg(event) {
         event.preventDefault();
@@ -51,7 +74,6 @@ class RegisterComp extends React.Component {
             })
             this.setToken({ authed: true, user: newUser });
         }
-
     }
     imageUploader = (event) => {
         let fileReader = new FileReader();
