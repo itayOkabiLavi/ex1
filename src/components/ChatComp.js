@@ -33,13 +33,15 @@ class ChatComp extends React.Component {
         };
     }
     getUser = () => {
-        fetch( api.getAllContacts_URL(),
-         {method: 'POST', body: this.userToken.token} 
+        console.log("token----------",this.userToken.token)
+        fetch(api.getContacts_URL(),
+            { method: 'GET', Authorization: "Bearer " + this.userToken.token }
         ).then(
-            function(response) {
-                console.log(response.status)
+            function (response) {
+                console.log(response)
                 if (response.status != 200) {
                     console.log('error loadin contacts');
+                    return "";
                 } else {
                     response.text().then((text) => {
                         return JSON.parse(text, (key, value) => value);

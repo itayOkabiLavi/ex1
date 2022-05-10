@@ -46,7 +46,9 @@ class Login extends React.Component {
 
                         console.log('access approved');
                         let token = JSON.parse(tokenGot, (key, value) => {return value})
-                        console.log(token)
+                        // let tmp = token
+                        // token=tmp.token
+                        //console.log("token----------",token)
                         mainThis.setState({ wrongUpwdOrUName: " " });
                         mainThis.setToken({ authed: true, userToken: token });
                     })
