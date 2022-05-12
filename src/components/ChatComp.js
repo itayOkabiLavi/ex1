@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { api } from '../api.js'
 import './ChatComp.css';
 import ChatItem from './ChatComponents/ChatItem';
@@ -16,7 +16,7 @@ class ChatComp extends React.Component {
         this.i = 1
         this.chats = []
         this.userToken = this.props.userToken
-        this.user = this.getUser(this.props.URLport)
+        this.user = this.getUser()
 
         this.setToken = this.props.setToken
 
@@ -31,24 +31,51 @@ class ChatComp extends React.Component {
             noChats: true,
             chatExistsMsg: false
         };
+
     }
+
     getUser = () => {
-        console.log("token----------",this.userToken.token)
-        fetch(api.getContacts_URL(),
-            { method: 'GET', Authorization: "Bearer " + this.userToken.token }
-        ).then(
-            function (response) {
-                console.log(response)
-                if (response.status != 200) {
-                    console.log('error loadin contacts');
-                    return "";
-                } else {
-                    response.text().then((text) => {
-                        return JSON.parse(text, (key, value) => value);
-                    })
+        console.log("token----------", this.userToken.token)
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + this.userToken.token);
+
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        // useEffect(() => {
+        //     this.setState({ chats: this.getUser() })
+        //     //this.user = this.getUser();
+        //     //this.setState({'chats':this.parseAllChatItems()})
+
+        // }, [])
+        function componentDidMount() {
+            this.user=this.getUser();
+            this.chats=this.getUser();
+
+            this.setState({ chats: this.getUser() });
+          }
+        function componentDidUpdate() {
+            this.user=this.getUser();
+            this.chats=this.getUser();
+
+            this.setState({ chats: this.getUser() });
+        }
+        fetch(api.getContacts_URL(), requestOptions)
+            .then(
+                function (response) {
+                    console.log(response)
+                    if (response.status != 200) {
+                        console.log('error loadin contacts');
+                        return "";
+                    } else {
+                        response.text().then((text) => {
+                            return JSON.parse(text, (key, value) => value);
+                        })
+                    }
                 }
-            }
-        )
+            )
     }
 
     getSrcType = (type, fileName) => {
