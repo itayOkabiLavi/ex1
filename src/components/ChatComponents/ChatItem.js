@@ -8,6 +8,8 @@ import ChatDisplay from './ChatItemDisplay';
 class ChatItem extends React.Component {
     constructor(prop) {
         super(prop)
+        this.server = prop.server
+        this.userToken = this.props.userToken
         this.aName = prop.name
         this.aImg = prop.img
         this.id = this.aName
@@ -15,6 +17,14 @@ class ChatItem extends React.Component {
         this.display = ""
         this.maxSummary = 10
         this.callBack = prop.callBack
+        let lastMObj = {
+            type: "text",
+            content: { txt: prop.lastMessage },
+            date: {
+                date: prop.lastDate,
+                time: prop.lastDate
+            },
+        }
         this.state = {
             lastMessage: prop.lastMessage,
             lastMessageObj: this.messageSummary(prop.lastMessage),
@@ -25,23 +35,28 @@ class ChatItem extends React.Component {
                 msgAud: ""
             }
         }
-        
+
     }
     showDisplay = () => {
-        this.display = <ChatDisplay 
-            id={this.aName} 
-            key={this.key} 
-            childComponentWillUnmount={this.childComponentWillUnmount} 
-            updateLastMessage={(lastMessage)=>{this.setState({
-                lastMessage: lastMessage,
-                lastMessageObj: this.messageSummary(lastMessage)
-                })}}
+        this.display = <ChatDisplay
+            server={this.server}
+
+            userToken={this.userToken}
+            id={this.aName}
+            key={this.key}
+            childComponentWillUnmount={this.childComponentWillUnmount}
+            updateLastMessage={(lastMessage) => {
+                this.setState({
+                    lastMessage: lastMessage,
+                    lastMessageObj: this.messageSummary(lastMessage)
+                })
+            }}
             state={this.state.savedState} />
         this.callBack(this.display, this.aName);
     }
     messageSummary(lm) {
         var mulMedIcon = ""
-        switch (lm.type){
+        switch (lm.type) {
             case "image":
                 mulMedIcon = <i className="bi bi-file-earmark-image"></i>
                 break;
@@ -53,8 +68,8 @@ class ChatItem extends React.Component {
         }
         var summary = lm.content.txt
         if (summary.length > this.maxSummary) summary = new String().concat(summary.substring(0, this.maxSummary), " ...")
-        var message = lm.type == "text" ? <h2>{summary}</h2> 
-         : <span>{mulMedIcon}<h2>{summary}</h2></span>
+        var message = lm.type == "text" ? <h2>{summary}</h2>
+            : <span>{mulMedIcon}<h2>{summary}</h2></span>
         return message
     }
     childComponentWillUnmount = (oldState) => {
@@ -84,8 +99,8 @@ class ChatItem extends React.Component {
                     <div id='msgsInfo'>
                         {this.state.lastMessageObj}
                         <small>
-                            {this.state.lastMessage.date.time} 
-                            <br/> 
+                            {this.state.lastMessage.date.time}
+                            <br />
                             {this.state.lastMessage.date.date}
                         </small>
                     </div>

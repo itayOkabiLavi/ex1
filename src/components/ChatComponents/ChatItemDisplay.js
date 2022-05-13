@@ -4,12 +4,14 @@ import Message from "./Message";
 import MultiMediaButton from "./MultiMediButton";
 import './ChatItemDisplay.css'
 import { Button } from "bootstrap";
-
+import { api } from '../../api.js'
 import { Form, FormGroup, Card, Modal } from "react-bootstrap";
 
 class ChatDisplay extends React.Component {
     constructor(props) {
         super(props)
+        this.server = props.server;
+        this.userToken = this.props.userToken
         this.i = 0
         this.id = this.props.id
         this.key = this.id
@@ -28,10 +30,25 @@ class ChatDisplay extends React.Component {
     }
 
     msgTextChanged(event) { this.setState({ msgText: event.target.value }) }
-    sendMessage() {
+    async sendMessage() {
         if ((this.state.msgText == "" || this.state.msgText == undefined)
             && (this.state.msgMulMedCont == "" || this.state.msgMulMedCont == undefined)) { return }
         let type = this.state.msgMulMedType != undefined ? this.state.msgMulMedType : 'text'
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + this.userToken);
+        var requestOptions1 = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        //var res = (await fetch(api.getSContact_URL(this.id), requestOptions1))
+        //let user = await res.json()
+        var requestOptions2 = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        fetch(api.postCreateMessage(this.id + "," + this.server, this.state.msgText), requestOptions2)
         let updatedMessages = this.messages.push(
             <Message
                 fromMe={true}
@@ -58,7 +75,17 @@ class ChatDisplay extends React.Component {
         var objDiv = window.document.getElementById("cid_chat");
         objDiv.scrollTop = objDiv.scrollHeight;
     }
-    componentDidMount = () => {
+    componentDidMount =async () => {
+        var myHeaders = new Headers();
+            myHeaders.append("Authorization", "Bearer " + this.userToken);
+            var requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow',
+            };
+        var res=await fetch(api.getMessagesOfContact_URL(this.id+","+this.server),requestOptions);
+        var msgs=await res.json()
+        this.setState({messages: msgs })
         window.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 this.sendMessage();

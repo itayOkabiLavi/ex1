@@ -16,7 +16,7 @@ function App() {
     return loginComp;
   }
   return (
-    <ChatComp userToken={state.userToken} setToken={setState}/>
+    <ChatComp userToken={state.userToken} setToken={setState} user={state.user}/>
   );
 }
 export default App;

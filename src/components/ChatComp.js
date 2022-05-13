@@ -13,18 +13,20 @@ class ChatComp extends React.Component {
 
     constructor(prop) {
         super(prop)
+        this.userToken = this.props.userToken;
+        this.user = this.props.user;
         this.i = 1
-        this.chats = []
-        this.userToken = this.props.userToken
-        this.user = this.getUser()
+        this.rawChats = [];
+        //this.chats = this.getContacts();
 
         this.setToken = this.props.setToken
 
         this.state = {
-            chats: this.parseAllChatItems(),
+            rawChats: [],
+            chats: [],
             showModal: false,
             newContactName: '',
-            newContactInfo: '',
+            newContactInfo: 'me',
             newContactImg: 'https://cdn-icons-png.flaticon.com/512/720/720236.png',
             newContactNote: '',
             currentDisplay: <div id='no_yet'><img src='./logo white on blue.png' /></div>,
@@ -33,51 +35,41 @@ class ChatComp extends React.Component {
         };
 
     }
+    componentDidMount() {
+        //this.user=this.getContacts();
+        //this.chats=this.getContacts();
+        console.log("componentDidMount");
+        //this.getContacts();
+        //this.setState({ rawChats: this.getContacts()});
+        //console.log("rawChats", this.rawChats);
+        this.getContacts().then((raw) => { this.parseAllChatItems(raw) });
+        //let c = this.parseAllChatItems();
+        //console.log("before setstate", c);
+        //this.setState({ chats: c });
+    }
+    componentDidUpdate() {
+        //this.user=this.getUser();
+        //this.chats=this.getContacts();
+        //console.log("componentDidUpdate");
 
-    getUser = () => {
-        console.log("token----------", this.userToken.token)
+        //this.setState({ chats: this.parseAllChatItems()});
+    }
+    getContacts = async () => {
+        console.log("token----------", this.userToken)
         var myHeaders = new Headers();
-        myHeaders.append("Authorization", "Bearer " + this.userToken.token);
+        myHeaders.append("Authorization", "Bearer " + this.userToken);
 
         var requestOptions = {
             method: 'GET',
             headers: myHeaders,
             redirect: 'follow'
         };
-        // useEffect(() => {
-        //     this.setState({ chats: this.getUser() })
-        //     //this.user = this.getUser();
-        //     //this.setState({'chats':this.parseAllChatItems()})
-
-        // }, [])
-        function componentDidMount() {
-            this.user=this.getUser();
-            this.chats=this.getUser();
-
-            this.setState({ chats: this.getUser() });
-          }
-        function componentDidUpdate() {
-            this.user=this.getUser();
-            this.chats=this.getUser();
-
-            this.setState({ chats: this.getUser() });
-        }
-        fetch(api.getContacts_URL(), requestOptions)
-            .then(
-                function (response) {
-                    console.log(response)
-                    if (response.status != 200) {
-                        console.log('error loadin contacts');
-                        return "";
-                    } else {
-                        response.text().then((text) => {
-                            return JSON.parse(text, (key, value) => value);
-                        })
-                    }
-                }
-            )
+        //const mainThis = this;
+        const response = await fetch(api.getContacts_URL(), requestOptions);
+        const r = await response.json();
+        return r;
+        //this.chats = mainThis.chats;
     }
-
     getSrcType = (type, fileName) => {
         const mulmedType = /(?:\.([^.]+))?$/;
         return type + "/" + mulmedType.exec(fileName)[1]
@@ -98,22 +90,32 @@ class ChatComp extends React.Component {
         })
         return msgsObjArray
     };
-    parseAllChatItems() {
+    parseAllChatItems(rawChats) {
+        console.log("parseAllChatItems");
         let tempChats = []
-
-        this.user.chats.forEach(chat => {
+        console.log("chatssssss", rawChats);
+        rawChats.forEach(chat => {
+            console.log("chat", chat);
             tempChats.push(
                 <ChatItem
-                    key={chat.addressee}
-                    name={chat.addressee}
-                    contact_info={chat.contactInfo}
+                    server={chat.server}
+                    userToken={this.userToken}
+                    key={chat.userId}
+                    name={chat.fullName}
+                    contact_info={chat.nickName}
                     img={chat.img}
-                    lastMessage={chat.messages[chat.messages.length - 1]}
-                    messages={this.parseMessages(chat.messages)}
+                    lastMessage={{
+                        fromMe: false,
+                        type: "text",
+                        content: { txt: chat.last, mm: " " },
+                        date: { time: chat.lastDate, date: chat.lastDate }
+                    }}
+                    messages={this.parseMessages(chat.userMessages)}
                     callBack={(childsDisplay) => { this.setState({ currentDisplay: childsDisplay }) }}
                 />
             )
         });
+        this.setState({ chats: [...tempChats] });
         return tempChats
     }
     openNewChat() { this.setState({ showModal: true }) }
@@ -132,13 +134,29 @@ class ChatComp extends React.Component {
     chatExists(name) {
         return this.state.chats.findIndex((x) => { return x.key == name; }) != -1;
     }
-    addNewChat() {
+    async addNewChat() {
         if (this.chatExists(this.state.newContactName)) { this.setState({ chatExistsMsg: true }) }
         else {
+            var body = { id: this.state.newContactName, name: this.state.newContactName, server: this.state.newContactInfo }
+            //var bodyStr=JSON.stringify(body);
+            //bodyStr="id="+this.state.newContactName+"&name="+this.state.newContactName+"&server="+this.state.newContactInfo
+            var myHeaders = new Headers();
+            myHeaders.append("Authorization", "Bearer " + this.userToken);
+            var requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                redirect: 'follow',
+                //body:bodyStr,
+            };
+            await fetch(api.postContacts_URL(body), requestOptions);
+            //const r = await response.json();
             this.setState({ chatExistsMsg: false })
             let updatedChats = this.state.chats
             updatedChats.unshift(
                 <ChatItem
+                    server={body.server}
+
+                    userToken={this.userToken}
                     key={this.state.newContactName}
                     name={this.state.newContactName}
                     contact_info={this.state.newContactInfo}
@@ -194,6 +212,12 @@ class ChatComp extends React.Component {
                                     <label htmlFor='cName'>Enter new contact name
                                         <input autoFocus id='cName'
                                             onChange={(e) => { this.newContactNameChanged(e) }}
+                                        />
+                                    </label>
+                                    <label htmlFor='cServer'>Enter new contact server
+                                        <input id='cServer'
+                                            defaultValue={"me"}
+                                            onChange={(e) => { this.newContactInfoChanged(e) }}
                                         />
                                     </label>
                                     <label hidden={!this.state.chatExistsMsg}>
