@@ -10,7 +10,7 @@ import { Form, FormGroup, Card, Modal } from "react-bootstrap";
 class ChatDisplay extends React.Component {
     constructor(props) {
         super(props)
-        this.updateLastMessage=props.updateLastMessage;
+        this.updateLastMessage = props.updateLastMessage;
         this.server = props.server;
         this.userToken = this.props.userToken
         this.i = 0
@@ -103,7 +103,7 @@ class ChatDisplay extends React.Component {
         };
         var res = await fetch(api.getMessagesOfContact_URL(this.id + "," + this.server), requestOptions);
         var msgs = await res.json()
-        let updtmsgs=[];
+        let updtmsgs = [];
         msgs.forEach(m => {
             updtmsgs.push(<Message
                 fromMe={m.toId == this.id + "," + this.server}
@@ -114,25 +114,21 @@ class ChatDisplay extends React.Component {
                 date={{ date: m.created, time: m.created }}
             />)
         });
-        let last = updtmsgs[updtmsgs.length-1].props;
+        let last = {
+            fromMe: false,
+            type: "text",
+            content: { txt: "", mm: "" },
+            date: { date: "", time: "" }
+        };
+        if (!(updtmsgs == undefined || updtmsgs.length == 0)) {
+            last = updtmsgs[updtmsgs.length - 1];
+            last = last.props;
+        }
         this.setState({
             ...this.state,
             messages: updtmsgs,
             msgText: ""
         })
-        this.messages=updtmsgs;
-        this.updateLastMessage(
-            {
-                fromMe: last.fromMe,
-                type: last.type,
-                content: { txt: last.txtContent, mm: "" },
-                date: { date: last.dateTime, time:last.dateTime }
-            }
-        )
-        console.log(this.state.messages)
-        console.log(msgs)
-
-        //this.setState({messages: [...msgs] })
         window.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 this.sendMessage();
@@ -140,6 +136,20 @@ class ChatDisplay extends React.Component {
         })
         var objDiv = window.document.getElementById("cid_chat");
         objDiv.scrollTop = objDiv.scrollHeight;
+        this.messages = updtmsgs;
+        this.updateLastMessage(
+            {
+                fromMe: last.fromMe,
+                type: last.type,
+                content: { txt: last.txtContent, mm: "" },
+                date: { date: last.dateTime, time: last.dateTime }
+            }
+        )
+        console.log(this.state.messages)
+        console.log(msgs)
+
+        //this.setState({messages: [...msgs] })
+        
     }
     componentWillUnmount() {
         this.childComponentWillUnmount({
