@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React, { useEffect } from 'react'
 import RegisterComp from './RegisterComp'
 import './Login.css'
 import users from '../database/users'
@@ -8,7 +8,7 @@ class Login extends React.Component {
         super(props)
         this.defaultLoginNote = "Start chatting with your imaginary friends now!"
         this.original = <span>And yes, the design and logo are all original.. So give us a some credit
-        <i className="bi bi-hand-thumbs-up"></i></span>
+            <i className="bi bi-hand-thumbs-up"></i></span>
         this.state = {
             registerClicked: false,
             sideNote: "",
@@ -16,7 +16,7 @@ class Login extends React.Component {
         }
         this.setToken = props.setToken
     }
-    
+
     handleSubmit(e) {
         e.preventDefault();
         let loginData = {
@@ -32,15 +32,16 @@ class Login extends React.Component {
         */
         const mainThis = this
         fetch(
-            api.getLogin_URL(loginData), {method: 'POST'}
-         ).then(
-            function(response) {
+            api.getLogin_URL(loginData), { method: 'POST' }
+        ).then(
+            function (response) {
                 console.log(response.status)
                 if (response.status != 200) {
                     console.log('login denied');
                     mainThis.setState({ wrongUpwdOrUName: "Wrong user name or passsword" });
                     mainThis.setToken({ authed: false });
                 } else {
+<<<<<<< HEAD
                     response.text().then((tokenGot) => {
 
                         console.log('access approved');
@@ -64,19 +65,36 @@ class Login extends React.Component {
                                     }
                                 })
                     })}
+=======
+
+                    response.text().then((userInfoRes) => {
+
+                        console.log('access approved');
+                        let userInfoResJson = JSON.parse(userInfoRes);
+                        let user = userInfoResJson.user;
+                        let token = userInfoResJson.token;
+                        // let tmp = token
+                        // token=tmp.token
+                        //console.log("token----------",token)
+                        mainThis.setState({ wrongUpwdOrUName: " " });
+                        mainThis.setToken({ authed: true, userToken: token, user: user });
+                    })
+
+                }
+>>>>>>> d386545d08e20ad424dca7bbe4c8fee619d7b2e4
             }
         )
     }
     switchToRegister() {
-        this.setState({ 
+        this.setState({
             registerClicked: true
         })
     }
     registerNotes = (newNotes) => {
-        this.setState({sideNote: newNotes})
+        this.setState({ sideNote: newNotes })
     }
     switchToLogin = () => {
-        this.setState({ 
+        this.setState({
             registerClicked: false
         })
     }
@@ -90,50 +108,50 @@ class Login extends React.Component {
     render() {
         return (
             <div id="login_bg">
-                <img src='./logo white on blue.png'/>
+                <img src='./logo white on blue.png' />
                 <div id="login_register_wrapper">
-                     <div id='login_window'>
-                            <div id="side_window">
-                                <h1>Welcome to Bubble</h1>
-                                <br/>
-                                {this.state.registerClicked 
+                    <div id='login_window'>
+                        <div id="side_window">
+                            <h1>Welcome to Bubble</h1>
+                            <br />
+                            {this.state.registerClicked
                                 ? <p>{this.state.sideNote}</p>
-                                :<div>
+                                : <div>
                                     <h2>{this.defaultLoginNote}</h2>
                                     {this.original}
                                 </div>
-                                }
-                            </div>
-                        
-                            {this.state.registerClicked
-                        ? <RegisterComp
-                            importedUsers={users}
-                            addUser={this.pushNewUser}
-                            showLogin={this.switchToLogin}
-                            setToken={this.setToken}
-                            setNotes={this.registerNotes}
-                        />
-                        :
+                            }
+                        </div>
+
+                        {this.state.registerClicked
+                            ? <RegisterComp
+                                importedUsers={users}
+                                addUser={this.pushNewUser}
+                                showLogin={this.switchToLogin}
+                                setToken={this.setToken}
+                                setNotes={this.registerNotes}
+                            />
+                            :
                             <form onSubmit={(e) => this.handleSubmit(e)} className="right_side">
                                 <h1>Login</h1>
-                                <br/>
-                                <br/>
+                                <br />
+                                <br />
                                 <input autoFocus name='userName' type="text" placeholder='User name' />
-                                <input name='password' type="password" placeholder='Password'/>
+                                <input name='password' type="password" placeholder='Password' />
                                 <h4>{this.state.wrongUpwdOrUName}</h4>
                                 <div className='ending_buttons'>
                                     <button type='submit' onSubmit={(e) => this.handleSubmit(e)}>
-                                    Submit
+                                        Submit
                                     </button>
                                     <h3>Not Registered yet?
                                         <button type="button" onClick={(e) => { this.switchToRegister() }}
-                                        style={{color:"aliceblue", backgroundColor:"rgb(240, 0, 104)"}}>
-                                        Register now!
+                                            style={{ color: "aliceblue", backgroundColor: "rgb(240, 0, 104)" }}>
+                                            Register now!
                                         </button>
                                     </h3>
                                 </div>
                             </form>
-                    }
+                        }
                     </div>
                 </div>
             </div>

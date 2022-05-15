@@ -4,12 +4,15 @@ import Message from "./Message";
 import MultiMediaButton from "./MultiMediButton";
 import './ChatItemDisplay.css'
 import { Button } from "bootstrap";
-
+import { api } from '../../api.js'
 import { Form, FormGroup, Card, Modal } from "react-bootstrap";
 
 class ChatDisplay extends React.Component {
     constructor(props) {
         super(props)
+        this.updateLastMessage = props.updateLastMessage;
+        this.server = props.server;
+        this.userToken = this.props.userToken
         this.i = 0
         this.id = this.props.id
         this.key = this.id
@@ -24,14 +27,30 @@ class ChatDisplay extends React.Component {
             now: { date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString() },
         }
 
-        this.messages = [...props.state.messages]
+        this.messages = [...props.state.messages];
+        this.componentDidMount();
     }
 
     msgTextChanged(event) { this.setState({ msgText: event.target.value }) }
-    sendMessage() {
+    async sendMessage() {
         if ((this.state.msgText == "" || this.state.msgText == undefined)
             && (this.state.msgMulMedCont == "" || this.state.msgMulMedCont == undefined)) { return }
         let type = this.state.msgMulMedType != undefined ? this.state.msgMulMedType : 'text'
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + this.userToken);
+        var requestOptions1 = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        //var res = (await fetch(api.getSContact_URL(this.id), requestOptions1))
+        //let user = await res.json()
+        var requestOptions2 = {
+            method: 'POST',
+            headers: myHeaders,
+            redirect: 'follow'
+        };
+        fetch(api.postCreateMessage(this.id + "," + this.server, this.state.msgText), requestOptions2)
         let updatedMessages = this.messages.push(
             <Message
                 fromMe={true}
@@ -41,7 +60,7 @@ class ChatDisplay extends React.Component {
                 txtContent={this.state.msgText}
                 date={{ date: new Date().toLocaleDateString(), time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }}
             />)
-        this.props.updateLastMessage(
+        this.updateLastMessage(
             {
                 fromMe: true,
                 type: type,
@@ -58,7 +77,58 @@ class ChatDisplay extends React.Component {
         var objDiv = window.document.getElementById("cid_chat");
         objDiv.scrollTop = objDiv.scrollHeight;
     }
-    componentDidMount = () => {
+    // componentDidUpdate=async()=>{
+    //     var myHeaders = new Headers();
+    //         myHeaders.append("Authorization", "Bearer " + this.userToken);
+    //         var requestOptions = {
+    //             method: 'GET',
+    //             headers: myHeaders,
+    //             redirect: 'follow',
+    //         };
+    //     var res=await fetch(api.getMessagesOfContact_URL(this.id+","+this.server),requestOptions);
+    //     var msgs=await res.json()
+    //     this.setState({
+    //         ...this.state,
+    //         messages: msgs,
+    //         msgText: ""
+    //     })
+    // }
+    componentDidMount = async () => {
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + this.userToken);
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow',
+        };
+        var res = await fetch(api.getMessagesOfContact_URL(this.id + "," + this.server), requestOptions);
+        var msgs = await res.json()
+        let updtmsgs = [];
+        msgs.forEach(m => {
+            updtmsgs.push(<Message
+                fromMe={m.toId == this.id + "," + this.server}
+                type={"text"}
+                key={m.MessageId}
+                mmContent={""}
+                txtContent={m.content}
+                date={{ date: m.created, time: m.created }}
+            />)
+        });
+        let last = {
+            fromMe: false,
+            type: "text",
+            content: { txt: "", mm: "" },
+            date: { date: "", time: "" }
+        };
+        if (!(updtmsgs == undefined || updtmsgs.length == 0)) {
+            last = updtmsgs[updtmsgs.length - 1];
+            last = last.props;
+        }
+        this.setState({
+            ...this.state,
+            messages: updtmsgs,
+            msgText: ""
+        })
         window.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 this.sendMessage();
@@ -66,6 +136,20 @@ class ChatDisplay extends React.Component {
         })
         var objDiv = window.document.getElementById("cid_chat");
         objDiv.scrollTop = objDiv.scrollHeight;
+        this.messages = updtmsgs;
+        this.updateLastMessage(
+            {
+                fromMe: last.fromMe,
+                type: last.type,
+                content: { txt: last.txtContent, mm: "" },
+                date: { date: last.dateTime, time: last.dateTime }
+            }
+        )
+        console.log(this.state.messages)
+        console.log(msgs)
+
+        //this.setState({messages: [...msgs] })
+        
     }
     componentWillUnmount() {
         this.childComponentWillUnmount({
