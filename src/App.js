@@ -8,7 +8,7 @@ import './App.css'
 function App() {
   let [state, setState] = useState({
     authed: false,
-    userToken: undefined,
+    user: undefined,
   });
   let loginComp = <Login setToken={setState}/>
 
@@ -16,7 +16,7 @@ function App() {
     return loginComp;
   }
   return (
-    <ChatComp userToken={state.userToken} setToken={setState}/>
+    <ChatComp user={state.user} setToken={setState}/>
   );
 }
 export default App;

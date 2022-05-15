@@ -41,17 +41,29 @@ class Login extends React.Component {
                     mainThis.setState({ wrongUpwdOrUName: "Wrong user name or passsword" });
                     mainThis.setToken({ authed: false });
                 } else {
-                    
                     response.text().then((tokenGot) => {
 
                         console.log('access approved');
                         let token = JSON.parse(tokenGot, (key, value) => {return value})
-                        console.log(token)
-                        mainThis.setState({ wrongUpwdOrUName: " " });
-                        mainThis.setToken({ authed: true, userToken: token });
-                    })
-                    
-                }
+                        
+                        api.changeToken(token)
+                        console.log(api.token)
+
+                        fetch( api.getContacts_URL(), {method: 'GET', body: api.token} 
+                        ).then( function(login_response) {
+                                    console.log(login_response.status)
+                                    if (login_response.status != 200) {
+                                        console.log('error loadin contacts');
+                                        return null;
+                                    } else {
+                                        login_response.text().then((text) => {
+                                            const user = JSON.parse(text, (key, value) => value);
+                                            mainThis.setState({ wrongUpwdOrUName: " " });
+                                            mainThis.setToken({ authed: true, user: user });
+                                        })
+                                    }
+                                })
+                    })}
             }
         )
     }

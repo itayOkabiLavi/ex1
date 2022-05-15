@@ -16,10 +16,11 @@ class ChatComp extends React.Component {
         this.i = 1
         this.chats = []
         this.userToken = this.props.userToken
-        this.user = this.getUser(this.props.URLport)
+        
+        this.user = this.props.user
 
         this.setToken = this.props.setToken
-
+        
         this.state = {
             chats: this.parseAllChatItems(),
             showModal: false,
@@ -32,22 +33,7 @@ class ChatComp extends React.Component {
             chatExistsMsg: false
         };
     }
-    getUser = () => {
-        fetch( api.getAllContacts_URL(),
-         {method: 'POST', body: this.userToken.token} 
-        ).then(
-            function(response) {
-                console.log(response.status)
-                if (response.status != 200) {
-                    console.log('error loadin contacts');
-                } else {
-                    response.text().then((text) => {
-                        return JSON.parse(text, (key, value) => value);
-                    })
-                }
-            }
-        )
-    }
+    
 
     getSrcType = (type, fileName) => {
         const mulmedType = /(?:\.([^.]+))?$/;
