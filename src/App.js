@@ -1,6 +1,6 @@
 import Login from './components/Login';
 import './api.js'
-import ChatComp from './components/ChatComp';
+import ChatComp1 from './components/ChatComp';
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
@@ -16,7 +16,7 @@ function App() {
     return loginComp;
   }
   return (
-    <ChatComp userToken={state.userToken} setToken={setState} user={state.user}/>
+    <ChatComp1 userToken={state.userToken} setToken={setState} user={state.user}/>
   );
 }
 export default App;
