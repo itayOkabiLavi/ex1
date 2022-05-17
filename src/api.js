@@ -1,5 +1,5 @@
 let apiServer = {
-    domain:"https://localhost:7135/",
+    domain: "https://localhost:7135/",
     ip: 'https://localhost:7135/api/',
     users: 'https://localhost:7135/api/Users/',
     msgs: 'messages/',
@@ -8,7 +8,7 @@ let apiServer = {
 }
 
 const api = {
-    getDomain:()=>apiServer.domain,
+    getDomain: () => apiServer.domain,
     getIP_URL: () => apiServer.ip,
     getRegister_URL: (registrationDetails) => { return apiServer.users + 'register?' + new URLSearchParams(registrationDetails) },
     getLogin_URL: (loginData) => { return apiServer.users + 'login?' + new URLSearchParams(loginData) },
@@ -19,7 +19,8 @@ const api = {
     getSMsgOfContact_URL: (contactID, msgID) => { return apiServer.users + 'Contacts/' + contactID + '/messages/' + msgID },
     getInvitations_URL: () => apiServer.ip + 'invitation',
     getTransfer_URL: () => apiServer.ip + 'transfer',
-    postCreateMessage: (id, content) => apiServer.ip + "contacts/" + id + "/messages?" +"id="+id+ "&content=" + content
+    postCreateMessage: (id, content) => apiServer.ip + "contacts/" + id + "/messages?" + "id=" + id + "&content=" + content,
+    hub: () => apiServer.domain + "chatHub"
 };
 
 export { api };

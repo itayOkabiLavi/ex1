@@ -6,7 +6,10 @@ import './ChatItemDisplay.css'
 import { Button } from "bootstrap";
 import { api } from '../../api.js'
 import { Form, FormGroup, Card, Modal } from "react-bootstrap";
+import { HubConnectionBuilder } from '@microsoft/signalr';
+
 const ChatDisplay = (props) => {
+    const [ connection, setConnection ] = useState(null);
     let userId=props.userId;
     let updateLastMessage = props.updateLastMessage;
     let server = props.server;
@@ -60,6 +63,32 @@ const ChatDisplay = (props) => {
         var objDiv = window.document.getElementById("cid_chat");
         objDiv.scrollTop = objDiv.scrollHeight;
     }
+    useEffect(() => {
+        const newConnection = new HubConnectionBuilder()
+            .withUrl(api.hub(),{
+      skipNegotiation: true,
+      transport: 1
+    })
+            .withAutomaticReconnect()
+            .build();
+
+        setConnection(newConnection);
+    }, []);
+    useEffect(() => {
+        if (connection) {
+            connection.start()
+                .then(result => {
+                    console.log('Connected!');
+    
+                    connection.on('ReceiveMessage', message => {
+                        const updatedChat = [...messages];
+                        updatedChat.push(message);
+                        setMessages(updatedChat);
+                    });
+                })
+                .catch(e => console.log('Connection failed: ', e));
+        }
+    }, [connection]);
     useEffect(async () => {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + userToken);
