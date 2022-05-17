@@ -35,7 +35,7 @@ const ChatDisplay = (props) => {
         var contactId=id+","+server;
         await fetch(api.postCreateMessage(contactId, msgText), requestOptions2)
         var time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'});
-        var date = new Date().toLocaleDateString("nl-NL");
+        var date = new Date().toLocaleDateString("sv-SE");
         var msg = <Message
             fromMe={true}
             type={type}
@@ -90,8 +90,9 @@ const ChatDisplay = (props) => {
             date: { date: "", time: "" }
         };
         if (!(updtmsgs == undefined || updtmsgs.length == 0)) {
-            last = updtmsgs[updtmsgs.length - 1];
-            last = last.props;
+            var t = updtmsgs[updtmsgs.length - 1].props;
+            last.content.txt=t.txtContent;
+            last.date=t.date;
         }
         setMessages([...updtmsgs]);
         var objDiv = window.document.getElementById("cid_chat");
