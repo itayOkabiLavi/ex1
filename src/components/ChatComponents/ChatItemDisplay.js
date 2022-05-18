@@ -6,11 +6,11 @@ import './ChatItemDisplay.css'
 import { Button } from "bootstrap";
 import { api } from '../../api.js'
 import { Form, FormGroup, Card, Modal } from "react-bootstrap";
-import { HubConnectionBuilder } from '@microsoft/signalr';
+import { HttpTransportType, HubConnectionBuilder } from '@microsoft/signalr';
 
 const ChatDisplay = (props) => {
-    const [ connection, setConnection ] = useState(null);
-    let userId=props.userId;
+    const [connection, setConnection] = useState(null);
+    let userId = props.userId;
     let updateLastMessage = props.updateLastMessage;
     let server = props.server;
     let userToken = props.userToken;
@@ -24,7 +24,7 @@ const ChatDisplay = (props) => {
         setMsgText(event.target.value);
     }
     const sendMessage = async () => {
-        console.log(msgText);
+        //console.log(msgText);
         if ((msgText == "" || msgText == undefined)
             && (msgMulMedCont == "" || msgMulMedCont == undefined)) { return }
         let type = msgMulMedType != undefined ? msgMulMedType : 'text'
@@ -35,9 +35,19 @@ const ChatDisplay = (props) => {
             headers: myHeaders,
             redirect: 'follow'
         };
-        var contactId=id+","+server;
-        await fetch(api.postCreateMessage(contactId, msgText), requestOptions2)
-        var time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit'});
+        var contactId = id + "," + server;
+        await fetch(api.postCreateMessage(contactId, msgText), requestOptions2);
+        console.log(connection)
+
+        if (connection) {
+            try {
+                await connection.send('SendMessage', contactId);
+            }
+            catch (e) {
+                console.log(e);
+            }
+        }
+        var time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         var date = new Date().toLocaleDateString("sv-SE");
         var msg = <Message
             fromMe={true}
@@ -45,7 +55,7 @@ const ChatDisplay = (props) => {
             key={msgText !== "" ? msgText : msgMulMedCont}
             mmContent={msgMulMedCont}
             txtContent={msgText}
-            date={{ date: date, time: time}}
+            date={{ date: date, time: time }}
         />;
         let updatedMessages = messages;
         updatedMessages.push(msg);
@@ -55,41 +65,71 @@ const ChatDisplay = (props) => {
                 fromMe: true,
                 type: type,
                 content: { txt: msgText, mm: msgMulMedCont },
-                date: { date:date, time:time }
+                date: { date: date, time: time }
             }
         )
+
         setMsgText("");
-        clearMulMedContent()
+        clearMulMedContent();
         var objDiv = window.document.getElementById("cid_chat");
         objDiv.scrollTop = objDiv.scrollHeight;
+
     }
     useEffect(() => {
+        // Connect, using the token we got.
         const newConnection = new HubConnectionBuilder()
-            .withUrl(api.hub(),{
-      skipNegotiation: true,
-      transport: 1
-    })
+            .withUrl(api.hub(), {
+                accessTokenFactory: () => userToken,
+                skipNegotiation: true,
+                transport: HttpTransportType.WebSockets
+            })
             .withAutomaticReconnect()
             .build();
+        // const newConnection = new HubConnectionBuilder()
+        //     .withUrl(api.hub(), {
+        //         skipNegotiation: true,
+        //         transport: 1
+        //     })
+        //     .withAutomaticReconnect()
+        //     .build();
 
         setConnection(newConnection);
     }, []);
-    useEffect(() => {
+    useEffect(async () => {
         if (connection) {
-            connection.start()
-                .then(result => {
-                    console.log('Connected!');
-    
-                    connection.on('ReceiveMessage', message => {
-                        const updatedChat = [...messages];
-                        updatedChat.push(message);
-                        setMessages(updatedChat);
-                    });
-                })
-                .catch(e => console.log('Connection failed: ', e));
+            await connection.start();
+            console.log('Connected!');
+            connection.on('ReceiveMessage', () => {
+                console.log("message");
+                getMsgs();
+            });
         }
     }, [connection]);
-    useEffect(async () => {
+    // useEffect(() => {
+    //     if (connection) {
+    //         connection.start()
+    //             .then(result => {
+    //                 console.log('Connected!');
+
+    //                 connection.on('ReceiveMessage', (message) => {
+    //                     console.log('ReceiveMessage', message)
+    //                     const updatedChat = [...messages];
+    //                     var date = message.created.split('T');
+    //                     var time = date[1].split('.')[0].slice(0, 5);
+    //                     updatedChat.push(<Message
+    //                         fromMe={message.fromId == userId}
+    //                         type={"text"}
+    //                         key={message.fromId + message.toId + message.content}
+    //                         mmContent={""}
+    //                         txtContent={message.content}
+    //                         date={{ date: date[0], time: time }}
+    //                     />);
+    //                     setMessages([...updatedChat]);
+    //                 });
+    //             }).catch(e => console.log('Connection failed: ', e));
+    //     }
+    // }, [connection]);
+    const getMsgs = async () => {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + userToken);
         var requestOptions = {
@@ -99,17 +139,18 @@ const ChatDisplay = (props) => {
         };
         var res = await fetch(api.getMessagesOfContact_URL(id + "," + server), requestOptions);
         var msgs = await res.json()
+
         let updtmsgs = [];
         msgs.forEach(m => {
             var date = m.created.split('T');
-            var time = date[1].split('.')[0].slice(0,5);
+            var time = date[1].split('.')[0].slice(0, 5);
             updtmsgs.push(<Message
                 fromMe={m.toId == id + "," + server}
                 type={"text"}
                 key={m.MessageId}
                 mmContent={""}
                 txtContent={m.content}
-                date={{ date: date[0], time:time}}
+                date={{ date: date[0], time: time }}
             />)
         });
         let last = {
@@ -120,14 +161,16 @@ const ChatDisplay = (props) => {
         };
         if (!(updtmsgs == undefined || updtmsgs.length == 0)) {
             var t = updtmsgs[updtmsgs.length - 1].props;
-            last.content.txt=t.txtContent;
-            last.date=t.date;
+            last.content.txt = t.txtContent;
+            last.date = t.date;
         }
+
         setMessages([...updtmsgs]);
         var objDiv = window.document.getElementById("cid_chat");
         objDiv.scrollTop = objDiv.scrollHeight;
         updateLastMessage(last);
-    }, [])
+    }
+    useEffect(getMsgs, [])
     const clearMulMedContent = (e) => {
         setMsgMulMedPrev("");
         setMsgMulMedCont("");
