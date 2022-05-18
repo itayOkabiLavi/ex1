@@ -7,7 +7,10 @@ import Message from './ChatComponents/Message';
 import users from '../database/users';
 import { Button, Form, Modal, Nav, TabContent } from 'react-bootstrap';
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { HttpTransportType, HubConnectionBuilder } from '@microsoft/signalr';
+
 const ChatComp = (props) => {
+    const [connection, setConnection] = useState(null);
     let userToken = props.userToken;
     let user = props.user;
     let setToken = props.setToken;
@@ -19,6 +22,28 @@ const ChatComp = (props) => {
     let [newContactInfo, setNewContactInfo] = useState('me');
     let [newContactImg, setNewContactImg] = useState('');
     let [noChats, setNoChats] = useState(true);
+    useEffect(() => {
+        // Connect, using the token we got.
+        const newConnection = new HubConnectionBuilder()
+            .withUrl(api.hub(), {
+                accessTokenFactory: () => userToken,
+                skipNegotiation: true,
+                transport: HttpTransportType.WebSockets
+            })
+            .withAutomaticReconnect()
+            .build();
+        setConnection(newConnection);
+    }, []);
+    useEffect(async () => {
+        if (connection) {
+            await connection.start();
+            console.log('Connected!');
+            connection.on('ReceiveMessage',async (m) => {
+                console.log("message", m);
+                await getContacts();
+            });
+        }
+    }, [connection]);
     useEffect(async () => { await getContacts() }, []);
     const openNewChat = () => { setShowModal(true); }
     const closeNewChat = () => { setShowModal(false) }
@@ -106,6 +131,7 @@ const ChatComp = (props) => {
         let tempChats = []
         rawChats.forEach(chat => {
             var date = chat.lastDate.split('T');
+            //console.log(chat.last);
             tempChats.push(
                 <ChatItem
                     userId={user.userId}
@@ -119,14 +145,15 @@ const ChatComp = (props) => {
                         fromMe: false,
                         type: "text",
                         content: { txt: chat.last, mm: " " },
-                        date: { date: date[0], time: date[1].slice(0,5) }
+                        date: { date: date[0], time: date[1].slice(0, 5) }
                     }}
                     callBack={(childsDisplay) => { setCurrentDisplay(childsDisplay); }}
                 />
             )
         });
-        
+
         setChats([...tempChats]);
+        
     }
     return (
         <div id='chat_bg'>

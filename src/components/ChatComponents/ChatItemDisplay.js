@@ -41,7 +41,7 @@ const ChatDisplay = (props) => {
 
         if (connection) {
             try {
-                await connection.send('SendMessage', contactId);
+                await connection.send('SendMessage', contactId,msgText);
             }
             catch (e) {
                 console.log(e);
@@ -99,8 +99,8 @@ const ChatDisplay = (props) => {
         if (connection) {
             await connection.start();
             console.log('Connected!');
-            connection.on('ReceiveMessage', () => {
-                console.log("message");
+            connection.on('ReceiveMessage', (m) => {
+                console.log("message",m);
                 getMsgs();
             });
         }
