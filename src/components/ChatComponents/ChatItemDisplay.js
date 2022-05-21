@@ -9,44 +9,41 @@ import { Form, FormGroup, Card, Modal } from "react-bootstrap";
 import { HttpTransportType, HubConnectionBuilder } from '@microsoft/signalr';
 
 const ChatDisplay = (props) => {
-    const [connection, setConnection] = useState(null);
+    let chatItemRefresh = props.connection;
+    const [connection, setConnection] = useState(props.connection);
     let userId = props.userId;
     let updateLastMessage = props.updateLastMessage;
     let server = props.server;
     let userToken = props.userToken;
     let id = props.id;
+    let [stam,setStam]=useState(0);
     let [msgText, setMsgText] = useState("");
     let [msgMulMedCont, setMsgMulMedCont] = useState("");
     let [msgMulMedType, setMsgMulMedType] = useState("");
     let [msgMulMedPrev, setMsgMulMedPrev] = useState("");
     let [messages, setMessages] = useState([]);
+
     const msgTextChanged = (event) => {
         setMsgText(event.target.value);
     }
     const sendMessage = async () => {
-        //console.log(msgText);
         if ((msgText == "" || msgText == undefined)
             && (msgMulMedCont == "" || msgMulMedCont == undefined)) { return }
         let type = msgMulMedType != undefined ? msgMulMedType : 'text'
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + userToken);
+        var formdata = new FormData();
+        var contactId = id + "," + server;
+        formdata.append("id", contactId);
+        formdata.append("content",msgText);
         var requestOptions2 = {
             method: 'POST',
+            body: formdata,
             headers: myHeaders,
             redirect: 'follow'
         };
-        var contactId = id + "," + server;
-        await fetch(api.postCreateMessage(contactId, msgText), requestOptions2);
-        console.log(connection)
+        await fetch(api.postCreateMessage(contactId), requestOptions2);
 
-        if (connection) {
-            try {
-                await connection.send('SendMessage', contactId,msgText);
-            }
-            catch (e) {
-                console.log(e);
-            }
-        }
         var time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         var date = new Date().toLocaleDateString("sv-SE");
         var msg = <Message
@@ -85,50 +82,13 @@ const ChatDisplay = (props) => {
             })
             .withAutomaticReconnect()
             .build();
-        // const newConnection = new HubConnectionBuilder()
-        //     .withUrl(api.hub(), {
-        //         skipNegotiation: true,
-        //         transport: 1
-        //     })
-        //     .withAutomaticReconnect()
-        //     .build();
-
         setConnection(newConnection);
     }, []);
     useEffect(async () => {
-        if (connection) {
-            await connection.start();
-            console.log('Connected!');
-            connection.on('ReceiveMessage', (m) => {
-                console.log("message",m);
-                getMsgs();
-            });
-        }
-    }, [connection]);
-    // useEffect(() => {
-    //     if (connection) {
-    //         connection.start()
-    //             .then(result => {
-    //                 console.log('Connected!');
+        console.log("[chatItemRefresh], [connection], [props.connection]");
+        await getMsgs();
+    }, [chatItemRefresh], [connection], [props.connection]);
 
-    //                 connection.on('ReceiveMessage', (message) => {
-    //                     console.log('ReceiveMessage', message)
-    //                     const updatedChat = [...messages];
-    //                     var date = message.created.split('T');
-    //                     var time = date[1].split('.')[0].slice(0, 5);
-    //                     updatedChat.push(<Message
-    //                         fromMe={message.fromId == userId}
-    //                         type={"text"}
-    //                         key={message.fromId + message.toId + message.content}
-    //                         mmContent={""}
-    //                         txtContent={message.content}
-    //                         date={{ date: date[0], time: time }}
-    //                     />);
-    //                     setMessages([...updatedChat]);
-    //                 });
-    //             }).catch(e => console.log('Connection failed: ', e));
-    //     }
-    // }, [connection]);
     const getMsgs = async () => {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + userToken);
@@ -262,6 +222,5 @@ const ChatDisplay = (props) => {
         </div>
     );
 }
-
 
 export default ChatDisplay;

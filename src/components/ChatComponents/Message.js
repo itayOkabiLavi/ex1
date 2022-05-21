@@ -11,9 +11,10 @@ const Message = (props) => {
     let txtContent = props.txtContent
     let mmContent = props.mmContent
     let comp = ""
-    let key = txtContent != "" ? txtContent : mmContent;
     let type = props.type
     let date = props.date;
+    let key = txtContent != "" ? txtContent + Math.random()*100 : mmContent;
+
     switch (type) {
         case "image":
             comp = <img key={mmContent} id="mulMedMsg" src={mmContent} />

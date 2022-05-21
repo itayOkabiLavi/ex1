@@ -19,10 +19,6 @@ class Login extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        let loginData = {
-            name: e.target[0].value,
-            password: e.target[1].value
-        }
         /*
         let userIndex = users.findIndex((x) => { return x.userName === name && x.password === pass; })
          : null
@@ -31,32 +27,37 @@ class Login extends React.Component {
         })
         */
         const mainThis = this
-        fetch(
-            api.getLogin_URL(loginData), { method: 'POST' }
-        ).then(
-            function (response) {
-                console.log(response.status)
-                if (response.status != 200) {
-                    console.log('login denied');
-                    mainThis.setState({ wrongUpwdOrUName: "Wrong user name or passsword" });
-                    mainThis.setToken({ authed: false });
-                } else {
+        var formdata = new FormData();
+        formdata.append("name", e.target[0].value);
+        formdata.append("password",e.target[1].value);
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+        fetch(api.getLogin_URL(), requestOptions).then(function (response) {
+            console.log(response.status)
+            if (response.status != 200) {
+                console.log('login denied');
+                mainThis.setState({ wrongUpwdOrUName: "Wrong user name or passsword" });
+                mainThis.setToken({ authed: false });
+            } else {
 
-                    response.text().then((userInfoRes) => {
+                response.text().then((userInfoRes) => {
 
-                        console.log('access approved');
-                        let userInfoResJson = JSON.parse(userInfoRes);
-                        let user = userInfoResJson.user;
-                        let token = userInfoResJson.token;
-                        // let tmp = token
-                        // token=tmp.token
-                        //console.log("token----------",token)
-                        mainThis.setState({ wrongUpwdOrUName: " " });
-                        mainThis.setToken({ authed: true, userToken: token, user: user });
-                    })
+                    console.log('access approved');
+                    let userInfoResJson = JSON.parse(userInfoRes);
+                    let user = userInfoResJson.user;
+                    let token = userInfoResJson.token;
+                    // let tmp = token
+                    // token=tmp.token
+                    //console.log("token----------",token)
+                    mainThis.setState({ wrongUpwdOrUName: " " });
+                    mainThis.setToken({ authed: true, userToken: token, user: user });
+                })
 
-                }
             }
+        }
         )
     }
     switchToRegister() {

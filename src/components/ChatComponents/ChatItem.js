@@ -1,31 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { api } from '../../api';
 import './ChatItem.css'
 import { Card, Row } from 'react-bootstrap';
 import ChatDisplay from './ChatItemDisplay';
-const ChatItem=(props)=>{
+import { HttpTransportType, HubConnectionBuilder } from '@microsoft/signalr';
+
+const ChatItem = (props) => {
     let server = props.server;
-    let userToken=props.userToken;
-    let aName=props.name;
-    let aImg=props.img;
+    let userToken = props.userToken;
+    let aName = props.name;
+    let aImg = props.img;
     let id = props.name;
     let key = id;
-    let display="";
-    let maxSummary=10;
-    let callBack=props.callBack;
-    let [lastMessage,setLastMessage]=useState(props.lastMessage);
+    let display = "";
+    let maxSummary = 10;
+    let callBack = props.callBack;
+    let [lastMessage, setLastMessage] = useState(props.lastMessage);
     const showDisplay = () => {
         display = <ChatDisplay
+            connection={props.connection}
             server={server}
             userToken={userToken}
             id={id}
             key={key}
-            updateLastMessage={(lastMessage) => {
-                setLastMessage(lastMessage);
-            }} />
-        callBack(display, aName);
+            updateLastMessage={setLastMessage} />;
+        callBack(display);
     }
-    const messageSummary=(lm)=> {
+    const messageSummary = (lm) => {
         var mulMedIcon = ""
         switch (lm.type) {
             case "image":

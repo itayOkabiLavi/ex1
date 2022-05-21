@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { api } from '../api.js'
 import './ChatComp.css';
 import ChatItem from './ChatComponents/ChatItem';
-import ChatDisplay from './ChatComponents/ChatItemDisplay';
+import { ChatDisplay } from './ChatComponents/ChatItemDisplay';
 import Message from './ChatComponents/Message';
 import users from '../database/users';
 import { Button, Form, Modal, Nav, TabContent } from 'react-bootstrap';
@@ -17,11 +17,14 @@ const ChatComp = (props) => {
     let [showModal, setShowModal] = useState(false);
     let [chatExistsMsg, setChatExistsMsg] = useState(false);
     let [chats, setChats] = useState([]);
+    const cd = useRef(<div id='no_yet'><img src='./logo white on blue.png' /></div>);
     let [currentDisplay, setCurrentDisplay] = useState(<div id='no_yet'><img src='./logo white on blue.png' /></div>);
     let [newContactName, setNewContactName] = useState('');
     let [newContactInfo, setNewContactInfo] = useState('me');
     let [newContactImg, setNewContactImg] = useState('');
-    let [noChats, setNoChats] = useState(true);
+    useEffect(() => {
+        cd.current = currentDisplay;
+    }, [currentDisplay]);
     useEffect(() => {
         // Connect, using the token we got.
         const newConnection = new HubConnectionBuilder()
@@ -34,16 +37,26 @@ const ChatComp = (props) => {
             .build();
         setConnection(newConnection);
     }, []);
-    useEffect(async () => {
-        if (connection) {
-            await connection.start();
-            console.log('Connected!');
-            connection.on('ReceiveMessage',async (m) => {
-                console.log("message", m);
-                await getContacts();
-            });
+    const ReceiveMessage = async (f, t, m) => {
+        console.log("message ChatComp", f, t, m);
+        await getContacts();
+        console.log(currentDisplay);
+        let c = cd.current.props;
+        console.log(c);
+        //setCurrentDisplay('');
+        //setCurrentDisplay(c)
+        if (c.id + "," + c.server === f) {
+            console.log(cd.current);
+            setCurrentDisplay(cd.current);
         }
-    }, [connection]);
+    }
+    const onNotification = () => {
+        if (connection) {
+            connection.start();
+            connection.on('ReceiveMessage', ReceiveMessage);
+        }
+    }
+    useEffect(onNotification, [connection]);
     useEffect(async () => { await getContacts() }, []);
     const openNewChat = () => { setShowModal(true); }
     const closeNewChat = () => { setShowModal(false) }
@@ -75,8 +88,8 @@ const ChatComp = (props) => {
             redirect: 'follow'
         };
         var res = await fetch(api.getSContact_URL(name + "," + server), requestOptions);
-        res = await res.json();
-        return res !== null;
+        res = await res.text();
+        return res !== "";
     }
     const addNewChat = async () => {
         if (await chatExists(newContactName, newContactInfo)) { setChatExistsMsg(true) }
@@ -84,41 +97,56 @@ const ChatComp = (props) => {
             var payLoad = { id: newContactName, name: newContactName, server: newContactInfo }
             var myHeaders = new Headers();
             myHeaders.append("Authorization", "Bearer " + userToken);
+            var formdata = new FormData();
+            formdata.append("id", newContactName);
+            formdata.append("name", newContactName);
+            formdata.append("server", newContactInfo)
             var requestOptions = {
                 method: 'POST',
                 headers: myHeaders,
+                body: formdata,
                 redirect: 'follow',
             };
-            var res = await fetch(api.postContacts_URL(payLoad), requestOptions);
-            if (res.status != 200) { return; }
+            var res = await fetch(api.postContacts_URL(), requestOptions);
+            if (res.status != 201) { return; }
+            requestOptions = {
+                method: 'GET',
+                headers: myHeaders,
+                redirect: 'follow',
+            };
+            var res = await fetch(api.getSContact_URL(newContactName + "," + newContactInfo), requestOptions);
+            res = await res.json();
             setChatExistsMsg(false);
             let updatedChats = chats;
             updatedChats.unshift(
                 <ChatItem
+                    connection={connection}
                     userId={user.userId}
                     server={newContactInfo}
                     userToken={userToken}
                     key={newContactName}
                     name={newContactName}
                     contact_info={newContactInfo}
-                    img={newContactImg}
+                    img={'data:image/jpeg;base64,'+res.profileImg.image}
                     lastMessage={{
                         fromMe: false,
                         type: "text",
                         content: { txt: "", mm: "" },
                         date: { time: "", date: "" }
                     }}
-                    callBack={(childsDisplay) => { setCurrentDisplay(childsDisplay); }}
+                    callBack={setCurrentDisplay}
+
+                //callBack={(childsDisplay) => { setCurrentDisplay(childsDisplay); }}
                 />
             )
             setChats(updatedChats);
-            setNoChats(false);
             setShowModal(false);
             setNewContactImg('https://cdn-icons-png.flaticon.com/512/720/720236.png');
             setNewContactInfo('');
         }
     }
     const getContacts = async () => {
+        console.log("here")
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + userToken);
         var requestOptions = {
@@ -128,40 +156,42 @@ const ChatComp = (props) => {
         };
         const response = await fetch(api.getContacts_URL(), requestOptions);
         const rawChats = await response.json();
+        rawChats.forEach(c => console.log(c.last));
         let tempChats = []
         rawChats.forEach(chat => {
             var date = chat.lastDate.split('T');
-            //console.log(chat.last);
             tempChats.push(
                 <ChatItem
+                    connection={connection}
                     userId={user.userId}
                     server={chat.server}
                     userToken={userToken}
-                    key={chat.userId}
-                    name={chat.fullName}
+                    key={chat.userId + ((new Date().getTime()) / 1000)}
+                    name={chat.id}
                     contact_info={chat.nickName}
-                    img={chat.img}
+                    img={'data:image/jpeg;base64,'+chat.profileImg.image}
                     lastMessage={{
                         fromMe: false,
                         type: "text",
                         content: { txt: chat.last, mm: " " },
                         date: { date: date[0], time: date[1].slice(0, 5) }
                     }}
-                    callBack={(childsDisplay) => { setCurrentDisplay(childsDisplay); }}
+                    callBack={setCurrentDisplay}
+                //callBack={(childsDisplay) => { setCurrentDisplay(childsDisplay); }}
                 />
             )
         });
-
         setChats([...tempChats]);
-        
+        console.log(chats);
+
     }
     return (
         <div id='chat_bg'>
             <div id='chatCompMain'>
                 <div id='chatsTools'>
                     <div id='userInfo'>
-                        <img src={user.img} />
-                        <span id='nickName'>{user.nickName}</span>
+                        <img src={'data:image/jpeg;base64,'+user.profileImg.image} />
+                        <span id='nickName'>{user.name}</span>
                     </div>
                     <Button
                         id="addChat"

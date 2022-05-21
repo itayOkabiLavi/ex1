@@ -11,7 +11,8 @@ class RegisterComp extends React.Component {
             pwdType: 'password',
             pwdIcon: <i className="bi bi-eye-slash"></i>,
             pwdsNotMatch: false,
-            profileImageSrc: 'https://cdn-icons-png.flaticon.com/512/720/720236.png'
+            profileImageSrc: ""
+            //profileImageSrc: 'https://cdn-icons-png.flaticon.com/512/720/720236.png'
         }
         this.currentUsers = props.importedUsers
         this.cancel = props.showLogin
@@ -37,26 +38,32 @@ class RegisterComp extends React.Component {
             profileImage: this.state.profileImageSrc
         }
         const mainThis = this
-        fetch(
-            api.getRegister_URL(registrationDetails),
-            {method: 'POST'}
-         ).then(
-            function(response) {
-                console.log(response.status)
-                if (response.status != 200) {
-                    console.log('register denied');
-                    notes += "User name is taken.\n"
-                } else {
-                    console.log('register approved');
-                }
-                mainThis.setNotes(notes)
-                return notes === ""
+        var formdata = new FormData();
+        formdata.append("name", fields.name.value);
+        formdata.append("password", fields.password.value);
+        formdata.append("nickname", fields.nickname.value);
+        formdata.append("profileImage", this.state.profileImageSrc);
+        var requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+        fetch(api.getRegister_URL(), requestOptions).then(function (response) {
+            console.log(response.status)
+            if (response.status != 200) {
+                console.log('register denied');
+                notes += "User name is taken.\n"
+            } else {
+                console.log('register approved');
             }
+            mainThis.setNotes(notes)
+            return notes === ""
+        }
         )
         /*
         if (this.currentUsers.findIndex((x) => { return x.userName === fields.name.value; }) !== -1)
-        */  
-        
+        */
+
     }
     verifyReg(event) {
         event.preventDefault();
@@ -76,9 +83,11 @@ class RegisterComp extends React.Component {
         }
     }
     imageUploader = (event) => {
+        this.setState({ profileImageSrc: event.target.files[0] });
+        return;
         let fileReader = new FileReader();
         fileReader.onload = () => {
-            if (fileReader.readyState === 2) this.setState({ profileImageSrc: fileReader.result })
+            if (fileReader.readyState === 2) this.setState({ profileImageSrc: fileReader.result, fileName: event.target.files[0] })
         }
         fileReader.readAsDataURL(event.target.files[0])
     }
@@ -93,7 +102,7 @@ class RegisterComp extends React.Component {
 
                 <label htmlFor='new_user_img_input' id="profPicLabel">
 
-                    <img src={this.state.profileImageSrc} id="profPic" />
+                    <img src={"https://cdn-icons-png.flaticon.com/512/720/720236.png"} id="profPic" />
                     <input type='file' id='new_user_img_input' name="image" onChange={this.imageUploader} />
                     <h4>Upload your profile picture here. Square ones recommended.</h4>
                 </label>
