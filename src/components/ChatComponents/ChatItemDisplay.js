@@ -21,6 +21,7 @@ const ChatDisplay = (props) => {
     let [msgMulMedCont, setMsgMulMedCont] = useState("");
     let [msgMulMedType, setMsgMulMedType] = useState("");
     let [msgMulMedPrev, setMsgMulMedPrev] = useState("");
+    let [file,setFile]=useState(null);
     let [messages, setMessages] = useState([]);
 
     const msgTextChanged = (event) => {
@@ -36,6 +37,7 @@ const ChatDisplay = (props) => {
         var contactId = id + "," + server;
         formdata.append("id", contactId);
         formdata.append("content",msgText);
+        formdata.append("formFile",file);
         var requestOptions2 = {
             method: 'POST',
             body: formdata,
@@ -43,34 +45,33 @@ const ChatDisplay = (props) => {
             redirect: 'follow'
         };
         await fetch(api.postCreateMessage(contactId), requestOptions2);
-
-        var time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        var date = new Date().toLocaleDateString("sv-SE");
-        var msg = <Message
-            fromMe={true}
-            type={type}
-            key={msgText !== "" ? msgText : msgMulMedCont}
-            mmContent={msgMulMedCont}
-            txtContent={msgText}
-            date={{ date: date, time: time }}
-        />;
-        let updatedMessages = messages;
-        updatedMessages.push(msg);
-        setMessages([...updatedMessages]);
-        updateLastMessage(
-            {
-                fromMe: true,
-                type: type,
-                content: { txt: msgText, mm: msgMulMedCont },
-                date: { date: date, time: time }
-            }
-        )
+        // var time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        // var date = new Date().toLocaleDateString("sv-SE");
+        // var msg = <Message
+        //     fromMe={true}
+        //     type={type}
+        //     key={msgText !== "" ? msgText : msgMulMedCont}
+        //     mmContent={msgMulMedCont}
+        //     txtContent={msgText}
+        //     date={{ date: date, time: time }}
+        // />;
+        // let updatedMessages = messages;
+        // updatedMessages.push(msg);
+        // setMessages([...updatedMessages]);
+        // updateLastMessage(
+        //     {
+        //         fromMe: true,
+        //         type: type,
+        //         content: { txt: msgText, mm: msgMulMedCont },
+        //         date: { date: date, time: time }
+        //     }
+        // )
 
         setMsgText("");
         clearMulMedContent();
         var objDiv = window.document.getElementById("cid_chat");
         objDiv.scrollTop = objDiv.scrollHeight;
-
+        await getMsgs();
     }
     useEffect(() => {
         // Connect, using the token we got.
@@ -106,9 +107,9 @@ const ChatDisplay = (props) => {
             var time = date[1].split('.')[0].slice(0, 5);
             updtmsgs.push(<Message
                 fromMe={m.toId == id + "," + server}
-                type={"text"}
+                type={m.formFile!=null?m.formFile.contentType:"text"}
                 key={m.MessageId}
-                mmContent={""}
+                mmContent={m.formFile!=null?m.formFile.data:""}
                 txtContent={m.content}
                 date={{ date: date[0], time: time }}
             />)
@@ -136,11 +137,13 @@ const ChatDisplay = (props) => {
         setMsgMulMedCont("");
         setMsgMulMedType("text");
         setMsgMulMedPrev("");
+        setFile(null);
     }
-    const changeMulMedContent = (content, type, comp) => {
+    const changeMulMedContent = (content, type, comp,val) => {
         setMsgMulMedCont(content);
         setMsgMulMedType(type);
         setMsgMulMedPrev(comp);
+        setFile(val);
     }
     return (
         <div className='cid_bg' key={id}>

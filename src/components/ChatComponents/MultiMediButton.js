@@ -52,7 +52,7 @@ function MultiMediaButton({ type, icon, uploadMulMed, title }) {
                 </video>
                 break;
         }
-        uploadMulMed(content, type, comp)
+        uploadMulMed(content, type, comp,val)
         e.target.value = null
     }
     if (isRec) {

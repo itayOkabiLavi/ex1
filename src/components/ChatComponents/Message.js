@@ -9,14 +9,15 @@ const Message = (props) => {
     else
         id = 'toMe';
     let txtContent = props.txtContent
-    let mmContent = props.mmContent
+    let mmContent ='data:image/jpeg;base64,'+ props.mmContent
     let comp = ""
     let type = props.type
     let date = props.date;
-    let key = txtContent != "" ? txtContent + Math.random()*100 : mmContent;
+    let key = txtContent != "" ? txtContent + Math.random() * 100 : mmContent;
 
     switch (type) {
         case "image":
+        case "image/jpeg":
             comp = <img key={mmContent} id="mulMedMsg" src={mmContent} />
             break;
         case "audio":
