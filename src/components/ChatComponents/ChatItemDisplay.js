@@ -9,19 +9,16 @@ import { Form, FormGroup, Card, Modal } from "react-bootstrap";
 import { HttpTransportType, HubConnectionBuilder } from '@microsoft/signalr';
 
 const ChatDisplay = (props) => {
-    let chatItemRefresh = props.connection;
-    const [connection, setConnection] = useState(props.connection);
-    let userId = props.userId;
+    const [connection, setConnection] = useState(null);
     let updateLastMessage = props.updateLastMessage;
     let server = props.server;
     let userToken = props.userToken;
     let id = props.id;
-    let [stam,setStam]=useState(0);
     let [msgText, setMsgText] = useState("");
     let [msgMulMedCont, setMsgMulMedCont] = useState("");
     let [msgMulMedType, setMsgMulMedType] = useState("");
     let [msgMulMedPrev, setMsgMulMedPrev] = useState("");
-    let [file,setFile]=useState(null);
+    let [file, setFile] = useState(null);
     let [messages, setMessages] = useState([]);
 
     const msgTextChanged = (event) => {
@@ -36,8 +33,8 @@ const ChatDisplay = (props) => {
         var formdata = new FormData();
         var contactId = id + "," + server;
         formdata.append("id", contactId);
-        formdata.append("content",msgText);
-        formdata.append("formFile",file);
+        formdata.append("content", msgText);
+        formdata.append("formFile", file);
         var requestOptions2 = {
             method: 'POST',
             body: formdata,
@@ -74,7 +71,6 @@ const ChatDisplay = (props) => {
         await getMsgs();
     }
     useEffect(() => {
-        // Connect, using the token we got.
         const newConnection = new HubConnectionBuilder()
             .withUrl(api.hub(), {
                 accessTokenFactory: () => userToken,
@@ -86,10 +82,13 @@ const ChatDisplay = (props) => {
         setConnection(newConnection);
     }, []);
     useEffect(async () => {
-        console.log("[chatItemRefresh], [connection], [props.connection]");
-        await getMsgs();
-    }, [chatItemRefresh], [connection], [props.connection]);
-
+        if (connection) {
+            await connection.start();
+            connection.on('ReceiveMessage', () => {
+                getMsgs();
+            });
+        }
+    }, [connection]);
     const getMsgs = async () => {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + userToken);
@@ -107,9 +106,9 @@ const ChatDisplay = (props) => {
             var time = date[1].split('.')[0].slice(0, 5);
             updtmsgs.push(<Message
                 fromMe={m.toId == id + "," + server}
-                type={m.formFile!=null?m.formFile.contentType:"text"}
+                type={m.formFile != null ? m.formFile.contentType : "text"}
                 key={m.MessageId}
-                mmContent={m.formFile!=null?m.formFile.data:""}
+                mmContent={m.formFile != null ? m.formFile.data : ""}
                 txtContent={m.content}
                 date={{ date: date[0], time: time }}
             />)
@@ -139,7 +138,7 @@ const ChatDisplay = (props) => {
         setMsgMulMedPrev("");
         setFile(null);
     }
-    const changeMulMedContent = (content, type, comp,val) => {
+    const changeMulMedContent = (content, type, comp, val) => {
         setMsgMulMedCont(content);
         setMsgMulMedType(type);
         setMsgMulMedPrev(comp);

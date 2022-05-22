@@ -18,7 +18,7 @@ const ChatItem = (props) => {
     let [lastMessage, setLastMessage] = useState(props.lastMessage);
     const showDisplay = () => {
         display = <ChatDisplay
-            connection={props.connection}
+            refresh={props.refresh}
             server={server}
             userToken={userToken}
             id={id}

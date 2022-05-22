@@ -8,6 +8,7 @@ import users from '../database/users';
 import { Button, Form, Modal, Nav, TabContent } from 'react-bootstrap';
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { HttpTransportType, HubConnectionBuilder } from '@microsoft/signalr';
+import ReactDOM from "react-dom";
 
 const ChatComp = (props) => {
     const [connection, setConnection] = useState(null);
@@ -17,14 +18,11 @@ const ChatComp = (props) => {
     let [showModal, setShowModal] = useState(false);
     let [chatExistsMsg, setChatExistsMsg] = useState(false);
     let [chats, setChats] = useState([]);
-    const cd = useRef(<div id='no_yet'><img src='./logo white on blue.png' /></div>);
     let [currentDisplay, setCurrentDisplay] = useState(<div id='no_yet'><img src='./logo white on blue.png' /></div>);
     let [newContactName, setNewContactName] = useState('');
     let [newContactInfo, setNewContactInfo] = useState('me');
     let [newContactImg, setNewContactImg] = useState('');
-    useEffect(() => {
-        cd.current = currentDisplay;
-    }, [currentDisplay]);
+    
     useEffect(() => {
         // Connect, using the token we got.
         const newConnection = new HubConnectionBuilder()
@@ -37,26 +35,14 @@ const ChatComp = (props) => {
             .build();
         setConnection(newConnection);
     }, []);
-    const ReceiveMessage = async (f, t, m) => {
-        console.log("message ChatComp", f, t, m);
-        await getContacts();
-        console.log(currentDisplay);
-        let c = cd.current.props;
-        console.log(c);
-        //setCurrentDisplay('');
-        //setCurrentDisplay(c)
-        if (c.id + "," + c.server === f) {
-            console.log(cd.current);
-            setCurrentDisplay(cd.current);
-        }
-    }
-    const onNotification = () => {
+    useEffect(() => {
         if (connection) {
             connection.start();
-            connection.on('ReceiveMessage', ReceiveMessage);
+            connection.on('ReceiveMessage', async (f, t, m) => {
+                await getContacts();
+            });
         }
-    }
-    useEffect(onNotification, [connection]);
+    }, [connection]);
     useEffect(async () => { await getContacts() }, []);
     const openNewChat = () => { setShowModal(true); }
     const closeNewChat = () => { setShowModal(false) }
@@ -118,10 +104,9 @@ const ChatComp = (props) => {
             res = await res.json();
             setChatExistsMsg(false);
             let updatedChats = chats;
-            let img = res.profileImg!=null?'data:image/jpeg;base64,'+res.profileImg.image:('https://cdn-icons-png.flaticon.com/512/720/720236.png');
+            let img = res.profileImg != null ? 'data:image/jpeg;base64,' + res.profileImg.image : ('https://cdn-icons-png.flaticon.com/512/720/720236.png');
             updatedChats.unshift(
                 <ChatItem
-                    connection={connection}
                     userId={user.userId}
                     server={newContactInfo}
                     userToken={userToken}
@@ -146,6 +131,7 @@ const ChatComp = (props) => {
             setNewContactInfo('');
         }
     }
+    useEffect(()=>console.log(props.refresh),[props.refresh]);
     const getContacts = async () => {
         console.log("here")
         var myHeaders = new Headers();
@@ -161,10 +147,9 @@ const ChatComp = (props) => {
         let tempChats = []
         rawChats.forEach(chat => {
             var date = chat.lastDate.split('T');
-            let img = chat.profileImg!=null?'data:image/jpeg;base64,'+chat.profileImg.image:('https://cdn-icons-png.flaticon.com/512/720/720236.png');
+            let img = chat.profileImg != null ? 'data:image/jpeg;base64,' + chat.profileImg.image : ('https://cdn-icons-png.flaticon.com/512/720/720236.png');
             tempChats.push(
                 <ChatItem
-                    connection={connection}
                     userId={user.userId}
                     server={chat.server}
                     userToken={userToken}
@@ -192,7 +177,7 @@ const ChatComp = (props) => {
             <div id='chatCompMain'>
                 <div id='chatsTools'>
                     <div id='userInfo'>
-                        <img src={'data:image/jpeg;base64,'+user.profileImg.image} />
+                        <img src={'data:image/jpeg;base64,' + user.profileImg.image} />
                         <span id='nickName'>{user.name}</span>
                     </div>
                     <Button
