@@ -18,18 +18,20 @@ const ChatItem = (props) => {
     let [lastMessage, setLastMessage] = useState(props.lastMessage);
     const showDisplay = () => {
         display = <ChatDisplay
-            refresh={props.refresh}
             server={server}
             userToken={userToken}
             id={id}
             key={key}
-            updateLastMessage={setLastMessage} />;
+            updateLastMessage={(m)=>setLastMessage(m)}
+            //updateLastMessage={setLastMessage} 
+            />;
         callBack(display);
     }
     const messageSummary = (lm) => {
         var mulMedIcon = ""
         switch (lm.type) {
             case "image":
+            case 'image/jpeg':
                 mulMedIcon = <i className="bi bi-file-earmark-image"></i>
                 break;
             case "audio":
@@ -39,7 +41,7 @@ const ChatItem = (props) => {
                 mulMedIcon = <i className="bi bi-film"></i>
         }
         var summary = lm.content.txt
-        if (summary.length > maxSummary) summary = new String().concat(summary.substring(0, maxSummary), " ...")
+        if (summary && summary.length > maxSummary) summary = new String().concat(summary.substring(0, maxSummary), " ...")
         var message = lm.type == "text" ? <h2>{summary}</h2>
             : <span>{mulMedIcon}<h2>{summary}</h2></span>
         return message

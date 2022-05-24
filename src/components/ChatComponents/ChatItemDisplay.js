@@ -122,15 +122,20 @@ const ChatDisplay = (props) => {
         if (!(updtmsgs == undefined || updtmsgs.length == 0)) {
             var t = updtmsgs[updtmsgs.length - 1].props;
             last.content.txt = t.txtContent;
+            last.content.mm = t.mmContent;
+            last.fromMe = t.fromMe;
+            last.type = t.type;
             last.date = t.date;
         }
 
         setMessages([...updtmsgs]);
         var objDiv = window.document.getElementById("cid_chat");
         objDiv.scrollTop = objDiv.scrollHeight;
-        updateLastMessage(last);
+        if (last.content.txt != "" || last.content.mm != "") {
+            updateLastMessage(last);
+        }
     }
-    useEffect(getMsgs, [])
+    useEffect(getMsgs, []);
     const clearMulMedContent = (e) => {
         setMsgMulMedPrev("");
         setMsgMulMedCont("");

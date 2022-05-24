@@ -14,14 +14,17 @@ class RegisterComp extends React.Component {
             profileImageSrc: ""
             //profileImageSrc: 'https://cdn-icons-png.flaticon.com/512/720/720236.png'
         }
-        this.currentUsers = props.importedUsers
+        //this.currentUsers = props.importedUsers
         this.cancel = props.showLogin
         this.setToken = props.setToken
-        this.addUser = props.addUser
         this.setNotes = props.setNotes
         this.setNotes(this.defaultRegisterNote)
     }
     fieldsOk(fields) {
+        fields.preventDefault();
+        fields=fields.target;
+        console.log("fieldsOk");
+
         let notes = ""
         if (fields.name.value == "") notes += "Enter user name. "
         if (fields.nickname.value.length == 0 || fields.nickname.value.length > 7) {
@@ -31,12 +34,6 @@ class RegisterComp extends React.Component {
         if (!reg.test(fields.password.value))
             notes += "Password must have 5+ characters, at least 1 letter and 1 number. "
         else if (fields.password.value !== fields.passwordVer.value) notes += "Passwords don't match. "
-        const registrationDetails = {
-            name: fields.name.value,
-            nickname: fields.nickname.value,
-            password: fields.password.value,
-            profileImage: this.state.profileImageSrc
-        }
         const mainThis = this
         var formdata = new FormData();
         formdata.append("name", fields.name.value);
@@ -52,9 +49,13 @@ class RegisterComp extends React.Component {
             console.log(response.status)
             if (response.status != 200) {
                 console.log('register denied');
+                mainThis.setToken("");
                 notes += "User name is taken.\n"
             } else {
                 console.log('register approved');
+                response.json().then(res => {
+                    mainThis.setToken(res.token);
+                })
             }
             mainThis.setNotes(notes)
             return notes === ""
@@ -65,35 +66,31 @@ class RegisterComp extends React.Component {
         */
 
     }
-    verifyReg(event) {
-        event.preventDefault();
-        if (this.fieldsOk(event.target)) {
-            let newUser = {
-                userName: event.target.name.value,
-                nickName: event.target.nickname.value,
-                password: event.target.password.value,
-                img: this.state.profileImageSrc,
-                chats: []
-            }
-            this.addUser(newUser)
-            this.setState({
-                nameTaken: false
-            })
-            this.setToken({ authed: true, user: newUser });
-        }
-    }
+    // verifyReg(event) {
+    //     console.log("verifyReg");
+    //     event.preventDefault();
+    //     if (this.fieldsOk(event.target)) {
+    //         let newUser = {
+    //             userName: event.target.name.value,
+    //             nickName: event.target.nickname.value,
+    //             password: event.target.password.value,
+    //             img: this.state.profileImageSrc,
+    //             chats: []
+    //         }
+    //         this.addUser(newUser)
+    //         this.setState({
+    //             nameTaken: false
+    //         })
+    //         this.setToken({
+    //             user: user,
+    //             userToken: token,
+    //         });
+    //     }
+    // }
     imageUploader = (event) => {
         this.setState({ profileImageSrc: event.target.files[0] });
         return;
-        let fileReader = new FileReader();
-        fileReader.onload = () => {
-            if (fileReader.readyState === 2) this.setState({ profileImageSrc: fileReader.result, fileName: event.target.files[0] })
-        }
-        fileReader.readAsDataURL(event.target.files[0])
-    }
-    submit = (e) => {
-        e.preventDefault()
-        this.verifyReg(e)
+
     }
     render() {
         return (
@@ -107,7 +104,7 @@ class RegisterComp extends React.Component {
                     <h4>Upload your profile picture here. Square ones recommended.</h4>
                 </label>
 
-                <form autoComplete="off" onSubmit={(e) => (this.verifyReg(e))}>
+                <form autoComplete="off" onSubmit={(e) => (this.fieldsOk(e))}>
                     <label className="two-in-line" id="namesLabel">
                         <input autoFocus
                             id='new_user_name'
@@ -134,7 +131,7 @@ class RegisterComp extends React.Component {
                         />
                     </label>
                     <div className="ending_buttons">
-                        <button type="submit" id='apply_reg' onSubmit={this.submit}
+                        <button type="submit" id='apply_reg'
                             style={{ color: "aliceblue", backgroundColor: "rgb(240, 0, 104)" }}>Apply</button>
                         <button type="button" id='cancel_reg' onClick={(e) => { this.cancel() }}>Cancel</button>
                     </div>

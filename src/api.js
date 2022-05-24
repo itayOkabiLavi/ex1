@@ -8,10 +8,11 @@ let apiServer = {
 }
 
 const api = {
+    getUser: () => apiServer.users + "getUser",
     getDomain: () => apiServer.domain,
     getIP_URL: () => apiServer.ip,
-    getRegister_URL: () => { return apiServer.users + 'register'},
-    getLogin_URL: () => { return apiServer.users + 'login'},
+    getRegister_URL: () => { return apiServer.users + 'register' },
+    getLogin_URL: () => { return apiServer.users + 'login' },
     postContacts_URL: () => { return apiServer.ip + 'Contacts' },
     getContacts_URL: () => { return apiServer.ip + 'Contacts' },
     getSContact_URL: (contactID) => { return apiServer.ip + 'Contacts/' + contactID },

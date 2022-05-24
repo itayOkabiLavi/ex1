@@ -4,20 +4,26 @@ import ChatComp1 from './components/ChatComp';
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
+import { api } from './api.js';
 
 function App() {
-  let [state, setState] = useState({
-    authed: false,
-    userToken: undefined,
+  let [token, setToken] = useState(() => {
+    return sessionStorage.getItem("userToken");      
   });
-  let loginComp = <Login setToken={setState}/>
 
-  if (state.authed == false) {
+  useEffect(() => {
+    sessionStorage.setItem("userToken", token);
+  }, [token]);
+
+  let loginComp = <Login setToken={setToken} />
+
+  if (token == "" || token == undefined || token == 'undefined' || token == null||token == 'null') {
     return loginComp;
+  } else {
+    return (
+      <ChatComp1 userToken={token} setToken={setToken}/>
+    );
   }
-  return (
-    <ChatComp1 userToken={state.userToken} setToken={setState} user={state.user}/>
-  );
 }
 export default App;
 

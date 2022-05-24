@@ -12,9 +12,9 @@ import ReactDOM from "react-dom";
 
 const ChatComp = (props) => {
     const [connection, setConnection] = useState(null);
-    let userToken = props.userToken;
-    let user = props.user;
+    let userToken=props.userToken;
     let setToken = props.setToken;
+    const user=useRef(null);
     let [showModal, setShowModal] = useState(false);
     let [chatExistsMsg, setChatExistsMsg] = useState(false);
     let [chats, setChats] = useState([]);
@@ -22,7 +22,30 @@ const ChatComp = (props) => {
     let [newContactName, setNewContactName] = useState('');
     let [newContactInfo, setNewContactInfo] = useState('me');
     let [newContactImg, setNewContactImg] = useState('');
-    
+    let [loading,setLoading]=useState(true);
+
+    useEffect(async () => {
+        setLoading(true);
+        console.log("use")
+        var myHeaders = new Headers();
+        myHeaders.append("Authorization", "Bearer " + userToken);
+        var requestOptions = {
+            method: 'GET',
+            headers: myHeaders,
+            redirect: 'follow',
+        };
+        let response = await fetch(api.getUser(), requestOptions);
+        if (response.status != 200) {
+            user.current=undefined;
+        }
+        else {
+            let res = await response.json();
+            user.current=res;
+        }
+        setLoading(false);
+        await getContacts();
+    },[]);
+
     useEffect(() => {
         // Connect, using the token we got.
         const newConnection = new HubConnectionBuilder()
@@ -43,7 +66,6 @@ const ChatComp = (props) => {
             });
         }
     }, [connection]);
-    useEffect(async () => { await getContacts() }, []);
     const openNewChat = () => { setShowModal(true); }
     const closeNewChat = () => { setShowModal(false) }
     const newContactInfoChanged = async (event) => {
@@ -80,7 +102,6 @@ const ChatComp = (props) => {
     const addNewChat = async () => {
         if (await chatExists(newContactName, newContactInfo)) { setChatExistsMsg(true) }
         else {
-            var payLoad = { id: newContactName, name: newContactName, server: newContactInfo }
             var myHeaders = new Headers();
             myHeaders.append("Authorization", "Bearer " + userToken);
             var formdata = new FormData();
@@ -107,7 +128,7 @@ const ChatComp = (props) => {
             let img = res.profileImg != null ? 'data:image/jpeg;base64,' + res.profileImg.image : ('https://cdn-icons-png.flaticon.com/512/720/720236.png');
             updatedChats.unshift(
                 <ChatItem
-                    userId={user.userId}
+                    userId={user.current.userId}
                     server={newContactInfo}
                     userToken={userToken}
                     key={newContactName}
@@ -131,7 +152,6 @@ const ChatComp = (props) => {
             setNewContactInfo('');
         }
     }
-    useEffect(()=>console.log(props.refresh),[props.refresh]);
     const getContacts = async () => {
         console.log("here")
         var myHeaders = new Headers();
@@ -150,7 +170,7 @@ const ChatComp = (props) => {
             let img = chat.profileImg != null ? 'data:image/jpeg;base64,' + chat.profileImg.image : ('https://cdn-icons-png.flaticon.com/512/720/720236.png');
             tempChats.push(
                 <ChatItem
-                    userId={user.userId}
+                    userId={user.current.userId}
                     server={chat.server}
                     userToken={userToken}
                     key={chat.userId + ((new Date().getTime()) / 1000)}
@@ -172,13 +192,13 @@ const ChatComp = (props) => {
         console.log(chats);
 
     }
-    return (
+    return user.current != null && !loading &&(
         <div id='chat_bg'>
             <div id='chatCompMain'>
                 <div id='chatsTools'>
                     <div id='userInfo'>
-                        <img src={'data:image/jpeg;base64,' + user.profileImg.image} />
-                        <span id='nickName'>{user.name}</span>
+                        <img src={'data:image/jpeg;base64,' + user.current.profileImg.image} />
+                        <span id='nickName'>{user.current.name}</span>
                     </div>
                     <Button
                         id="addChat"
@@ -187,7 +207,7 @@ const ChatComp = (props) => {
                         <i className="bi bi-person-plus-fill"></i>
                     </Button>
                     <Button
-                        onClick={() => setToken({ authed: false })}
+                        onClick={() => setToken("")}
                         title="Logout">
                         <i className="bi bi-box-arrow-right"></i>
                     </Button>

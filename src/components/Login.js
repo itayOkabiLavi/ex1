@@ -19,13 +19,6 @@ class Login extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-        /*
-        let userIndex = users.findIndex((x) => { return x.userName === name && x.password === pass; })
-         : null
-        this.setState({
-            wrongUpwdOrUName: (userIndex !== -1) ? " " : "Wrong user name or passsword"
-        })
-        */
         const mainThis = this
         var formdata = new FormData();
         formdata.append("name", e.target[0].value);
@@ -40,22 +33,19 @@ class Login extends React.Component {
             if (response.status != 200) {
                 console.log('login denied');
                 mainThis.setState({ wrongUpwdOrUName: "Wrong user name or passsword" });
-                mainThis.setToken({ authed: false });
+                mainThis.setToken("");
             } else {
-
-                response.text().then((userInfoRes) => {
-
+                response.json().then((userInfoResJson) => {
                     console.log('access approved');
-                    let userInfoResJson = JSON.parse(userInfoRes);
                     let user = userInfoResJson.user;
                     let token = userInfoResJson.token;
-                    // let tmp = token
-                    // token=tmp.token
-                    //console.log("token----------",token)
                     mainThis.setState({ wrongUpwdOrUName: " " });
-                    mainThis.setToken({ authed: true, userToken: token, user: user });
+                    // mainThis.setToken({
+                    //     user:user,
+                    //     userToken: token,
+                    //   });
+                    mainThis.setToken(token);
                 })
-
             }
         }
         )
@@ -71,13 +61,6 @@ class Login extends React.Component {
     switchToLogin = () => {
         this.setState({
             registerClicked: false
-        })
-    }
-    pushNewUser = (newUser) => {
-        let updatedUsers = users
-        updatedUsers.push(newUser)
-        this.setState({
-            users: updatedUsers
         })
     }
     render() {
@@ -100,8 +83,6 @@ class Login extends React.Component {
 
                         {this.state.registerClicked
                             ? <RegisterComp
-                                importedUsers={users}
-                                addUser={this.pushNewUser}
                                 showLogin={this.switchToLogin}
                                 setToken={this.setToken}
                                 setNotes={this.registerNotes}
