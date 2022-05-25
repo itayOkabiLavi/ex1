@@ -84,8 +84,9 @@ const ChatDisplay = (props) => {
     useEffect(async () => {
         if (connection) {
             await connection.start();
-            connection.on('ReceiveMessage', () => {
-                getMsgs();
+            connection.on('ReceiveMessage',async (f, t, m) => {
+                console.log('ReceiveMessage',f, t, m);
+                await getMsgs();
             });
         }
     }, [connection]);
@@ -105,7 +106,7 @@ const ChatDisplay = (props) => {
             var date = m.created.split('T');
             var time = date[1].split('.')[0].slice(0, 5);
             updtmsgs.push(<Message
-                fromMe={m.toId == id + "," + server}
+                fromMe={m.sent}
                 type={m.formFile != null ? m.formFile.contentType : "text"}
                 key={m.MessageId}
                 mmContent={m.formFile != null ? m.formFile.data : ""}
@@ -134,6 +135,7 @@ const ChatDisplay = (props) => {
         if (last.content.txt != "" || last.content.mm != "") {
             updateLastMessage(last);
         }
+        
     }
     useEffect(getMsgs, []);
     const clearMulMedContent = (e) => {

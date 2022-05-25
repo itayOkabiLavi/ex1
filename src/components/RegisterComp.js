@@ -33,7 +33,8 @@ class RegisterComp extends React.Component {
         const reg = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{5,}/
         if (!reg.test(fields.password.value))
             notes += "Password must have 5+ characters, at least 1 letter and 1 number. "
-        else if (fields.password.value !== fields.passwordVer.value) notes += "Passwords don't match. "
+        else if (fields.password.value !== fields.passwordVer.value) notes += "Passwords don't match. ";
+        this.setNotes(notes);
         const mainThis = this
         var formdata = new FormData();
         formdata.append("name", fields.name.value);

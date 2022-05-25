@@ -62,6 +62,7 @@ const ChatComp = (props) => {
         if (connection) {
             connection.start();
             connection.on('ReceiveMessage', async (f, t, m) => {
+                console.log('ReceiveMessage',f, t, m);
                 await getContacts();
             });
         }
@@ -95,7 +96,7 @@ const ChatComp = (props) => {
             headers: myHeaders,
             redirect: 'follow'
         };
-        var res = await fetch(api.getSContact_URL(name + "," + server), requestOptions);
+        var res = await fetch(api.getSContact_URL(name + "*" + server), requestOptions);
         res = await res.text();
         return res !== "";
     }
