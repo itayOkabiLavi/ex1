@@ -31,7 +31,7 @@ const ChatDisplay = (props) => {
         var myHeaders = new Headers();
         myHeaders.append("Authorization", "Bearer " + userToken);
         var formdata = new FormData();
-        var contactId = id + "," + server;
+        var contactId = id;
         formdata.append("id", contactId);
         formdata.append("content", msgText);
         formdata.append("formFile", file);
@@ -97,7 +97,7 @@ const ChatDisplay = (props) => {
             headers: myHeaders,
             redirect: 'follow',
         };
-        var res = await fetch(api.getMessagesOfContact_URL(id + "," + server), requestOptions);
+        var res = await fetch(api.getMessagesOfContact_URL(id), requestOptions);
         var msgs = await res.json()
 
         let updtmsgs = [];

@@ -66,31 +66,9 @@ class RegisterComp extends React.Component {
         */
 
     }
-    // verifyReg(event) {
-    //     console.log("verifyReg");
-    //     event.preventDefault();
-    //     if (this.fieldsOk(event.target)) {
-    //         let newUser = {
-    //             userName: event.target.name.value,
-    //             nickName: event.target.nickname.value,
-    //             password: event.target.password.value,
-    //             img: this.state.profileImageSrc,
-    //             chats: []
-    //         }
-    //         this.addUser(newUser)
-    //         this.setState({
-    //             nameTaken: false
-    //         })
-    //         this.setToken({
-    //             user: user,
-    //             userToken: token,
-    //         });
-    //     }
-    // }
     imageUploader = (event) => {
         this.setState({ profileImageSrc: event.target.files[0] });
         return;
-
     }
     render() {
         return (
