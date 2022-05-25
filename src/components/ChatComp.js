@@ -101,7 +101,8 @@ const ChatComp = (props) => {
     }
     const addNewChat = async () => {
         if (await chatExists(newContactName, newContactInfo)) { setChatExistsMsg(true) }
-        else {
+        else
+         {
             var myHeaders = new Headers();
             myHeaders.append("Authorization", "Bearer " + userToken);
             var formdata = new FormData();
@@ -115,38 +116,40 @@ const ChatComp = (props) => {
                 redirect: 'follow',
             };
             var res = await fetch(api.postContacts_URL(), requestOptions);
+            getContacts();
+            //return;
             if (res.status != 201) { return; }
             requestOptions = {
                 method: 'GET',
                 headers: myHeaders,
                 redirect: 'follow',
             };
-            var res = await fetch(api.getSContact_URL(newContactName + "," + newContactInfo), requestOptions);
-            res = await res.json();
+            //var res = await fetch(api.getSContact_URL(newContactName + "," + newContactInfo), requestOptions);
+            //res = await res.json();
             setChatExistsMsg(false);
-            let updatedChats = chats;
-            let img = res.profileImg != null ? 'data:image/jpeg;base64,' + res.profileImg.data : ('https://cdn-icons-png.flaticon.com/512/720/720236.png');
-            updatedChats.unshift(
-                <ChatItem
-                    userId={user.current.userId}
-                    server={newContactInfo}
-                    userToken={userToken}
-                    key={newContactName}
-                    name={newContactName}
-                    contact_info={newContactInfo}
-                    img={img}
-                    lastMessage={{
-                        fromMe: false,
-                        type: "text",
-                        content: { txt: "", mm: "" },
-                        date: { time: "", date: "" }
-                    }}
-                    callBack={setCurrentDisplay}
+            //let updatedChats = chats;
+            //let img = res.profileImg != null ? 'data:image/jpeg;base64,' + res.profileImg.data : ('https://cdn-icons-png.flaticon.com/512/720/720236.png');
+            // updatedChats.unshift(
+            //     <ChatItem
+            //         userId={user.current.userId}
+            //         server={newContactInfo}
+            //         userToken={userToken}
+            //         key={newContactName}
+            //         name={newContactName}
+            //         contact_info={newContactInfo}
+            //         img={img}
+            //         lastMessage={{
+            //             fromMe: false,
+            //             type: "text",
+            //             content: { txt: "", mm: "" },
+            //             date: { time: "", date: "" }
+            //         }}
+            //         callBack={setCurrentDisplay}
 
-                //callBack={(childsDisplay) => { setCurrentDisplay(childsDisplay); }}
-                />
-            )
-            setChats(updatedChats);
+            //     //callBack={(childsDisplay) => { setCurrentDisplay(childsDisplay); }}
+            //     />
+            // )
+            //setChats(updatedChats);
             setShowModal(false);
             setNewContactImg('https://cdn-icons-png.flaticon.com/512/720/720236.png');
             setNewContactInfo('');
