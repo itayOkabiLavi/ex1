@@ -125,7 +125,7 @@ const ChatComp = (props) => {
             res = await res.json();
             setChatExistsMsg(false);
             let updatedChats = chats;
-            let img = res.profileImg != null ? 'data:image/jpeg;base64,' + res.profileImg.image : ('https://cdn-icons-png.flaticon.com/512/720/720236.png');
+            let img = res.profileImg != null ? 'data:image/jpeg;base64,' + res.profileImg.data : ('https://cdn-icons-png.flaticon.com/512/720/720236.png');
             updatedChats.unshift(
                 <ChatItem
                     userId={user.current.userId}
@@ -168,18 +168,19 @@ const ChatComp = (props) => {
         rawChats.forEach(chat => {
             var date = chat.lastDate.split('T');
             let img = (chat.profileImg != null && chat.profileImg != undefined) ? 'data:image/jpeg;base64,' + chat.profileImg.data : ('https://cdn-icons-png.flaticon.com/512/720/720236.png');
+            //console.log(chat.userId);
             tempChats.push(
                 <ChatItem
                     userId={user.current.userId}
                     server={chat.server}
                     userToken={userToken}
-                    key={chat.userId + ((new Date().getTime()) / 1000)}
+                    key={chat.id + ((new Date().getTime()) / 1000)}
                     name={chat.id}
                     contact_info={chat.nickName}
                     img={img}
                     lastMessage={{
                         fromMe: false,
-                        type: "text",
+                        type: chat.lastType,
                         content: { txt: chat.last, mm: " " },
                         date: { date: date[0], time: date[1].slice(0, 5) }
                     }}
