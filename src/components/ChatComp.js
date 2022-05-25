@@ -167,7 +167,7 @@ const ChatComp = (props) => {
         let tempChats = []
         rawChats.forEach(chat => {
             var date = chat.lastDate.split('T');
-            let img = chat.profileImg != null ? 'data:image/jpeg;base64,' + chat.profileImg.image : ('https://cdn-icons-png.flaticon.com/512/720/720236.png');
+            let img = (chat.profileImg != null && chat.profileImg != undefined) ? 'data:image/jpeg;base64,' + chat.profileImg.data : ('https://cdn-icons-png.flaticon.com/512/720/720236.png');
             tempChats.push(
                 <ChatItem
                     userId={user.current.userId}
@@ -197,7 +197,7 @@ const ChatComp = (props) => {
             <div id='chatCompMain'>
                 <div id='chatsTools'>
                     <div id='userInfo'>
-                        <img src={'data:image/jpeg;base64,' + user.current.profileImg.image} />
+                        <img src={'data:image/jpeg;base64,' + user.current.profileImg.data} />
                         <span id='nickName'>{user.current.name}</span>
                     </div>
                     <Button
