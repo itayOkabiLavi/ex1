@@ -1,7 +1,7 @@
 let apiServer = {
-    domain: "https://localhost:7135/",
-    ip: 'https://localhost:7135/api/',
-    users: 'https://localhost:7135/api/Users/',
+    domain: "https://0.0.0.0:7135/",
+    ip: 'https://0.0.0.0:7135/api/',
+    users: 'https://0.0.0.0:7135/api/Users/',
     msgs: 'messages/',
     inv: 'invitations',
     tr: 'transfer',
