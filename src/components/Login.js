@@ -77,10 +77,10 @@ class Login extends React.Component {
                                 : <div>
                                     <h2>{this.defaultLoginNote}</h2>
                                     {this.original}
+                                    <p id="ratings"><a href={api.getRatings()}>rate us</a></p> 
                                 </div>
                             }
                         </div>
-
                         {this.state.registerClicked
                             ? <RegisterComp
                                 showLogin={this.switchToLogin}
