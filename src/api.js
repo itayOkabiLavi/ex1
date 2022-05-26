@@ -1,14 +1,7 @@
-// let apiServer = {
-//     domain: "https://localhost:7135/",
-//     //ip: apiServer.domain+'api/',
-//     //users: apiServer.ip+'Users/',
-//     //ip: 'https://10.0.0.30:7135/api/',
-//     //users: 'https://10.0.0.30:7135/api/Users/',
-//     msgs: 'messages/',
-//     inv: 'invitations',
-//     tr: 'transfer',
-// }
 let origin = "https://localhost:7135/";
+
+
+
 let domainApi = origin + 'api/';
 let users = domainApi + 'Users/';
 const api = {
