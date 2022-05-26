@@ -1,4 +1,6 @@
 # Project Details
+In order to comunicate with the server on (for example) 'https://1.2.3.4:1234/' , go to api.js, and enter 'https://1.2.3.4:1234/' in the origin variable.
+
 ## Authors
 - Yehuda Schwartz 208994285
 - Itay Okabi-Lavi 208390559
@@ -9,6 +11,8 @@
 - react-bootstrap@2.2.3
 - react-dom@17.0.2
 - react-router-dom@6.3.0
+- microsoft/signalr
+
 ## Code Flow
 On starting (npm start) login window will show. You can either log-in using the following hard-coded users:
 - username=goku, password=gohan1
